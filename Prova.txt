@@ -1,4 +1,8 @@
-Sono Incredibile 
-Ci sono riuscito ?
-Si dai
-Probabile
+Tutorial per Luigi
+Scaricati GitHub Desktop (sia su Windows che Mac)
+Poi accedi con le credenziali tue di GitHub (vedi ti fa collegare al sito)
+Una volta fatto ciò CLONI la nosta reposity in una cartella
+E poi inserisci qualcosa qui sotto, mi fai un COMMIT scrivendomi cosa hai fatto (in basso a sinistra)
+E poi fai un PUSH
+E mi dici su Whatsapp quando hai fatto
+Ciaooooo
