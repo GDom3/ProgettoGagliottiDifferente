@@ -15,6 +15,11 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.PasswordAuthentication;
 
 public class FinestraLogin extends JFrame {
 
@@ -29,7 +34,8 @@ public class FinestraLogin extends JFrame {
 	private JButton tastoLogin;
 	private JLabel errorMsg;
 	private JLabel logoImg;
-	private JLabel lockImg;
+	private JButton lockImg;
+	private boolean isVisiblePassword = false;
 	
 	/**
 	 * Launch the application.
@@ -40,6 +46,7 @@ public class FinestraLogin extends JFrame {
 				try {
 					FinestraLogin frame = new FinestraLogin();
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -57,23 +64,27 @@ public class FinestraLogin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(140, 100, 101));
+		contentPane.setBackground(new Color(119, 101, 101));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		panelPrincipale = new JPanel();
-		panelPrincipale.setBackground(new Color(140, 101, 101));
+		panelPrincipale.setBackground(new Color(119, 101, 101));
 		contentPane.add(panelPrincipale);
 		panelPrincipale.setLayout(null);
 		
 		usernameIn = new JTextField();
+		usernameIn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(usernameIn.getText().equals("Username"))
+					usernameIn.setText("");
+			}
+		});
 		infoUsernameIn();
-		
-		passwordIn = new JPasswordField();
 		infoPasswordIn();
-		
 		
 		accessoTxt = new JLabel("Accesso");
 		infoAccessoTxt();
@@ -85,11 +96,19 @@ public class FinestraLogin extends JFrame {
 		infoTastoLogin();
 		tastoLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(passwordIn.getEchoChar());
 			}
 		});
 		
 		
-		lockImg =new JLabel("");
+		lockImg =new JButton("");
+		lockImg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				showPassword();
+			}
+		});
+		lockImg.setBorder(null);
 		infoLockImg();
 		
 		
@@ -102,7 +121,29 @@ public class FinestraLogin extends JFrame {
 		
 	}
 	
+	private void showPassword() {
+		if(isVisiblePassword == false) {	
+			lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLok.jpg")));
+			passwordIn.setEchoChar((char) 0);
+			isVisiblePassword = true;
+		}else{
+			lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/passL.jpg")));
+			passwordIn.setEchoChar('\u26AB'); //Codice pallini
+			isVisiblePassword = false;
+		}
+	}
+	
+	
 	private void infoUsernameIn() {
+		
+		passwordIn = new JPasswordField();
+		passwordIn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(passwordIn.getText().equals("Password"))
+					passwordIn.setText("");
+			}
+		});
 		usernameIn.setBorder(null);
 		usernameIn.setSelectedTextColor(new Color(255, 255, 255));
 		usernameIn.setCaretColor(new Color(0, 0, 0));
@@ -152,7 +193,7 @@ public class FinestraLogin extends JFrame {
 		
 	}
 	private void infoLogoImg() {
-		logoImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/logoLogin.jpg")));
+		logoImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/logoLogiN.jpg")));
 		logoImg.setHorizontalAlignment(SwingConstants.CENTER);
 		logoImg.setBounds(284, 11, 211, 234);
 		panelPrincipale.add(logoImg);
@@ -166,7 +207,7 @@ public class FinestraLogin extends JFrame {
 	}
 	private void infoLockImg() {
 		lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/passL.jpg")));
-		lockImg.setBounds(205, 376, 77, 59);
+		lockImg.setBounds(205, 376, 73, 59);
 		panelPrincipale.add(lockImg);
 	}
 }
