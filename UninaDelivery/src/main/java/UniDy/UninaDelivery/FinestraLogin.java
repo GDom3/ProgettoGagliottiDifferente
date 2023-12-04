@@ -83,7 +83,18 @@ public class FinestraLogin extends JFrame {
 					usernameIn.setText("");
 			}
 		});
+		
+		
 		infoUsernameIn();
+		
+		passwordIn = new JPasswordField();
+		passwordIn.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(passwordIn.getText().equals("Password"))
+					passwordIn.setText("");
+			}
+		});
 		infoPasswordIn();
 		
 		accessoTxt = new JLabel("Accesso");
@@ -96,20 +107,39 @@ public class FinestraLogin extends JFrame {
 		infoTastoLogin();
 		tastoLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(passwordIn.getEchoChar());
+				accesso();
 			}
 		});
 		
 		
 		lockImg =new JButton("");
-		lockImg.addMouseListener(new MouseAdapter() {
+		lockImg.addMouseListener(new MouseAdapter() { 
+			//Funzioni per dare un effetto bottone all'lucchetto
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				showPassword();
+			public void mouseEntered(MouseEvent e) {
+				if(isVisiblePassword == false)
+					lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/passL.jpg")));
+				else
+					lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLok.jpg")));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				if(isVisiblePassword == true) 
+					lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLocket.jpg")));
+				else
+					lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/CloseLocket.jpg"))); 
+				
 			}
 		});
-		lockImg.setBorder(null);
+		
+		
 		infoLockImg();
+		lockImg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				showPassword(); //Funzionalità classica per coprire o svelare la password
+			}
+		});
+		
 		
 		
 		logoImg = new JLabel("New label");
@@ -121,29 +151,30 @@ public class FinestraLogin extends JFrame {
 		
 	}
 	
-	private void showPassword() {
-		if(isVisiblePassword == false) {	
+	private void accesso() {
+		
+		errorMsg.setText("Errore : Username non esistente");
+		//errorMsg.setText("Errore : Password errata");
+		
+		
+	}
+	
+	private void showPassword() { // 1uesta funzione gestisce la visibilità della password
+		if(isVisiblePassword == false) { // caso in cui la password era nascosta
 			lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLok.jpg")));
 			passwordIn.setEchoChar((char) 0);
 			isVisiblePassword = true;
-		}else{
-			lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/passL.jpg")));
-			passwordIn.setEchoChar('\u26AB'); //Codice pallini
-			isVisiblePassword = false;
+		}else{ //caso in cui la password era visibile
+			lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/CloseLocket.jpg"))); // Metti il lock chiuso
+			passwordIn.setEchoChar('\u25CF'); //Codice pallini
+			isVisiblePassword = false; // Aggiorna il rifermimento booleano
 		}
 	}
 	
 	
 	private void infoUsernameIn() {
 		
-		passwordIn = new JPasswordField();
-		passwordIn.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(passwordIn.getText().equals("Password"))
-					passwordIn.setText("");
-			}
-		});
+		
 		usernameIn.setBorder(null);
 		usernameIn.setSelectedTextColor(new Color(255, 255, 255));
 		usernameIn.setCaretColor(new Color(0, 0, 0));
@@ -152,9 +183,10 @@ public class FinestraLogin extends JFrame {
 		usernameIn.setFont(new Font("Century", Font.BOLD, 30));
 		usernameIn.setBackground(new Color(179, 168, 166));
 		usernameIn.setBounds(274, 306, 310, 59);
-		panelPrincipale.add(usernameIn);
 		usernameIn.setColumns(10);
 		usernameIn.setForeground(new Color(255,255,255));
+		panelPrincipale.add(usernameIn);
+	
 	}
 	
 	private void infoAccessoTxt() {
@@ -172,12 +204,13 @@ public class FinestraLogin extends JFrame {
 		passwordIn.setFont(new Font("Century", Font.BOLD, 30));
 		passwordIn.setBackground(new Color(179, 168, 166));
 		passwordIn.setBounds(274, 376, 310, 59);
-		panelPrincipale.add(passwordIn);
+		passwordIn.setEchoChar('\u25CF'); //Codice pallini
 		passwordIn.setForeground(new Color(255,255,255));
+		panelPrincipale.add(passwordIn);
 	}
 	
 	private void infoUserImg() {
-		userImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/USerLogo.jpg")));
+		userImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/USErLogo_.jpg")));
 		userImg.setBounds(205, 291, 73, 89);
 		panelPrincipale.add(userImg);
 	}
@@ -199,15 +232,17 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.add(logoImg);
 	}
 	private void infoErrorMsg() {
-		errorMsg.setForeground(new Color(153, 0, 0));
+		errorMsg.setForeground(Color.RED);
 		errorMsg.setFont(new Font("Century", Font.BOLD | Font.ITALIC, 30));
 		errorMsg.setHorizontalAlignment(SwingConstants.CENTER);
 		errorMsg.setBounds(0, 514, 774, 37);
 		panelPrincipale.add(errorMsg);
 	}
 	private void infoLockImg() {
-		lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/passL.jpg")));
-		lockImg.setBounds(205, 376, 73, 59);
+		lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/CloseLocket.jpg")));
+		lockImg.setBounds(205, 376, 69, 59);
+		lockImg.setBorder(null);
+		lockImg.setToolTipText("Clicca qui per modificare lavisibilità della password");
 		panelPrincipale.add(lockImg);
 	}
 }
