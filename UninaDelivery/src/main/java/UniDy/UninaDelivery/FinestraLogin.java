@@ -226,7 +226,7 @@ public class FinestraLogin extends JFrame {
 		
 	}
 	private void infoLogoImg() {
-		logoImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/logoLogiN.jpg")));
+		logoImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/logoLogin.jpg")));
 		logoImg.setHorizontalAlignment(SwingConstants.CENTER);
 		logoImg.setBounds(284, 11, 211, 234);
 		panelPrincipale.add(logoImg);
