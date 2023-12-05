@@ -2,8 +2,6 @@
 <h1 align="center">Ciao 👋, Questo è UninaDelivey</h1>
 <h3 align="center">Progetto universitario degli studenti Domenico Gagliotti (N86004536) e Luigi Differente (N86004503)</h3>
 
-- 🔭 I’m currently working on [UninaDelivety](https://github.com/GDom3/ProgettoGagliottiDifferente)
-
 - 📫 How to reach us **do.gagliotti@studenti.unina.it** **lu.differente@studenti.unina.it**
 
 
