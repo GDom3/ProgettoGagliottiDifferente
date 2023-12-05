@@ -4,9 +4,8 @@
 
 - 🔭 I’m currently working on [UninaDelivety](https://github.com/GDom3/ProgettoGagliottiDifferente)
 
-- 📫 How to reach me [lu.differente@studenti.unina.it](lu.differente@studenti.unina.it)
+- 📫 How to reach us **do.gagliotti@studenti.unina.it** **lu.differente@studenti.unina.it**
 
-- 📫 How to reach me **do.gagliotti@studenti.unina.it**
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
