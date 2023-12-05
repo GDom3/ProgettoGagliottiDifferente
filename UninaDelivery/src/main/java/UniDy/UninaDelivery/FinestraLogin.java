@@ -32,32 +32,14 @@ public class FinestraLogin extends JFrame {
 	private JPanel panelPrincipale;
 	private JLabel accessoTxt;
 	private JButton tastoLogin;
-	private JLabel errorMsg;
 	private JLabel logoImg;
 	private JButton lockImg;
 	private boolean isVisiblePassword = false;
 	
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FinestraLogin frame = new FinestraLogin();
-					frame.setVisible(true);
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
-	public FinestraLogin() {
+	public FinestraLogin(Hal gestoreApplicazione) {
 		setResizable(false);
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
@@ -76,6 +58,17 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.setLayout(null);
 		
 		usernameIn = new JTextField();
+		usernameIn.setBorder(null);
+		usernameIn.setSelectedTextColor(new Color(255, 255, 255));
+		usernameIn.setCaretColor(new Color(0, 0, 0));
+		usernameIn.setToolTipText("Qui inserire il proprio username");
+		usernameIn.setText("Username");
+		usernameIn.setFont(new Font("Century", Font.BOLD, 30));
+		usernameIn.setBackground(new Color(179, 168, 166));
+		usernameIn.setBounds(274, 306, 310, 59);
+		usernameIn.setColumns(10);
+		usernameIn.setForeground(new Color(255,255,255));
+		panelPrincipale.add(usernameIn);
 		usernameIn.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -85,34 +78,69 @@ public class FinestraLogin extends JFrame {
 		});
 		
 		
-		infoUsernameIn();
+
 		
 		passwordIn = new JPasswordField();
+		passwordIn.setText("Password");
+		passwordIn.setBorder(null);
+		passwordIn.setToolTipText("qui inserire la password");
+		passwordIn.setFont(new Font("Century", Font.BOLD, 30));
+		passwordIn.setBackground(new Color(179, 168, 166));
+		passwordIn.setBounds(274, 376, 310, 59);
+		passwordIn.setEchoChar('\u25CF'); //Codice pallini
+		passwordIn.setForeground(new Color(255,255,255));
+		panelPrincipale.add(passwordIn);
 		passwordIn.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(passwordIn.getText().equals("Password"))
+				if(passwordIn.getPassword().equals("Password"))
 					passwordIn.setText("");
 			}
 		});
-		infoPasswordIn();
 		
 		accessoTxt = new JLabel("Accesso");
-		infoAccessoTxt();
+		accessoTxt.setFont(new Font("Century", Font.BOLD, 30));
+		accessoTxt.setForeground(new Color(255, 255, 255));
+		accessoTxt.setHorizontalAlignment(SwingConstants.CENTER);
+		accessoTxt.setBounds(307, 233, 150, 69);
+		panelPrincipale.add(accessoTxt);
 		
 		userImg = new JLabel("");
-		infoUserImg();
+		userImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/USErLogo_.jpg")));
+		userImg.setBounds(205, 291, 73, 89);
+		panelPrincipale.add(userImg);
 		
 		tastoLogin = new JButton("Login");
-		infoTastoLogin();
+		tastoLogin.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		tastoLogin.setToolTipText("premi per accedere");
+		tastoLogin.setBackground(new Color(254, 126, 115));
+		tastoLogin.setForeground(new Color(255, 255, 255));
+		tastoLogin.setFont(new Font("Century", Font.BOLD, 30));
+		tastoLogin.setBounds(205, 446, 383, 58);
+		panelPrincipale.add(tastoLogin);
 		tastoLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				accesso();
+				String username = usernameIn.getText();
+				String password = new String(passwordIn.getPassword());
+			
+				if(username.isEmpty() || username.equals("Username"))
+					messaggioPopUp("Errore : Campo Username vuoto", "Attenzione");
+				if(password.isEmpty() || password.equals("Password"))
+					messaggioPopUp("Errore : Campo Password vuoto", "Attenzione");
+					
+				
+				
+				gestoreApplicazione.accesso(username,password);
 			}
 		});
 		
 		
 		lockImg =new JButton("");
+		lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/CloseLocket.jpg")));
+		lockImg.setBounds(205, 376, 69, 59);
+		lockImg.setBorder(null);
+		lockImg.setToolTipText("Clicca qui per modificare lavisibilità della password");
+		panelPrincipale.add(lockImg);
 		lockImg.addMouseListener(new MouseAdapter() { 
 			//Funzioni per dare un effetto bottone all'lucchetto
 			@Override
@@ -131,9 +159,6 @@ public class FinestraLogin extends JFrame {
 				
 			}
 		});
-		
-		
-		infoLockImg();
 		lockImg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				showPassword(); //Funzionalità classica per coprire o svelare la password
@@ -143,22 +168,20 @@ public class FinestraLogin extends JFrame {
 		
 		
 		logoImg = new JLabel("New label");
-		infoLogoImg();
+		logoImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/logoLogin.jpg")));
+		logoImg.setHorizontalAlignment(SwingConstants.CENTER);
+		logoImg.setBounds(284, 11, 211, 234);
+		panelPrincipale.add(logoImg);
 		
-		
-		errorMsg = new JLabel(""); // Errore : Username non esistente oppure Errore : Password errata
-		infoErrorMsg();
-		
-	}
-	
-	private void accesso() {
-		
-		errorMsg.setText("Errore : Username non esistente");
-		//errorMsg.setText("Errore : Password errata");
-		
+
 		
 	}
 	
+	protected void messaggioPopUp(String testo, String titolo) {
+		
+		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
+		
+	}
 	private void showPassword() { // 1uesta funzione gestisce la visibilità della password
 		if(isVisiblePassword == false) { // caso in cui la password era nascosta
 			lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLok.jpg")));
@@ -171,80 +194,7 @@ public class FinestraLogin extends JFrame {
 		}
 	}
 	
-	
-	private void infoUsernameIn() {
-		
-		
-		usernameIn.setBorder(null);
-		usernameIn.setSelectedTextColor(new Color(255, 255, 255));
-		usernameIn.setCaretColor(new Color(0, 0, 0));
-		usernameIn.setToolTipText("Qui inserire il proprio username");
-		usernameIn.setText("Username");
-		usernameIn.setFont(new Font("Century", Font.BOLD, 30));
-		usernameIn.setBackground(new Color(179, 168, 166));
-		usernameIn.setBounds(274, 306, 310, 59);
-		usernameIn.setColumns(10);
-		usernameIn.setForeground(new Color(255,255,255));
-		panelPrincipale.add(usernameIn);
-	
-	}
-	
-	private void infoAccessoTxt() {
-		accessoTxt.setFont(new Font("Century", Font.BOLD, 30));
-		accessoTxt.setForeground(new Color(255, 255, 255));
-		accessoTxt.setHorizontalAlignment(SwingConstants.CENTER);
-		accessoTxt.setBounds(307, 233, 150, 69);
-		panelPrincipale.add(accessoTxt);
-	}
-	
-	private void infoPasswordIn() {
-		passwordIn.setText("Password");
-		passwordIn.setBorder(null);
-		passwordIn.setToolTipText("qui inserire la password");
-		passwordIn.setFont(new Font("Century", Font.BOLD, 30));
-		passwordIn.setBackground(new Color(179, 168, 166));
-		passwordIn.setBounds(274, 376, 310, 59);
-		passwordIn.setEchoChar('\u25CF'); //Codice pallini
-		passwordIn.setForeground(new Color(255,255,255));
-		panelPrincipale.add(passwordIn);
-	}
-	
-	private void infoUserImg() {
-		userImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/USErLogo_.jpg")));
-		userImg.setBounds(205, 291, 73, 89);
-		panelPrincipale.add(userImg);
-	}
-	
-	private void infoTastoLogin() {
-		tastoLogin.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		tastoLogin.setToolTipText("premi per accedere");
-		tastoLogin.setBackground(new Color(254, 126, 115));
-		tastoLogin.setForeground(new Color(255, 255, 255));
-		tastoLogin.setFont(new Font("Century", Font.BOLD, 30));
-		tastoLogin.setBounds(205, 446, 383, 58);
-		panelPrincipale.add(tastoLogin);
-		
-	}
-	private void infoLogoImg() {
-		logoImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/logoLogin.jpg")));
-		logoImg.setHorizontalAlignment(SwingConstants.CENTER);
-		logoImg.setBounds(284, 11, 211, 234);
-		panelPrincipale.add(logoImg);
-	}
-	private void infoErrorMsg() {
-		errorMsg.setForeground(Color.RED);
-		errorMsg.setFont(new Font("Century", Font.BOLD | Font.ITALIC, 30));
-		errorMsg.setHorizontalAlignment(SwingConstants.CENTER);
-		errorMsg.setBounds(0, 514, 774, 37);
-		panelPrincipale.add(errorMsg);
-	}
-	private void infoLockImg() {
-		lockImg.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/CloseLocket.jpg")));
-		lockImg.setBounds(205, 376, 69, 59);
-		lockImg.setBorder(null);
-		lockImg.setToolTipText("Clicca qui per modificare lavisibilità della password");
-		panelPrincipale.add(lockImg);
-	}
+
 }
 
 
