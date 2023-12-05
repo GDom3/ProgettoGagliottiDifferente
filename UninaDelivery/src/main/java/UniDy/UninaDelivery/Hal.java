@@ -26,8 +26,8 @@ public class Hal {
 		//loginWindow.messaggioPopUp("Errore : Username non esistente", "Attenzione");
 		//loginWindow.messaggioPopUp("Errore : Password errata", "Attenzione");
 		
-		
-		
+		menuWindow.setVisible(true);
+		loginWindow.setVisible(false);
 	}
 
 }
