@@ -12,13 +12,11 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 
 public class FinestraMenu extends JFrame {
 
@@ -69,7 +67,7 @@ public class FinestraMenu extends JFrame {
 		benvenutoL.setForeground(new Color(0, 0, 0));
 		benvenutoL.setFont(new Font("Century", Font.BOLD, 30));
 		benvenutoL.setHorizontalAlignment(SwingConstants.CENTER);
-		benvenutoL.setBounds(35, 11, 295, 69);
+		benvenutoL.setBounds(10, 11, 365, 69);
 		parteSxPanel.add(benvenutoL);
 		
 		operatoreL = new JLabel("");
@@ -86,7 +84,7 @@ public class FinestraMenu extends JFrame {
 		
 		visualizzaB = new JButton();
 		visualizzaB.setHorizontalAlignment(SwingConstants.CENTER);
-		visualizzaB.setBounds(52, 156, 293, 51);
+		visualizzaB.setBounds(48, 156, 306, 51);
 		visualizzaB.setToolTipText("Qui andrai alla sezione che permette di visualizzare gli ordini");
 		visualizzaB.setText("Visualizza");
 		visualizzaB.setForeground(Color.WHITE);
@@ -101,17 +99,21 @@ public class FinestraMenu extends JFrame {
 		nuovaSpedizioneB.setForeground(Color.WHITE);
 		nuovaSpedizioneB.setFont(new Font("Century", Font.BOLD, 30));
 		nuovaSpedizioneB.setBackground(new Color(179, 168, 166));
-		nuovaSpedizioneB.setBounds(52, 256, 293, 51);
+		nuovaSpedizioneB.setBounds(48, 255, 306, 51);
 		parteDxPanel.add(nuovaSpedizioneB);
 		
 		reportB = new JButton();
+		reportB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		reportB.setToolTipText("Qui visualizzi un report statistico");
 		reportB.setText("Report");
 		reportB.setHorizontalAlignment(SwingConstants.CENTER);
 		reportB.setForeground(Color.WHITE);
 		reportB.setFont(new Font("Century", Font.BOLD, 30));
 		reportB.setBackground(new Color(179, 168, 166));
-		reportB.setBounds(52, 360, 293, 51);
+		reportB.setBounds(48, 360, 306, 51);
 		parteDxPanel.add(reportB);
 		
 		logOutB = new JButton("Logout");
@@ -127,10 +129,14 @@ public class FinestraMenu extends JFrame {
 		logOutB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
+				//Diventa grande gradualmente
+				logOutB.setFont(new Font("Century", Font.PLAIN, 19));
 				logOutB.setFont(new Font("Century", Font.PLAIN, 20));
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
+				//Diventa Piccolo gradualmente
+				logOutB.setFont(new Font("Century", Font.PLAIN, 19));
 				logOutB.setFont(new Font("Century", Font.PLAIN, 18));
 			}
 		});
@@ -144,6 +150,7 @@ public class FinestraMenu extends JFrame {
 	}
 	
 	protected void confermaLogOut() {
+		logOutB.setFont(new Font("Century", Font.PLAIN, 19));
 		logOutB.setFont(new Font("Century", Font.PLAIN, 18));
 		int output = JOptionPane.showConfirmDialog(this, "Confermi di fare il logout?", "Logout",0 ,JOptionPane.YES_NO_OPTION);
 		if(output == 0)
