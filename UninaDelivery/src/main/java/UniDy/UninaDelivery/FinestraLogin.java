@@ -13,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 public class FinestraLogin extends JFrame {
 
@@ -28,11 +29,12 @@ public class FinestraLogin extends JFrame {
 	private JLabel logoPrincipaleImgL; //L'immagine del logo
 	private JButton logoPasswordImgB; //L'immagine del lucchetto dinamico, il quale rende visibile o nascosta la password
 	private boolean isVisiblePassword = false; //Indicatore stato attuale della visibilità della password
-	
+	AppBrain Hal;
 	/**
 	 * Create the frame.
 	 */
-	public FinestraLogin(Hal gestoreApplicazione) {
+	public FinestraLogin(AppBrain gestoreApplicazione) {
+		Hal = gestoreApplicazione;
 		setResizable(false);
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
@@ -97,7 +99,7 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.add(accessoL);
 		
 		logoUsernameImgL = new JLabel("");
-		logoUsernameImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/USErLogo_.jpg")));
+		logoUsernameImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OminoUsername.jpg")));
 		logoUsernameImgL.setBounds(205, 291, 73, 89);
 		panelPrincipale.add(logoUsernameImgL);
 		
@@ -114,23 +116,21 @@ public class FinestraLogin extends JFrame {
 				String username = usernameTF.getText();
 				String password = new String(passwordPF.getPassword());
 				
-				//Controlli esplicativi sulla correttezza dell'input a un primo livello
-				if(username.isEmpty()) 
-					messaggioPopUp("Errore : Campo Username Vuoto", "Attenzione");
-				else if (username.equals("Username"))
-					messaggioPopUp("Errore : Campo Username non Valido", "Attenzione");
-				else if(password.isEmpty())
-					messaggioPopUp("Errore : Campo Password Vuoto", "Attenzione");
-				else if (password.equals("Password"))
-					messaggioPopUp("Errore : Campo Password non Valido", "Attenzione");
-				else
-					gestoreApplicazione.accesso(username,password);
+				richiestaAccesso(username,password);
+				
+				
+					
+					
+				
+				
+		
 			}
+
 		});
 		
 		
 		logoPasswordImgB =new JButton("");
-		logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/CloseLocket.jpg")));
+		logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoConOmbra.jpg")));
 		logoPasswordImgB.setBounds(205, 376, 69, 59);
 		logoPasswordImgB.setBorder(null);
 		logoPasswordImgB.setToolTipText("Clicca qui per modificare lavisibilità della password");
@@ -139,17 +139,11 @@ public class FinestraLogin extends JFrame {
 			//Funzioni per dare un effetto bottone all'lucchetto
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				if(isVisiblePassword) //Se era visibile
-					logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLok.jpg"))); //leva l'ombra all'lucchetto aperto
-				else
-					logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/passL.jpg"))); //leva l'ombra all'lucchetto chiuso
+				levaOmbra();
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				if(isVisiblePassword) // se era visivile
-					logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLocket.jpg"))); // metti l'ombra al lucchetto aperto
-				else
-					logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/CloseLocket.jpg"))); // metti l'ombra al lucchetto chiuso
+				mettiOmbra();
 				
 			}
 		});
@@ -160,32 +154,95 @@ public class FinestraLogin extends JFrame {
 		});
 		
 		
-		
-		logoPrincipaleImgL = new JLabel("New label");
-		logoPrincipaleImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/logoLogin.jpg")));
+		logoPrincipaleImgL = new JLabel("");
+		logoPrincipaleImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/UniDyLogoLogin.jpg")));
 		logoPrincipaleImgL.setHorizontalAlignment(SwingConstants.CENTER);
 		logoPrincipaleImgL.setBounds(284, 11, 211, 234);
 		panelPrincipale.add(logoPrincipaleImgL);
 		
-
-		
 	}
 	
+	/**
+	 * @param usernameTF the usernameTF to set
+	 */
+	protected void impostaUsername(String txt) {
+		this.usernameTF.setText(txt);
+	}
+	protected void impostaPassword(String txt) {
+		this.passwordPF.setText(txt);
+	}
+
+	protected void richiestaAccesso(String username, String password) {
+		try{
+			sonoNonVuoti(username,password);	
+			
+		} catch (CampoInserimentoVuotoException vuotoErrore) {
+			
+			messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
+			return;
+		}
+		
+		
+		try {
+			Hal.accesso(username,password);
+		} catch (ConnessionNonRiuscitaException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+		} catch (CreazioneStatementFallitaException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+		} catch (RisultatoNonRicavabileException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+		} catch (MetaDatiNonTrovatiException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+		} catch (EstrazioneCampiFallitaException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+		} catch (ChiusturaComunicazioneFallitaException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+		} catch (SQLException e){
+			messaggioPopUp(e.getMessage(),"Errore");
+			
+		}
+		
+	}
+
 	protected void messaggioPopUp(String testo, String titolo) {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
 	
+	private void mettiOmbra(){
+		if(isVisiblePassword) // se era visivile
+			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoApertoConOmbra.jpg"))); // metti l'ombra al lucchetto aperto
+		else
+			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoConOmbra.jpg"))); // metti l'ombra al lucchetto chiuso
+	}
 	
+	private void levaOmbra() {
+		if(isVisiblePassword) //Se era visibile
+			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoApertoSenzaOmbra.jpg"))); //leva l'ombra all'lucchetto aperto
+		else
+			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoSenzaOmbra.jpg"))); //leva l'ombra all'lucchetto chiuso
+	}
+	
+	private void sonoNonVuoti(String username, String password) throws CampoInserimentoVuotoException{
+		//Controlli esplicativi sulla correttezza dell'input a un primo livello
+		
+		if(username.isBlank() || username.equals("Username")) 
+			throw new CampoInserimentoVuotoException("USERNAME");
+			
+		if(password.isBlank() || password.equals("Password"))
+			throw new CampoInserimentoVuotoException("PASSWORD");
+			
+		
+	}
 	
 	private void showPassword() { // 1uesta funzione gestisce la visibilità della password
-		if(isVisiblePassword == false) { // caso in cui la password era nascosta
-			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OpenLok.jpg")));
-			passwordPF.setEchoChar((char) 0);
-			isVisiblePassword = true;
-		}else{ //caso in cui la password era visibile
-			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/passL.jpg"))); // Metti il lock chiuso
+		if(isVisiblePassword) { //caso in cui la password era visibile
+			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoSenzaOmbra.jpg"))); // Metti il lock chiuso
 			passwordPF.setEchoChar('\u25CF'); //Codice pallini
 			isVisiblePassword = false; // Aggiorna il rifermimento booleano
+		}else{ // caso in cui la password era nascosta
+			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoApertoSenzaOmbra.jpg")));
+			passwordPF.setEchoChar((char) 0);
+			isVisiblePassword = true;
 		}
 	}
 	
