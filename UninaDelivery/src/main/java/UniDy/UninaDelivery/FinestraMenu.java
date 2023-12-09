@@ -16,6 +16,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
+import java.awt.Cursor;
 
 
 public class FinestraMenu extends JFrame {
@@ -38,8 +40,8 @@ public class FinestraMenu extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FinestraMenu(AppBrain gestoreApplicazione) {
-		Hal = gestoreApplicazione;
+	public FinestraMenu(AppBrain appBrain) {
+		Hal = appBrain;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraMenu.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
 		setResizable(false);
@@ -83,6 +85,24 @@ public class FinestraMenu extends JFrame {
 		parteDxPanel.setLayout(null);
 		
 		visualizzaB = new JButton();
+		visualizzaB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		visualizzaB.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
+		visualizzaB.setFocusPainted(false);
+		visualizzaB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				visualizzaB.setBackground(new Color(141, 129, 123));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				visualizzaB.setBackground(new Color(179, 168, 166));
+			}
+		});
+		visualizzaB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				appBrain.mostraFinestraVisualizza();
+			}
+		});
 		visualizzaB.setHorizontalAlignment(SwingConstants.CENTER);
 		visualizzaB.setBounds(48, 156, 306, 51);
 		visualizzaB.setToolTipText("Qui andrai alla sezione che permette di visualizzare gli ordini");
@@ -93,6 +113,19 @@ public class FinestraMenu extends JFrame {
 		parteDxPanel.add(visualizzaB);
 		
 		nuovaSpedizioneB = new JButton();
+		nuovaSpedizioneB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		nuovaSpedizioneB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseExited(MouseEvent e) {
+				nuovaSpedizioneB.setBackground(new Color(179, 168, 166));
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				nuovaSpedizioneB.setBackground(new Color(141, 129, 123));
+			}
+		});
+		nuovaSpedizioneB.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
+		nuovaSpedizioneB.setFocusPainted(false);
 		nuovaSpedizioneB.setToolTipText("Qui poi andare a creare una nuova spedizione con i relativi ordini");
 		nuovaSpedizioneB.setText("Nuova Spedizione");
 		nuovaSpedizioneB.setHorizontalAlignment(SwingConstants.CENTER);
@@ -103,6 +136,19 @@ public class FinestraMenu extends JFrame {
 		parteDxPanel.add(nuovaSpedizioneB);
 		
 		reportB = new JButton();
+		reportB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		reportB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				reportB.setBackground(new Color(141, 129, 123));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				reportB.setBackground(new Color(179, 168, 166));
+			}
+		});
+		reportB.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
+		reportB.setFocusPainted(false);
 		reportB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -117,6 +163,7 @@ public class FinestraMenu extends JFrame {
 		parteDxPanel.add(reportB);
 		
 		logOutB = new JButton("Logout");
+		logOutB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		logOutB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confermaLogOut();
@@ -149,7 +196,7 @@ public class FinestraMenu extends JFrame {
 		parteDxPanel.add(logOutB);
 	}
 	
-	protected void confermaLogOut() {
+	private void confermaLogOut() {
 		logOutB.setFont(new Font("Century", Font.PLAIN, 19));
 		logOutB.setFont(new Font("Century", Font.PLAIN, 18));
 		int output = JOptionPane.showConfirmDialog(this, "Confermi di fare il logout?", "Logout",0 ,JOptionPane.YES_NO_OPTION);

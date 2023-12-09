@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import javax.swing.border.LineBorder;
 
 public class FinestraLogin extends JFrame {
 
@@ -33,8 +34,8 @@ public class FinestraLogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public FinestraLogin(AppBrain gestoreApplicazione) {
-		Hal = gestoreApplicazione;
+	public FinestraLogin(AppBrain appBrain) {
+		Hal = appBrain;
 		setResizable(false);
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
@@ -104,7 +105,19 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.add(logoUsernameImgL);
 		
 		loginB = new JButton("Login");
-		loginB.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		loginB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				loginB.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				loginB.setBackground(new Color(254, 126, 115));
+			}
+		});
+		loginB.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
+		loginB.setFocusPainted(false);
+		loginB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		loginB.setToolTipText("premi per accedere");
 		loginB.setBackground(new Color(254, 126, 115));
 		loginB.setForeground(new Color(255, 255, 255));
@@ -130,6 +143,7 @@ public class FinestraLogin extends JFrame {
 		
 		
 		logoPasswordImgB =new JButton("");
+		logoPasswordImgB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoConOmbra.jpg")));
 		logoPasswordImgB.setBounds(205, 376, 69, 59);
 		logoPasswordImgB.setBorder(null);
@@ -172,7 +186,7 @@ public class FinestraLogin extends JFrame {
 		this.passwordPF.setText(txt);
 	}
 
-	protected void richiestaAccesso(String username, String password) {
+	private void richiestaAccesso(String username, String password) {
 		try{
 			sonoNonVuoti(username,password);	
 			
@@ -204,7 +218,7 @@ public class FinestraLogin extends JFrame {
 		
 	}
 
-	protected void messaggioPopUp(String testo, String titolo) {
+	private void messaggioPopUp(String testo, String titolo) {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
 	
