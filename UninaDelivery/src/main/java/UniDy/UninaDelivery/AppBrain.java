@@ -30,9 +30,9 @@ public class AppBrain {
 		datiOrdiniWindow = new FinestraVisualizzaDatiFiltrabili(this);
 		
 		
-		datiOrdiniWindow.setVisible(true); 
+		//datiOrdiniWindow.setVisible(true); 
 		//menuWindow.setVisible(true); 
-		//loginWindow.setVisible(true);
+		loginWindow.setVisible(true);
 	}
 
 	protected void accesso(String username, String password) throws  SQLException{
