@@ -276,6 +276,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		scrollPane.setBounds(10, 35, 474, 433);
 		mostraDatiPanel.add(scrollPane);
 		
+		
 		table = new JTable();
 		table.setRowSelectionAllowed(false);
 		table.setToolTipText("Tabella contenente gli ordini avuti");
@@ -342,7 +343,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		mostraDatiPanel.add(filtraggioP);
 
 		appBrain.visualizzaTutti();
-		
+
 	}
 	
 	
