@@ -10,7 +10,9 @@ public class ConnessioneDataBase {
 	private String driver = "org.postgresql.Driver";
 	private String indirizzo = "jdbc:postgresql://localhost:5432/UninaDelivery";
 	private String tipoDB = "postgres";
-	protected String messaggioErrore;
+	private String messaggioErrore;
+	
+	
 	
 	private ConnessioneDataBase(){} //Costruttore privato
 	
@@ -82,5 +84,10 @@ public class ConnessioneDataBase {
         
         return connessione;
     }
+    
+    protected String getMessaggioErrore() {
+		return messaggioErrore;
+	}
+
 	
 }

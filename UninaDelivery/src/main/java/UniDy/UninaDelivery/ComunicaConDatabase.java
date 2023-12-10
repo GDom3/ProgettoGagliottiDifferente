@@ -14,6 +14,13 @@ public class ComunicaConDatabase {
 	private ResultSet risultato;
 	private ResultSetMetaData risultatoMetaDati;
 	
+	
+	public ComunicaConDatabase() {
+		//Istanzio la classe o la recupero, per comunicare con il database;
+		connectionDataBase = ConnessioneDataBase.getConnessioneDataBase(); 
+	}
+	
+	
 	//Passa alla prossima riga per andare a prendere la tupla successiva
 	protected ResultSet prossimaRiga() throws SQLException { 
 		try {
@@ -38,30 +45,33 @@ public class ComunicaConDatabase {
 	
 		
 	}
+	
 	//Manda la quary e la esegue riportando il risultato e fa i dovuti controlli
 	protected ResultSet comunicaConDatabaseQuery(String comando) throws  CreazioneStatementFallitaException , ConnessionNonRiuscitaException ,RisultatoNonRicavabileException{
 		
-		try { // Prova a creare la connessione
+		try { 
+			// Prova a creare la connessione
 			creaConnessione();
 		} catch (CreazioneStatementFallitaException e) {
 			throw e;
 		}catch (ConnessionNonRiuscitaException e ){
-			e.setMessaggioErrore(e.getMessaggioErrore() + "\nDettagli : "+ connectionDataBase.messaggioErrore);
+			e.setMessaggioErrore(e.getMessaggioErrore() + "\nDettagli : "+ connectionDataBase.getMessaggioErrore());
 			throw e;
 		}
 		
-		try { //Provo a mandare la query
+		try { 
+			//Provo a mandare la query
 			mandaQuery(comando);
-			} catch (RisultatoNonRicavabileException e) {
+		} catch (RisultatoNonRicavabileException e) {
 				throw e;
-			}
+		}
 					
 		return risultato;
 	}
 	
 	// crea la conessione e fa i giusti controlli
 	private void creaConnessione() throws  ConnessionNonRiuscitaException,CreazioneStatementFallitaException{
-		connectionDataBase = ConnessioneDataBase.getConnessioneDataBase(); //Istanzio la classe o la recupero
+
 		connessione = connectionDataBase.getConnection(); //Creo la connessione se è chiusa o non c'è mai stata
 		
 		if(connessione == null)

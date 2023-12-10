@@ -30,70 +30,61 @@ public class AppBrain {
 		datiOrdiniWindow = new FinestraVisualizzaDatiFiltrabili(this);
 		
 		
-		//datiOrdiniWindow.setVisible(true);
-		//menuWindow.setVisible(true);
-		loginWindow.setVisible(true);
+		datiOrdiniWindow.setVisible(true); 
+		//menuWindow.setVisible(true); 
+		//loginWindow.setVisible(true);
 	}
 
 	protected void accesso(String username, String password) throws  SQLException{
 		String operatore = "Utente";
+	
 		//La select necessaria per vedere se posso trovare l'utente e se ha inserito i valori corretti
-		String comando = "SELECT O.nome, O.cognome FROM operatore AS O WHERE ( O.username = '"+ username + "' OR O.email = '" + username.toLowerCase() + "') AND O.password = '"+password+ "'";
-			
-		ResultSet risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando); 
+		String comando = "SELECT O.nome, O.cognome, O.password FROM operatore AS O WHERE ( O.username = '"+ username + "' OR O.email = '" + username.toLowerCase() + "')";
+		
+		//Mando il comando e prendo il risultato della query
+		ResultSet risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);  
 				
 		try {
-			comunicazioneSQL.prossimaRiga();
-			operatore = risultato.getString(1) + " " + risultato.getString(2);
-		
-		} catch (SQLException e) {
-			esisteUtenteInserito(username);
+			//Vado alla prima riga
+			comunicazioneSQL.prossimaRiga(); 
 			
+			// mi estraggo il nome e il cognome
+			operatore = risultato.getString(1) + " " + risultato.getString(2); 
+		} catch (SQLException e) {
+			// nel caso non si trova nessun valore significa che l'operatore non esiste nel database
+			throw new EstrazioneCampiFallitaException("Username o email non registrate"); 
 		}
 		
+		//prendo la password e la comparo alla password corretta
+		if(!password.equals(risultato.getString(3))) 
+			throw new EstrazioneCampiFallitaException("Password errata");
+		
+		//Chiudo tutto
 		comunicazioneSQL.chiudiComunicazioneDatabase();
 		
+		//Do il benvenuto al nuovo operatore
 		menuWindow.impostaOperatore(operatore);
-		menuWindow.setVisible(true);
-		loginWindow.setVisible(false);
+		// Vado nel menu
+		ritornaMenu(loginWindow); 
 	}
 	
-	
-	private void esisteUtenteInserito(String username) throws SQLException {
-		//Select per vedere se esiste l'utente
-		String comando = "SELECT 1 FROM operatore AS O WHERE ( O.username = '"+ username + "' OR O.email = '" + username.toLowerCase() + "')";
-		String errore = "Errore";
-		
-	
-		ResultSet risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
-		try {
-			comunicazioneSQL.prossimaRiga();
-	
-			if(risultato.getInt(1) == 1) // se lo trova invece significa che la password è quella sbagliata
-				errore = "Password errata";
-					
-		} catch (SQLException ErroreUtenteNonTrovato) { //Se non trova l'utente vuol dire che non esiste
-			errore = "Username non registrato";
-		}
-	
-		throw new EstrazioneCampiFallitaException(errore); // e quindi gli do l'errore corretto 
-			
-	
-	}
 
 	protected void logout() {
-		menuWindow.setVisible(false);
+		//Funzione che gestisce il logout
 		loginWindow.impostaPassword("Password");
+		menuWindow.setVisible(false);
 		loginWindow.setVisible(true);
 		
 	}
 
 	protected void ritornaMenu(JFrame finestra) {
+		//Funzione che 'chiude' la finestra data in input e 'apre' il menu
 		finestra.setVisible(false);
 		menuWindow.setVisible(true);
 	}
 
 	protected void mostraFinestraVisualizza() {
+		//'chiude' il menu e 'apre' il visuliazza dati finesta 
 		menuWindow.setVisible(false);
 		datiOrdiniWindow.setVisible(true);
 	}
@@ -110,6 +101,11 @@ public class AppBrain {
 
 	protected void filtraPerCliente(String cliente) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void visualizzaTutti() {
+		String comando = "";
 		
 	}
 }

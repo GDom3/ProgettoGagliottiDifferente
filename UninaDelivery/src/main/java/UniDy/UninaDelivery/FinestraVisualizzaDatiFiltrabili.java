@@ -28,6 +28,11 @@ import javax.swing.border.LineBorder;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.Cursor;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JSlider;
+import javax.swing.JProgressBar;
 
 
 public class FinestraVisualizzaDatiFiltrabili extends JFrame {
@@ -54,6 +59,8 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	private LocalDate dataInizio = null;
 	private LocalDate dataFine = null;
 	private String cliente = null;
+	private JTable table;
+	private JProgressBar filtraggioP;
 	
 	/**
 	 * Create the frame.
@@ -234,37 +241,13 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		FiltraB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
 				String utente = utenteTF.getText();
 				Date inizio = tempoInizioDC.getDate();
 				Date fine = tempoFineDC.getDate();
 					
-				try {
-					controlloInputFilitri(utente,inizio,fine);
-					
-				} catch (DateCronologicamenteSbagliateException e1) {
-					
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
-					return;
-				
-				} catch (FiltriVuotiException e1) {
-					
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
-					return;
-				}
+				azionaFiltri(utente,inizio,fine);
 				
 				
-				
-				if(dataInizio != null)
-					if(cliente != null)
-						appBrain.filtraPerUtenteData(cliente,dataInizio,dataFine);
-					else
-						appBrain.filtraPerDate(dataInizio,dataFine);
-				
-				else 
-					appBrain.filtraPerCliente(cliente);
-				
-		
 			}
 		});
 		
@@ -287,10 +270,118 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		FiltraB.setFocusPainted(false);
 		FiltraB.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
 		FiltraB.setBackground(new Color(254, 126, 115));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		scrollPane.setBounds(10, 35, 474, 433);
+		mostraDatiPanel.add(scrollPane);
+		
+		table = new JTable();
+		table.setRowSelectionAllowed(false);
+		table.setToolTipText("Tabella contenente gli ordini avuti");
+		table.setName("Ordini");
+		table.setForeground(new Color(255, 255, 255));
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+				{null, null, null, null, null},
+			},
+			new String[] {
+				"Codice Fiscale", "Codice Ordine", "N\u00B0 Merci", "Totale \u20AC", "Codice Spedizione"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, Integer.class, Float.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(77);
+		table.getColumnModel().getColumn(0).setMinWidth(77);
+		table.getColumnModel().getColumn(1).setPreferredWidth(77);
+		table.getColumnModel().getColumn(1).setMinWidth(77);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table.getColumnModel().getColumn(2).setMinWidth(50);
+		table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		table.getColumnModel().getColumn(3).setMinWidth(50);
+		table.getColumnModel().getColumn(4).setPreferredWidth(96);
+		table.getColumnModel().getColumn(4).setMinWidth(96);
+		table.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
+		table.setBackground(new Color(119, 101, 101));
+		table.setFont(new Font("Century", Font.PLAIN, 16));
+		scrollPane.setViewportView(table);
+		
+		filtraggioP = new JProgressBar();
+		filtraggioP.setValue(0);
+		filtraggioP.setBounds(10, 488, 695, 25);
+		mostraDatiPanel.add(filtraggioP);
 
+		appBrain.visualizzaTutti();
+		
 	}
 	
 	
+	protected void azionaFiltri(String utente, Date inizio, Date fine) {
+		setValoreProgresso(0);
+		try {
+			controlloInputFilitri(utente,inizio,fine);
+			setValoreProgresso(10);
+		} catch (DateCronologicamenteSbagliateException e1) {
+			
+			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
+			return;
+		
+		} catch (FiltriVuotiException e1) {
+			
+			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
+			return;
+		}
+		
+		
+		if(dataInizio != null)
+			if(cliente != null)
+				Hal.filtraPerUtenteData(cliente,dataInizio,dataFine);
+			else
+				Hal.filtraPerDate(dataInizio,dataFine);
+		
+		else 
+			Hal.filtraPerCliente(cliente);
+		
+		setValoreProgresso(100);
+	}
+
+
+
+	protected void setValoreProgresso(int vaule) {
+		filtraggioP.setValue(vaule); 
+	}
+
+
 	protected void controlloInputFilitri(String utente, Date inizio, Date fine) throws DateCronologicamenteSbagliateException, FiltriVuotiException {
 		int output;
 		if(utente.equals("Utente") || utente.isBlank()) {
