@@ -22,14 +22,14 @@ public class ComunicaConDatabase {
 	
 	
 	//Passa alla prossima riga per andare a prendere la tupla successiva
-	protected ResultSet prossimaRiga() throws SQLException { 
+	protected boolean prossimaRiga() throws RisultatoNonRicavabileException  { 
 		try {
-			risultato.next();
+			return risultato.next();
 		} catch (SQLException e) {
 			throw new RisultatoNonRicavabileException();
 		}
 		
-		return risultato;
+		
 	}
 	
 	//Chiude tutto

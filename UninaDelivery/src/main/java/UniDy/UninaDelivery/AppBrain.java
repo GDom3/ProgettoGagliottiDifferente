@@ -8,12 +8,15 @@ import javax.swing.JFrame;
 
 public class AppBrain {
 	
-	FinestraLogin loginWindow;
-	FinestraMenu menuWindow;
-	FinestraReportStatistico datiStatisticiWindow;
-	FinestraVisualizzaDatiFiltrabili datiOrdiniWindow;
+	private FinestraLogin loginWindow;
+	private FinestraMenu menuWindow;
+	private FinestraReportStatistico datiStatisticiWindow;
+	private FinestraVisualizzaDatiFiltrabili datiOrdiniWindow;
+	//private ResultSet risultato;
+	private GestoreFiltraggioOrdini gestroreFiltri;
+	//private ComunicaConDatabase comunicazioneSQL = new ComunicaConDatabase();
 	
-	ComunicaConDatabase comunicazioneSQL;
+	private Operatore operatore;
 	
 	public static void main(String[] args) {
 		
@@ -21,14 +24,19 @@ public class AppBrain {
 		
 	}
 
+	
+	
 	public AppBrain() {
 		
-		comunicazioneSQL = new ComunicaConDatabase(); 
 		loginWindow = new FinestraLogin(this);
 		menuWindow = new FinestraMenu(this);
 		datiStatisticiWindow = new FinestraReportStatistico(this);
 		datiOrdiniWindow = new FinestraVisualizzaDatiFiltrabili(this);
+		gestroreFiltri = new GestoreFiltraggioOrdini(this);
 		
+		operatore = new Operatore();
+		
+		//mostraFinestraVisualizza();
 		
 		//datiOrdiniWindow.setVisible(true); 
 		//menuWindow.setVisible(true); 
@@ -36,36 +44,19 @@ public class AppBrain {
 	}
 
 	protected void accesso(String username, String password) throws  SQLException{
-		String operatore = "Utente";
-	
-		//La select necessaria per vedere se posso trovare l'utente e se ha inserito i valori corretti
-		String comando = "SELECT O.nome, O.cognome, O.password FROM operatore AS O WHERE ( O.username = '"+ username + "' OR O.email = '" + username.toLowerCase() + "')";
 		
-		//Mando il comando e prendo il risultato della query
-		ResultSet risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);  
-				
-		try {
-			//Vado alla prima riga
-			comunicazioneSQL.prossimaRiga(); 
-			
-			// mi estraggo il nome e il cognome
-			operatore = risultato.getString(1) + " " + risultato.getString(2); 
-		} catch (SQLException e) {
-			// nel caso non si trova nessun valore significa che l'operatore non esiste nel database
-			throw new EstrazioneCampiFallitaException("Username o email non registrate"); 
-		}
+		String nomeOperatore = "Utente";
 		
-		//prendo la password e la comparo alla password corretta
-		if(!password.equals(risultato.getString(3))) 
-			throw new EstrazioneCampiFallitaException("Password errata");
+		operatore.provaAccesso(username, password);
 		
-		//Chiudo tutto
-		comunicazioneSQL.chiudiComunicazioneDatabase();
+		nomeOperatore = operatore.getNomeOperatore();
 		
 		//Do il benvenuto al nuovo operatore
-		menuWindow.impostaOperatore(operatore);
+		menuWindow.impostaOperatore(nomeOperatore);
 		// Vado nel menu
 		ritornaMenu(loginWindow); 
+		
+		
 	}
 	
 
