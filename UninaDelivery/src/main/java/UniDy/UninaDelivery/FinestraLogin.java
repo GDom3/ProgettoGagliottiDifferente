@@ -30,12 +30,12 @@ public class FinestraLogin extends JFrame {
 	private JLabel logoPrincipaleImgL; //L'immagine del logo
 	private JButton logoPasswordImgB; //L'immagine del lucchetto dinamico, il quale rende visibile o nascosta la password
 	private boolean isVisiblePassword = false; //Indicatore stato attuale della visibilità della password
-	AppBrain Hal;
+	AppBrain HAL;
 	/**
 	 * Create the frame.
 	 */
 	public FinestraLogin(AppBrain appBrain) {
-		Hal = appBrain;
+		HAL = appBrain;
 		setResizable(false);
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
@@ -130,13 +130,7 @@ public class FinestraLogin extends JFrame {
 				String password = new String(passwordPF.getPassword());
 				
 				richiestaAccesso(username,password);
-				
-				
 					
-					
-				
-				
-		
 			}
 
 		});
@@ -176,9 +170,6 @@ public class FinestraLogin extends JFrame {
 		
 	}
 	
-	/**
-	 * @param usernameTF the usernameTF to set
-	 */
 	protected void impostaUsername(String txt) {
 		this.usernameTF.setText(txt);
 	}
@@ -198,19 +189,32 @@ public class FinestraLogin extends JFrame {
 		
 		
 		try {
-			Hal.accesso(username,password);
+			HAL.accesso(username,password);
+			
 		} catch (ConnessionNonRiuscitaException ErroreSQL) {
+			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+			
 		} catch (CreazioneStatementFallitaException ErroreSQL) {
+			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+			
 		} catch (RisultatoNonRicavabileException ErroreSQL) {
+			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+			
 		} catch (MetaDatiNonTrovatiException ErroreSQL) {
+			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+			
 		} catch (EstrazioneCampiFallitaException ErroreSQL) {
+			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+			
 		} catch (ChiusturaComunicazioneFallitaException ErroreSQL) {
+			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+			
 		} catch (SQLException e){
 			messaggioPopUp(e.getMessage(),"Errore");
 			

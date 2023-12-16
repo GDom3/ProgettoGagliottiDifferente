@@ -92,6 +92,7 @@ public class ComunicaConDatabase {
 			throw new RisultatoNonRicavabileException();
 		}
 	}
+	
 	//Prendo i Campi
 	private void gestioneMetaDati() throws MetaDatiNonTrovatiException  {
 		
