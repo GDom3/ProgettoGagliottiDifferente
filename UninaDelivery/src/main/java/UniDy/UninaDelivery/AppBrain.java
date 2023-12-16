@@ -24,10 +24,8 @@ public class AppBrain {
 		
 	}
 
-	
-	
 	public AppBrain() {
-		
+			
 		loginWindow = new FinestraLogin(this);
 		menuWindow = new FinestraMenu(this);
 		datiStatisticiWindow = new FinestraReportStatistico(this);
@@ -41,7 +39,9 @@ public class AppBrain {
 		//datiOrdiniWindow.setVisible(true); 
 		//menuWindow.setVisible(true); 
 		loginWindow.setVisible(true);
+		
 	}
+
 
 	protected void accesso(String username, String password) throws  SQLException{
 		
@@ -59,7 +59,6 @@ public class AppBrain {
 		
 	}
 	
-
 	protected void logout() {
 		//Funzione che gestisce il logout
 		loginWindow.impostaPassword("Password");
@@ -78,27 +77,33 @@ public class AppBrain {
 		//'chiude' il menu e 'apre' il visuliazza dati finesta 
 		menuWindow.setVisible(false);
 		datiOrdiniWindow.setVisible(true);
+		datiOrdiniWindow.richiestaVisualizzareTutti();
+		
+	}
+	
+	protected void filtra() throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, EstrazioneCampiFallitaException {
+		gestroreFiltri.visualizzaOrdini("");
+		
+	}
+	
+	protected void filtra(String cliente, LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, EstrazioneCampiFallitaException  {
+		gestroreFiltri.filtraPerUtenteData(cliente, dataInizio, dataFine);
 	}
 
-	protected void filtraPerUtenteData(String cliente, LocalDate dataInizio, LocalDate dataFine) {
-		// TODO Auto-generated method stub
+	protected void filtra(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, EstrazioneCampiFallitaException {
+		gestroreFiltri.filtraPerDate(dataInizio, dataFine);
 		
 	}
 
-	protected void filtraPerDate(LocalDate dataInizio, LocalDate dataFine) {
-		// TODO Auto-generated method stub
-		
+	protected void filtra(String cliente) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, EstrazioneCampiFallitaException {
+		gestroreFiltri.filtraPerCliente(cliente);
 	}
 
-	protected void filtraPerCliente(String cliente) {
-		// TODO Auto-generated method stub
-		
+	protected FinestraVisualizzaDatiFiltrabili getDatiOrdiniWindow() {
+		return datiOrdiniWindow;
 	}
 
-	public void visualizzaTutti() {
-		String comando = "";
-		
-	}
+
 }
 
 

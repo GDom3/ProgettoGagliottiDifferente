@@ -14,6 +14,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
@@ -33,6 +34,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JSlider;
 import javax.swing.JProgressBar;
+import javax.swing.ListSelectionModel;
+import javax.swing.JRadioButton;
 
 
 public class FinestraVisualizzaDatiFiltrabili extends JFrame {
@@ -60,7 +63,11 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	private LocalDate dataFine = null;
 	private String cliente = null;
 	private JTable table;
-	private JProgressBar filtraggioP;
+	private DefaultTableModel modelloTabella;
+	private JTable tabellaOrdini;
+	private JRadioButton sceltaDataConsegna;
+	private JRadioButton sceltaDataEsecuzione;
+	private ButtonGroup gruppoRadioDate;
 	
 	/**
 	 * Create the frame.
@@ -127,7 +134,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		mostraDatiPanel.setLayout(null);
 		
 		filtroPanel = new JPanel();
-		filtroPanel.setBounds(494, 35, 211, 433);
+		filtroPanel.setBounds(530, 35, 175, 433);
 		mostraDatiPanel.add(filtroPanel);
 		filtroPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		filtroPanel.setBackground(new Color(179, 168, 166));
@@ -144,11 +151,11 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		});
 		utenteTF.setText("Utente");
 		utenteTF.setHorizontalAlignment(SwingConstants.LEFT);
-		utenteTF.setBounds(20, 107, 181, 31);
+		utenteTF.setBounds(10, 106, 160, 24);
 		utenteTF.setToolTipText("Qui inserire il proprio username");
 		utenteTF.setSelectedTextColor(Color.WHITE);
 		utenteTF.setForeground(new Color(0, 0, 0));
-		utenteTF.setFont(new Font("Century", Font.PLAIN, 18));
+		utenteTF.setFont(new Font("Century", Font.PLAIN, 16));
 		utenteTF.setColumns(10);
 		utenteTF.setCaretColor(Color.BLACK);
 		utenteTF.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
@@ -200,20 +207,20 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		tempoInizioDC.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
 		tempoInizioDC.setFont(new Font("Century", Font.PLAIN, 18));
 		tempoInizioDC.setBackground(new Color(179, 168, 166));
-		tempoInizioDC.setLocation(20, 220);
-		tempoInizioDC.setSize(177, 31);
+		tempoInizioDC.setLocation(10, 221);
+		tempoInizioDC.setSize(160, 24);
 		filtroPanel.add(tempoInizioDC);
 		
 		tempoInizioL = new JLabel("Da");
 		tempoInizioL.setForeground(Color.WHITE);
 		tempoInizioL.setFont(new Font("Century", Font.BOLD, 18));
-		tempoInizioL.setBounds(20, 190, 94, 31);
+		tempoInizioL.setBounds(10, 190, 94, 31);
 		filtroPanel.add(tempoInizioL);
 		
 		tempoFineL = new JLabel("A");
 		tempoFineL.setForeground(Color.WHITE);
 		tempoFineL.setFont(new Font("Century", Font.BOLD, 18));
-		tempoFineL.setBounds(20, 262, 80, 31);
+		tempoFineL.setBounds(10, 251, 80, 31);
 		filtroPanel.add(tempoFineL);
 		
 		tempoFineDC = new JDateChooser();
@@ -223,11 +230,11 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		tempoFineDC.setFont(new Font("Century", Font.PLAIN, 18));
 		tempoFineDC.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
 		tempoFineDC.setBackground(new Color(179, 168, 166));
-		tempoFineDC.setBounds(20, 293, 177, 31);
+		tempoFineDC.setBounds(10, 282, 160, 24);
 		filtroPanel.add(tempoFineDC);
 		
 		imgFiltriL = new JLabel("");
-		imgFiltriL.setBounds(168, 11, 33, 37);
+		imgFiltriL.setBounds(132, 11, 33, 37);
 		filtroPanel.add(imgFiltriL);
 		imgFiltriL.setRequestFocusEnabled(false);
 		imgFiltriL.setBackground(new Color(179, 168, 166));
@@ -262,7 +269,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 			}
 		});
 		FiltraB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		FiltraB.setBounds(65, 357, 80, 37);
+		FiltraB.setBounds(46, 385, 80, 37);
 		filtroPanel.add(FiltraB);
 		FiltraB.setToolTipText("premi per accedere");
 		FiltraB.setForeground(Color.WHITE);
@@ -271,87 +278,109 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		FiltraB.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
 		FiltraB.setBackground(new Color(254, 126, 115));
 		
+
+		sceltaDataConsegna = new JRadioButton("Data di consegna");
+		sceltaDataConsegna.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
+		sceltaDataConsegna.setFocusPainted(false);
+		sceltaDataConsegna.setForeground(new Color(255, 255, 255));
+		sceltaDataConsegna.setContentAreaFilled(false);
+		sceltaDataConsegna.setFont(new Font("Century", Font.PLAIN, 16));
+		sceltaDataConsegna.setBounds(10, 313, 160, 24);
+		
+		
+		sceltaDataEsecuzione = new JRadioButton("Data Esecuzione");
+		sceltaDataEsecuzione.setToolTipText("seleziona qui se vuoi filtrare per data di esecuzione");
+		sceltaDataEsecuzione.setFocusPainted(false);
+		sceltaDataEsecuzione.setSelected(true);
+		sceltaDataEsecuzione.setForeground(Color.WHITE);
+		sceltaDataEsecuzione.setFont(new Font("Century", Font.PLAIN, 16));
+		sceltaDataEsecuzione.setContentAreaFilled(false);
+		sceltaDataEsecuzione.setBounds(10, 340, 160, 24);
+		
+		gruppoRadioDate = new ButtonGroup();    
+		gruppoRadioDate.add(sceltaDataConsegna);
+		gruppoRadioDate.add(sceltaDataEsecuzione);
+		
+		
+		
+		filtroPanel.add(sceltaDataConsegna);
+		filtroPanel.add(sceltaDataEsecuzione);
+		
+	
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		scrollPane.setBounds(10, 35, 474, 433);
+		scrollPane.setBounds(10, 35, 510, 433);
 		mostraDatiPanel.add(scrollPane);
 		
-		
-		table = new JTable();
-		table.setRowSelectionAllowed(false);
-		table.setToolTipText("Tabella contenente gli ordini avuti");
-		table.setName("Ordini");
-		table.setForeground(new Color(255, 255, 255));
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Codice Fiscale", "Codice Ordine", "N\u00B0 Merci", "Totale \u20AC", "Codice Spedizione"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, Integer.class, Float.class, String.class
+		tabellaOrdini = new JTable();
+		tabellaOrdini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		tabellaOrdini.setFont(new Font("Century", Font.PLAIN, 14));
+		tabellaOrdini.setToolTipText("Tabella contenete gli ordini");
+		tabellaOrdini.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabellaOrdini.setRowSelectionAllowed(false);
+		modelloTabella = new DefaultTableModel(
+				new Object[][] {
+					
+				},
+				new String[] {
+					"Codice Fiscale", "Codice Ordine", "N° Merci", "Totale €", "Codice Spedizione"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					String.class, String.class, Integer.class, Float.class, String.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
 			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table.getColumnModel().getColumn(0).setPreferredWidth(77);
-		table.getColumnModel().getColumn(0).setMinWidth(77);
-		table.getColumnModel().getColumn(1).setPreferredWidth(77);
-		table.getColumnModel().getColumn(1).setMinWidth(77);
-		table.getColumnModel().getColumn(2).setPreferredWidth(50);
-		table.getColumnModel().getColumn(2).setMinWidth(50);
-		table.getColumnModel().getColumn(3).setPreferredWidth(50);
-		table.getColumnModel().getColumn(3).setMinWidth(50);
-		table.getColumnModel().getColumn(4).setPreferredWidth(96);
-		table.getColumnModel().getColumn(4).setMinWidth(96);
-		table.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
-		table.setBackground(new Color(119, 101, 101));
-		table.setFont(new Font("Century", Font.PLAIN, 16));
-		scrollPane.setViewportView(table);
+						
+				
+		tabellaOrdini.setModel(modelloTabella);
 		
-		filtraggioP = new JProgressBar();
-		filtraggioP.setValue(0);
-		filtraggioP.setBounds(10, 488, 695, 25);
-		mostraDatiPanel.add(filtraggioP);
+		tabellaOrdini.getColumnModel().getColumn(0).setMinWidth(170);
+		tabellaOrdini.getColumnModel().getColumn(0).setMaxWidth(170);
+	
+		tabellaOrdini.getColumnModel().getColumn(2).setMinWidth(52);
+		tabellaOrdini.getColumnModel().getColumn(2).setMaxWidth(52);
 
-		appBrain.visualizzaTutti();
-
+		tabellaOrdini.getColumnModel().getColumn(4).setMinWidth(108);
+		tabellaOrdini.getColumnModel().getColumn(4).setMaxWidth(130);
+		
+		scrollPane.setViewportView(tabellaOrdini);	
+		
+		
 	}
 	
 	
+
+	protected void aggiungiTupla(String codiceFiscale, String codiceOrdine, int numeroTotaleMerci, Object costoTotaleEuro, Object codiceSpedizione) {
+		modelloTabella.addRow (new Object [] { codiceFiscale, codiceOrdine,numeroTotaleMerci,costoTotaleEuro,codiceSpedizione});
+		
+	}
+	
+	protected void svuotaTabella() {
+		
+		int NumRighe = tabellaOrdini.getRowCount();
+		if(NumRighe > 0)
+			for(int i = 0; i < NumRighe;i++)
+				modelloTabella.removeRow(0);
+	
+	}
+	
+	protected boolean IsTabellaVuota() {
+		return tabellaOrdini.getRowCount() == 0;
+		
+	}
+	
 	protected void azionaFiltri(String utente, Date inizio, Date fine) {
-		setValoreProgresso(0);
 		try {
 			controlloInputFilitri(utente,inizio,fine);
-			setValoreProgresso(10);
 		} catch (DateCronologicamenteSbagliateException e1) {
 			
 			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
@@ -364,25 +393,33 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		}
 		
 		
-		if(dataInizio != null)
-			if(cliente != null)
-				Hal.filtraPerUtenteData(cliente,dataInizio,dataFine);
-			else
-				Hal.filtraPerDate(dataInizio,dataFine);
+		try {
+			if(dataInizio != null)
+				if(cliente != null)
+					Hal.filtra(cliente,dataInizio,dataFine);
+				else
+				
+					Hal.filtra(dataInizio,dataFine);
+			else 
+				Hal.filtra(cliente);
 		
-		else 
-			Hal.filtraPerCliente(cliente);
-		
-		setValoreProgresso(100);
+		} catch (CreazioneStatementFallitaException e) {
+			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+		} catch (ConnessionNonRiuscitaException e) {
+			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+		} catch (RisultatoNonRicavabileException e) {
+			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+		} catch (EstrazioneCampiFallitaException e) {
+			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+		}
 	}
 
 
-
-	protected void setValoreProgresso(int vaule) {
-		filtraggioP.setValue(vaule); 
+	protected boolean IsDataEsecuzioneSelezionato(){
+		return (sceltaDataEsecuzione.isSelected());
 	}
 
-
+	
 	protected void controlloInputFilitri(String utente, Date inizio, Date fine) throws DateCronologicamenteSbagliateException, FiltriVuotiException {
 		int output;
 		if(utente.equals("Utente") || utente.isBlank()) {
@@ -404,6 +441,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 			if(inizio != null && fine != null) {
 				dataFine = LocalDate.ofInstant(fine.toInstant(), ZoneId.systemDefault());
 				dataInizio = LocalDate.ofInstant(inizio.toInstant(), ZoneId.systemDefault());
+				cliente = utente;
 				if(dataInizio.isAfter(dataFine))
 					throw new DateCronologicamenteSbagliateException(this);
 				
@@ -411,7 +449,8 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 				output = JOptionPane.showConfirmDialog(this, "Vuoi filtrare solo con il cliente?", "Conferma filtro",0 ,JOptionPane.YES_NO_OPTION);
 				if(output != 0)
 					throw new FiltriVuotiException(this);
-					
+				else
+					cliente = utente;
 			}
 	}
 
@@ -419,23 +458,15 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	protected void setDataInizio(LocalDate dataInizio) {
 		this.dataInizio = dataInizio;
 	}
-
-
 	protected void setDataFine(LocalDate dataFine) {
 		this.dataFine = dataFine;
 	}
-
-
 	protected void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
-
-
 	private void messaggioPopUp(String testo, String titolo) {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
-
-
 	private void confermaRitornareMenu() {
 		menuB.setFont(new Font("Century", Font.PLAIN, 19));
 		menuB.setFont(new Font("Century", Font.PLAIN, 18));
@@ -443,5 +474,24 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		if(output == 0)
 			Hal.ritornaMenu(this);
 		
+	}
+
+
+	protected void richiestaVisualizzareTutti() {
+		int output = JOptionPane.showConfirmDialog(this, "Vuoi vedere tutti gli ordini?", "Ritorna al menu",0 ,JOptionPane.YES_NO_OPTION);
+		if(output == 0)
+			try {
+				Hal.filtra();
+			} catch (CreazioneStatementFallitaException e) {
+				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+			} catch (ConnessionNonRiuscitaException e) {
+				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+			} catch (RisultatoNonRicavabileException e) {
+				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+			} catch (EstrazioneCampiFallitaException e) {
+				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+			}
+		else
+			svuotaTabella();
 	}
 }
