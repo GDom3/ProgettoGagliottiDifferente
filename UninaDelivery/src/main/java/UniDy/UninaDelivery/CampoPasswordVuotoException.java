@@ -1,13 +1,11 @@
 package UniDy.UninaDelivery;
 
-import java.sql.SQLException;
-
-public class EstrazioneCampiFallitaException extends SQLException {
+public class CampoPasswordVuotoException extends Exception {
 	private String messaggioErrore;
 	private String tipoErrore = "Attenzione";
 	
-	public EstrazioneCampiFallitaException(String errore) {
-		messaggioErrore = errore;
+	public CampoPasswordVuotoException() {
+		messaggioErrore = "Campo PASSWORD vuoto, insetire un valore per poter proseguire";
 		
 	}
 

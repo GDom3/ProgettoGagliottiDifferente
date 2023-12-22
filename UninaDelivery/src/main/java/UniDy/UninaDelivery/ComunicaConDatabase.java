@@ -15,9 +15,13 @@ public class ComunicaConDatabase {
 	private ResultSetMetaData risultatoMetaDati;
 	
 	
-	public ComunicaConDatabase() {
+	protected ComunicaConDatabase() throws ConnessionNonRiuscitaException, CreazioneStatementFallitaException  {
 		//Istanzio la classe o la recupero, per comunicare con il database;
 		connectionDataBase = ConnessioneDataBase.getConnessioneDataBase(); 
+	
+		this.creaConnessione();
+		
+		
 	}
 	
 	
@@ -31,6 +35,7 @@ public class ComunicaConDatabase {
 		
 		
 	}
+	
 	
 	//Chiude tutto
 	protected void chiudiComunicazioneDatabase() throws ChiusturaComunicazioneFallitaException{
@@ -50,16 +55,6 @@ public class ComunicaConDatabase {
 	protected ResultSet comunicaConDatabaseQuery(String comando) throws  CreazioneStatementFallitaException , ConnessionNonRiuscitaException ,RisultatoNonRicavabileException{
 		
 		try { 
-			// Prova a creare la connessione
-			creaConnessione();
-		} catch (CreazioneStatementFallitaException e) {
-			throw e;
-		}catch (ConnessionNonRiuscitaException e ){
-			e.setMessaggioErrore(e.getMessaggioErrore() + "\nDettagli : "+ connectionDataBase.getMessaggioErrore());
-			throw e;
-		}
-		
-		try { 
 			//Provo a mandare la query
 			mandaQuery(comando);
 		} catch (RisultatoNonRicavabileException e) {
@@ -70,8 +65,8 @@ public class ComunicaConDatabase {
 	}
 	
 	// crea la conessione e fa i giusti controlli
-	private void creaConnessione() throws  ConnessionNonRiuscitaException,CreazioneStatementFallitaException{
-
+	protected Connection creaConnessione() throws  ConnessionNonRiuscitaException,CreazioneStatementFallitaException{
+		
 		connessione = connectionDataBase.getConnection(); //Creo la connessione se è chiusa o non c'è mai stata
 		
 		if(connessione == null)
@@ -81,6 +76,8 @@ public class ComunicaConDatabase {
 		} catch (SQLException e) {
 			throw new CreazioneStatementFallitaException();
 		}
+		
+		return connessione;
 		
 	}
 	
@@ -92,7 +89,6 @@ public class ComunicaConDatabase {
 			throw new RisultatoNonRicavabileException();
 		}
 	}
-	
 	//Prendo i Campi
 	private void gestioneMetaDati() throws MetaDatiNonTrovatiException  {
 		

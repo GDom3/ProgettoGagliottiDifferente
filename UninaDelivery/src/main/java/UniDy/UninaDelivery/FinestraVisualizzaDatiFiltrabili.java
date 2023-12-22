@@ -18,6 +18,8 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
@@ -26,6 +28,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.toedter.calendar.JDateChooser;
 import java.awt.Cursor;
@@ -48,7 +52,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	private JPanel filtroPanel;
 	private JLabel logoSXImgL;
 	private JLabel titoloSXL;
-	private AppBrain Hal ;
+	private AppBrain gestoreApplicazione ;
 	private JTextField utenteTF;
 	private JLabel utenteL;
 	private JPanel intestazionePanel;
@@ -62,24 +66,21 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	private LocalDate dataInizio = null;
 	private LocalDate dataFine = null;
 	private String cliente = null;
-	private JTable table;
 	private DefaultTableModel modelloTabella;
 	private JTable tabellaOrdini;
 	private JRadioButton sceltaDataConsegna;
 	private JRadioButton sceltaDataEsecuzione;
 	private ButtonGroup gruppoRadioDate;
+	private Color arancioneScuro = new Color(254, 114, 92);
+	private Color arancioneChiaro = new Color(254, 126, 115);
 	
-	/**
-	 * Create the frame.
-	 * @param appBrain 
-	 */
 	public FinestraVisualizzaDatiFiltrabili(AppBrain appBrain) {
-		Hal = appBrain;
+		gestoreApplicazione = appBrain;
 		setForeground(new Color(119, 101, 101));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setForeground(new Color(119, 101, 101));
@@ -105,15 +106,13 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		menuB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				//Diventa grande gradualmente
-				menuB.setFont(new Font("Century", Font.PLAIN, 19));
-				menuB.setFont(new Font("Century", Font.PLAIN, 20));
+				ingradisciGradualmenteBottoneMenu();
+				
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				//Diventa Piccolo gradualmente
-				menuB.setFont(new Font("Century", Font.PLAIN, 19));
-				menuB.setFont(new Font("Century", Font.PLAIN, 18));
+				rimpicciolisciGradualmenteBottoneMenu();
+				
 			}
 		});
 		homePanel.setLayout(null);
@@ -144,9 +143,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		utenteTF.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(utenteTF.getText().equals("Utente")) //Se è utente si deve levare
-					utenteTF.setText("");
-				
+				autoDeleteUtente();
 			}
 		});
 		utenteTF.setText("Utente");
@@ -253,19 +250,19 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 				Date fine = tempoFineDC.getDate();
 					
 				azionaFiltri(utente,inizio,fine);
-				
-				
+	
 			}
 		});
 		
 		FiltraB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				FiltraB.setBackground(new Color(254, 114, 92));
+				scurisciBottoneFiltraggio();
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				FiltraB.setBackground(new Color(254, 126, 115));
+				schiarisciBottoneFiltraggio();
+				
 			}
 		});
 		FiltraB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -279,7 +276,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		FiltraB.setBackground(new Color(254, 126, 115));
 		
 
-		sceltaDataConsegna = new JRadioButton("Data di consegna");
+		sceltaDataConsegna = new JRadioButton("Data di Consegna");
 		sceltaDataConsegna.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
 		sceltaDataConsegna.setFocusPainted(false);
 		sceltaDataConsegna.setForeground(new Color(255, 255, 255));
@@ -300,7 +297,6 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		gruppoRadioDate = new ButtonGroup();    
 		gruppoRadioDate.add(sceltaDataConsegna);
 		gruppoRadioDate.add(sceltaDataEsecuzione);
-		
 		
 		
 		filtroPanel.add(sceltaDataConsegna);
@@ -352,12 +348,97 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		tabellaOrdini.getColumnModel().getColumn(4).setMinWidth(108);
 		tabellaOrdini.getColumnModel().getColumn(4).setMaxWidth(130);
 		
+		ListSelectionModel modelloSelezione = tabellaOrdini.getSelectionModel();
+        modelloSelezione.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        modelloSelezione.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // Verifica se l'evento di selezione è ancora in fase di regolazione
+                if (!e.getValueIsAdjusting()) {
+                    // Ottieni la riga e la colonna selezionate
+                    int rigaSelezionata = tabellaOrdini.getSelectedRow();
+                    int colonnaSelezionata = tabellaOrdini.getSelectedColumn();
+  
+                    // Puoi quindi utilizzare questi valori per fare ulteriori operazioni
+                    System.out.println("Riga selezionata: " + rigaSelezionata);
+                    System.out.println("Colonna selezionata: " + colonnaSelezionata);
+                }
+            }
+        });
+		
+		
 		scrollPane.setViewportView(tabellaOrdini);	
 		
 		
 	}
 	
+	/* DA SPERIMENTARE
+	private void mostraOptionPane(int vaule) {
+        // Creazione di un array di opzioni per il JComboBox
+        String[] opzioni = {"Conclusa","Partita","Preso In Carico","Ritardo"};
+
+        // Creazione di un pannello contenente un JComboBox
+        JPanel panel = new JPanel();
+        JComboBox<String> comboBox = new JComboBox<>(opzioni);
+        panel.add(comboBox);
+
+        // Creazione del JOptionPane con un pannello personalizzato (contenente il JComboBox)
+        int result =  JOptionPane.showOptionDialog(this,"Scegli Stato Spedizione","Stato Spedizione " + vaule,JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,opzioni,null);
+        
+        /*int result = JOptionPane.showOptionDialog(
+                this,
+                panel,
+                "Seleziona un'opzione",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                null,
+                null);
 	
+        // Verifica se l'utente ha premuto "OK"
+        if (result == JOptionPane.OK_OPTION) {
+            // Ottieni l'opzione selezionata
+            String opzioneSelezionata = (String) comboBox.getSelectedItem();
+            System.out.println("Opzione selezionata: " + opzioneSelezionata);
+        }
+    }
+	
+	*/
+
+	protected void schiarisciBottoneFiltraggio() {
+		FiltraB.setBackground(arancioneChiaro);
+	}
+
+	protected void scurisciBottoneFiltraggio() {
+		FiltraB.setBackground(arancioneScuro);
+	}
+
+	protected void autoDeleteUtente() {
+		//Se è utente si deve levare
+		if(utenteTF.getText().equals("Utente")) 
+			utenteTF.setText("");
+		
+	}
+
+
+
+	protected void rimpicciolisciGradualmenteBottoneMenu() {
+		//Diventa Piccolo gradualmente
+		menuB.setFont(new Font("Century", Font.PLAIN, 19));
+		menuB.setFont(new Font("Century", Font.PLAIN, 18));
+		
+	}
+
+
+
+	protected void ingradisciGradualmenteBottoneMenu() {
+		//Diventa grande gradualmente
+		menuB.setFont(new Font("Century", Font.PLAIN, 19));
+		menuB.setFont(new Font("Century", Font.PLAIN, 20));
+	}
+
+
 
 	protected void aggiungiTupla(String codiceFiscale, String codiceOrdine, int numeroTotaleMerci, Object costoTotaleEuro, Object codiceSpedizione) {
 		modelloTabella.addRow (new Object [] { codiceFiscale, codiceOrdine,numeroTotaleMerci,costoTotaleEuro,codiceSpedizione});
@@ -367,10 +448,11 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	protected void svuotaTabella() {
 		
 		int NumRighe = tabellaOrdini.getRowCount();
-		if(NumRighe > 0)
-			for(int i = 0; i < NumRighe;i++)
-				modelloTabella.removeRow(0);
 	
+		if(NumRighe > 0)
+			for(int i = 0; i < NumRighe;i++) 
+				modelloTabella.removeRow(0);	
+		
 	}
 	
 	protected boolean IsTabellaVuota() {
@@ -396,12 +478,12 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		try {
 			if(dataInizio != null)
 				if(cliente != null)
-					Hal.filtra(cliente,dataInizio,dataFine);
+					gestoreApplicazione.filtra(cliente,dataInizio,dataFine);
 				else
-				
-					Hal.filtra(dataInizio,dataFine);
+					gestoreApplicazione.filtra(dataInizio,dataFine);
 			else 
-				Hal.filtra(cliente);
+				gestoreApplicazione.filtra(cliente);
+				
 		
 		} catch (CreazioneStatementFallitaException e) {
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
@@ -409,7 +491,8 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 		} catch (RisultatoNonRicavabileException e) {
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
-		} catch (EstrazioneCampiFallitaException e) {
+		} catch (DatiTrovatiDopoIlFiltraggioVuotiException e) {
+			svuotaTabella();
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 		}
 	}
@@ -458,21 +541,29 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	protected void setDataInizio(LocalDate dataInizio) {
 		this.dataInizio = dataInizio;
 	}
+
+
 	protected void setDataFine(LocalDate dataFine) {
 		this.dataFine = dataFine;
 	}
+
+
 	protected void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
+
+
 	private void messaggioPopUp(String testo, String titolo) {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
+
+
 	private void confermaRitornareMenu() {
 		menuB.setFont(new Font("Century", Font.PLAIN, 19));
 		menuB.setFont(new Font("Century", Font.PLAIN, 18));
 		int output = JOptionPane.showConfirmDialog(this, "Confermi di ritornare al menu?", "Ritorna al menu",0 ,JOptionPane.YES_NO_OPTION);
 		if(output == 0)
-			Hal.ritornaMenu(this);
+			gestoreApplicazione.ritornaMenu(this);
 		
 	}
 
@@ -481,14 +572,14 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		int output = JOptionPane.showConfirmDialog(this, "Vuoi vedere tutti gli ordini?", "Ritorna al menu",0 ,JOptionPane.YES_NO_OPTION);
 		if(output == 0)
 			try {
-				Hal.filtra();
+				gestoreApplicazione.filtra();
 			} catch (CreazioneStatementFallitaException e) {
 				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 			} catch (ConnessionNonRiuscitaException e) {
 				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 			} catch (RisultatoNonRicavabileException e) {
 				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
-			} catch (EstrazioneCampiFallitaException e) {
+			} catch (DatiTrovatiDopoIlFiltraggioVuotiException e) {
 				messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 			}
 		else

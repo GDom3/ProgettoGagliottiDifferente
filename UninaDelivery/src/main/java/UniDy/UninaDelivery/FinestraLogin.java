@@ -30,16 +30,23 @@ public class FinestraLogin extends JFrame {
 	private JLabel logoPrincipaleImgL; //L'immagine del logo
 	private JButton logoPasswordImgB; //L'immagine del lucchetto dinamico, il quale rende visibile o nascosta la password
 	private boolean isVisiblePassword = false; //Indicatore stato attuale della visibilità della password
-	AppBrain HAL;
+	private Color arancioneScuro = new Color(254, 114, 92);
+	private Color arancioneChiaro = new Color(254, 126, 115);
+	
+	
+	AppBrain gestoreApplicazione;
 	/**
 	 * Create the frame.
 	 */
 	public FinestraLogin(AppBrain appBrain) {
-		HAL = appBrain;
+		
+		gestoreApplicazione = appBrain;
+		
 		setResizable(false);
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(119, 101, 101));
@@ -68,9 +75,9 @@ public class FinestraLogin extends JFrame {
 		usernameTF.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(usernameTF.getText().equals("Username")) //Se è username si deve levare
-					usernameTF.setText("");
+				autoDeleteUsername();
 			}
+			
 		});
 		
 			
@@ -86,9 +93,9 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.add(passwordPF);
 		passwordPF.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) { // se è password si deve levare
-				if(new String(passwordPF.getPassword()).equals("Password"))
-					passwordPF.setText("");
+			public void keyPressed(KeyEvent e) { 
+				// se è password si deve levare
+				autoDeletePassword();
 			}
 		});
 		
@@ -108,11 +115,11 @@ public class FinestraLogin extends JFrame {
 		loginB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				loginB.setBackground(new Color(254, 114, 92));
+				mettiBottoneLoginScuro(); //Scurisci bottone
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				loginB.setBackground(new Color(254, 126, 115));
+				mettiBottoneLoginChiaro(); // schiarisci bottone
 			}
 		});
 		loginB.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
@@ -126,9 +133,10 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.add(loginB);
 		loginB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//Prelevo i valori d'input
 				String username = usernameTF.getText();
 				String password = new String(passwordPF.getPassword());
-				
+				//faccio il controllo
 				richiestaAccesso(username,password);
 					
 			}
@@ -147,11 +155,11 @@ public class FinestraLogin extends JFrame {
 			//Funzioni per dare un effetto bottone all'lucchetto
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				levaOmbra();
+				levaOmbra(); // leva l'ombra per dare l'effetto levato
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				mettiOmbra();
+				mettiOmbra();// ovviamente mette l'obmra per dare l'effetto di appoggiato
 				
 			}
 		});
@@ -170,62 +178,71 @@ public class FinestraLogin extends JFrame {
 		
 	}
 	
-	protected void impostaUsername(String txt) {
-		this.usernameTF.setText(txt);
+	protected void mettiBottoneLoginChiaro() {
+		loginB.setBackground(arancioneChiaro);	
 	}
+
+	protected void mettiBottoneLoginScuro() {
+		loginB.setBackground(arancioneScuro);	
+	}
+
+	protected void autoDeleteUsername() {
+		//Se è username si deve levare
+		if(usernameTF.getText().equals("Username")) 
+			usernameTF.setText("");
+		
+	}
+
+	protected void autoDeletePassword() {
+		//Se è password si deve levare
+		if(new String(passwordPF.getPassword()).equals("Password"))
+			passwordPF.setText("");
+	}
+	
 	protected void impostaPassword(String txt) {
 		this.passwordPF.setText(txt);
 	}
 
 	private void richiestaAccesso(String username, String password) {
+			
 		try{
+			//Controllo Input
 			sonoNonVuoti(username,password);	
-			
-		} catch (CampoInserimentoVuotoException vuotoErrore) {
-			
+		} catch (CampoUsernameVuotoException vuotoErrore) {
+			messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
+			return;
+		} catch (CampoPasswordVuotoException vuotoErrore) {
 			messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
 			return;
 		}
 		
-		
+		// se il controllo è andato a buon fine
+
 		try {
-			HAL.accesso(username,password);
-			
-		} catch (ConnessionNonRiuscitaException ErroreSQL) {
-			
-			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-			
+			//proseguo all'autentificazione
+			gestoreApplicazione.accesso(username,password);
 		} catch (CreazioneStatementFallitaException ErroreSQL) {
-			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-			
+		} catch (ConnessionNonRiuscitaException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
 		} catch (RisultatoNonRicavabileException ErroreSQL) {
-			
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-			
-		} catch (MetaDatiNonTrovatiException ErroreSQL) {
-			
-			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-			
-		} catch (EstrazioneCampiFallitaException ErroreSQL) {
-			
-			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-			
-		} catch (ChiusturaComunicazioneFallitaException ErroreSQL) {
-			
-			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-			
-		} catch (SQLException e){
-			messaggioPopUp(e.getMessage(),"Errore");
-			
+		} catch (UsernameNonEsistenteException ErroreUtente) {
+			messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
+		} catch (PasswordErrataException ErroreUtente) {
+			messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
 		}
 		
-	}
+	
 
-	private void messaggioPopUp(String testo, String titolo) {
+	}
+	
+	//Procedura che ci permetterà di mostrare con un messaggio PopUp i warnig o gli errori avvenuti, quindi quando ad esempio l'utente sbaglia input 
+	protected void messaggioPopUp(String testo, String titolo) {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
 	
+	//Mette ombra al lucchetto per dare un effetto rilievo
 	private void mettiOmbra(){
 		if(isVisiblePassword) // se era visivile
 			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoApertoConOmbra.jpg"))); // metti l'ombra al lucchetto aperto
@@ -233,6 +250,7 @@ public class FinestraLogin extends JFrame {
 			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoConOmbra.jpg"))); // metti l'ombra al lucchetto chiuso
 	}
 	
+	//Leva ombra dal lucchetto per dare l'effetto di appoggiato
 	private void levaOmbra() {
 		if(isVisiblePassword) //Se era visibile
 			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoApertoSenzaOmbra.jpg"))); //leva l'ombra all'lucchetto aperto
@@ -240,19 +258,20 @@ public class FinestraLogin extends JFrame {
 			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoSenzaOmbra.jpg"))); //leva l'ombra all'lucchetto chiuso
 	}
 	
-	private void sonoNonVuoti(String username, String password) throws CampoInserimentoVuotoException{
+	private void sonoNonVuoti(String username, String password) throws CampoUsernameVuotoException, CampoPasswordVuotoException{
 		//Controlli esplicativi sulla correttezza dell'input a un primo livello
 		
 		if(username.isBlank() || username.equals("Username")) 
-			throw new CampoInserimentoVuotoException("USERNAME");
+			throw new CampoUsernameVuotoException();
 			
 		if(password.isBlank() || password.equals("Password"))
-			throw new CampoInserimentoVuotoException("PASSWORD");
+			throw new CampoPasswordVuotoException();
 			
 		
 	}
 	
-	private void showPassword() { // 1uesta funzione gestisce la visibilità della password
+	
+	private void showPassword() { // Questa funzione gestisce la visibilità della password
 		if(isVisiblePassword) { //caso in cui la password era visibile
 			logoPasswordImgB.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/LucchettoChiusoSenzaOmbra.jpg"))); // Metti il lock chiuso
 			passwordPF.setEchoChar('\u25CF'); //Codice pallini

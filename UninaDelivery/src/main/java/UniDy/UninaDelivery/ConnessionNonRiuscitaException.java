@@ -4,7 +4,6 @@ import java.sql.SQLException;
 
 public class ConnessionNonRiuscitaException extends SQLException {
 
-	
 
 	private String messaggioErrore;
 	private String tipoErrore = "Errore";
@@ -22,7 +21,7 @@ public class ConnessionNonRiuscitaException extends SQLException {
 		return tipoErrore;
 	}
 	
-	protected void setMessaggioErrore(String messaggioErrore) {
-		this.messaggioErrore = messaggioErrore;
+	protected void aggiungiDettagli(String messaggioErrore) {
+		this.messaggioErrore.concat("\n Dettagli").concat(messaggioErrore);
 	}
 }

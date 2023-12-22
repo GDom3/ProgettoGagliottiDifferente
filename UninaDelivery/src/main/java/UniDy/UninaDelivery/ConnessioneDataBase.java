@@ -8,7 +8,8 @@ public class ConnessioneDataBase {
 	private static ConnessioneDataBase istanzaClasse = null;
 	private Connection connessione = null;
 	private String driver = "org.postgresql.Driver";
-	private String indirizzo = "jdbc:postgresql://localhost:5432/UninaDelivery";
+	//private String indirizzo = "jdbc:postgresql://localhost:5432/UninaDelivery";
+	private String indirizzo = "jdbc:postgresql://localhost:5432/postgres";
 	private String tipoDB = "postgres";
 	private String messaggioErrore;
 	
@@ -35,7 +36,8 @@ public class ConnessioneDataBase {
             	//Prendiamo la password dal file
                 buffer = new BufferedReader(new FileReader(new File("src/main/java/File/Password.txt")));
                 passwordDataBase = buffer.readLine();
-               
+                buffer.close();
+                
                 Class.forName(driver); //Carica il driver adottato
                 
                 // Chiamiamo il DriverManager e chiediamo la connessione necessaria

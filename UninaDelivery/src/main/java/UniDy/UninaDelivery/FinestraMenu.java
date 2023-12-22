@@ -35,17 +35,17 @@ public class FinestraMenu extends JFrame {
 	private JButton visualizzaB;
 	private JButton nuovaSpedizioneB;
 	private JButton reportB;
-	private AppBrain Hal;
+	private AppBrain gestoreApplicazione;
 
 	/**
 	 * Create the frame.
 	 */
 	public FinestraMenu(AppBrain appBrain) {
-		Hal = appBrain;
+		gestoreApplicazione = appBrain;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraMenu.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -201,7 +201,7 @@ public class FinestraMenu extends JFrame {
 		logOutB.setFont(new Font("Century", Font.PLAIN, 18));
 		int output = JOptionPane.showConfirmDialog(this, "Confermi di fare il logout?", "Logout",0 ,JOptionPane.YES_NO_OPTION);
 		if(output == 0)
-			Hal.logout();
+			gestoreApplicazione.logout();
 		
 	}
 

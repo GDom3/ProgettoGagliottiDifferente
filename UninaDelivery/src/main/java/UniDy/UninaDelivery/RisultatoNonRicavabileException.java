@@ -7,7 +7,7 @@ public class RisultatoNonRicavabileException extends SQLException {
 	private String tipoErrore = "Errore";
 	
 	public RisultatoNonRicavabileException() {
-		messaggioErrore = "Errore durante la query, precisamente durante la richiesta di eseguire una query";
+		messaggioErrore = "Errore durante la query, precisamente quando provo ad estrarre il risultato una query";
 		
 	}
 

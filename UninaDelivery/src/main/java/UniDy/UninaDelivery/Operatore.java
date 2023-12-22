@@ -1,84 +1,78 @@
 package UniDy.UninaDelivery;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.Objects;
 
 public class Operatore {
 
-	private String usernameCorretto = null;
-	private String passwordCorretto = null;
-	private ComunicaConDatabase comunicazioneSQL;
-	private String nomeOperatore = "Utente";
-	private ResultSet risultato;
-
-	protected Operatore() {
-		comunicazioneSQL = new ComunicaConDatabase();		
-	}
+	private String nome;
+	private String cognome;
+	private String username;
+	private String password;
+	private static Operatore istanza;
 	
 	
-	protected String getNomeOperatore() {
-		return nomeOperatore;
+	//Singleton
+	protected Operatore(String usernameIN, String passwordIN){
+		username = usernameIN;
+		password = passwordIN;
 	}
-
-
-	protected void provaAccesso(String username, String password) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, EstrazioneCampiFallitaException, ChiusturaComunicazioneFallitaException{
 	
-		
-		if(usernameCorretto == null || passwordCorretto == null || !username.equals(usernameCorretto) || !password.equals(passwordCorretto)) {
-			
-			richiestaVerifica(username);
-				
-			verificaUsername(username);
-			usernameCorretto = username;
-			verificaPassword(password);
-			
-			
-		
-			//Chiudo tutto
-			comunicazioneSQL.chiudiComunicazioneDatabase();
-		}
-		
-		
-		
-		
+	protected void setUsername(String username) {
+		this.username = username;
 	}
-		private void richiestaVerifica(String username) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
-			//La select necessaria per vedere se posso trovare l'utente e se ha inserito i valori corretti
-			String comando = "SELECT O.nome, O.cognome, O.password FROM operatore AS O WHERE ( O.username = '"+ username + "' OR O.email = '" + username.toLowerCase() + "')";
-		
-			//Mando il comando e prendo il risultato della query
-			risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);  	
-			
-		}
-		
-		
-		private void verificaPassword(String password) throws EstrazioneCampiFallitaException, RisultatoNonRicavabileException {
-			//prendo la password e la comparo alla password corretta
-			
-			try {
-				passwordCorretto = risultato.getString(3);
-			}catch(SQLException e ) {
-				throw new RisultatoNonRicavabileException();	
-			}
-			if(!password.equals(passwordCorretto)) 
-					throw new EstrazioneCampiFallitaException("Password errata");
-			
-		}
+	protected void setPassword(String password) {
+		this.password = password;
+	}
+	protected void setNome(String nome) {
+		this.nome = nome;
+	}
 
-		private void verificaUsername(String username) throws RisultatoNonRicavabileException, EstrazioneCampiFallitaException {
-				//Vado alla prima riga
-				comunicazioneSQL.prossimaRiga(); 
-						
-			try {
-				// mi estraggo il nome e il cognome
-				nomeOperatore = risultato.getString(1) + " " + risultato.getString(2); 
-			} catch (SQLException e) {
-				// nel caso non si trova nessun valore significa che l'operatore non esiste nel database
-				throw new EstrazioneCampiFallitaException("Username o email non registrate"); 
-			}
-			
-			
-		}
+	protected void setCognome(String cognome) {
+		this.cognome = cognome;
+	}
+
+	protected String presentati() {
+		return nome + " " + cognome;
+	}
+	
+	protected String getUsername() {
+		return username;
+	}
+	
+	protected String getPassword() {
+		return password;
+	}
+
+	protected void impostaCredenziali(String username2, String password2) {
+		setUsername(username2);
+		setPassword(password2);
+	}
+
+	protected String getNome() {
+		return nome;
+	}
+
+	protected String getCognome() {
+		return cognome;
+	}
+	
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Operatore other = (Operatore) obj;
+		return Objects.equals(username, other.username);
+	}
+
+
+
 	
 
 }
