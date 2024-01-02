@@ -9,7 +9,6 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
-	private AppBrain gestoreApplicazione;
 	private ArrayList<Spedizione> spedizioni;
 	private Ordine tempOrdine;
 	private Cliente tempCliente;
@@ -18,9 +17,8 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	private String CodiceSpedizioneMomentaneo;
 	
 	
-	public SpedizioneDAOPlainSQL(ComunicaConDatabase comunicazioneSQL, AppBrain gestoreApplicazione) {
+	public SpedizioneDAOPlainSQL(ComunicaConDatabase comunicazioneSQL) {
 		this.comunicazioneSQL = comunicazioneSQL;
-		this.gestoreApplicazione = gestoreApplicazione;
 	}
 	
 	@Override
@@ -28,11 +26,8 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		
 
 		String comando = "SELECT Cl.CodiceFiscale, O.CodOrdine, count(E.CodiceBarre) AS NumMerci, sum(E.Costo) AS Totale, V.CodSpedizione "
-				+ "FROM Cliente Cl NATURAL JOIN Ordine O NATURAL JOIN ESEMPLARE E NATURAL JOIN Viaggio V " + addonsSQL 
-				  + "GROUP BY (Cl.CodiceFiscale, O.CodOrdine,V.CodSpedizione) ORDER BY(V.CodSpedizione)";
-		
-		
-		 
+				+ "FROM Cliente Cl NATURAL JOIN Ordine O NATURAL JOIN ESEMPLARE E NATURAL JOIN Viaggio V WHERE V.Corrente = true " + addonsSQL 
+				  + " GROUP BY (Cl.CodiceFiscale, O.CodOrdine,V.CodSpedizione) ORDER BY(V.CodSpedizione)";
 
 		//Mando il comando e prendo il risultato della query
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);  	
@@ -115,9 +110,9 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		
 		try {
 			// caso in cui sia un intero
-			addonsFiltro = " WHERE Cl.CodCliente = "+ Integer.valueOf(cliente)+" OR ";
+			addonsFiltro = " AND Cl.CodCliente = "+ Integer.valueOf(cliente)+" OR ";
 		} catch (Exception e) {
-			addonsFiltro = "WHERE ";
+			addonsFiltro = " AND ";
 		}
 		
 		//Restante parte del filtro
@@ -134,7 +129,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	@Override
 	public ArrayList<Spedizione> ricavaSpedizioniPerDateE(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
-		String addonsFiltro =  " WHERE ";
+		String addonsFiltro =  " AND ";
 		
 		addonsFiltro = addonsFiltro + "DataE "; // caso in cui si fa con la data di esecuzione
 		
@@ -147,7 +142,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	@Override
 	public ArrayList<Spedizione> ricavaSpedizioniPerDateConsegna(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
-		String addonsFiltro =  " WHERE ";
+		String addonsFiltro =  " AND ";
 		
 		addonsFiltro = addonsFiltro + "DataConsegna ";// caso in cui si fa con la data di consegna
 		
@@ -160,7 +155,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	@Override
 	public ArrayList<Spedizione> ricavaSpedizioniPerUtenteEDateE(String cliente, LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
-		String addonsFiltro =  " WHERE (";
+		String addonsFiltro =  " AND (";
 		
 		addonsFiltro = addonsFiltro + "DataE ";   // caso in cui si fa con la data di esecuzione
 		
@@ -185,7 +180,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	@Override
 	public ArrayList<Spedizione> ricavaSpedizioniPerUtenteEDateConsegna(String cliente, LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
-		String addonsFiltro =  " WHERE (";
+		String addonsFiltro =  "  AND (";
 		
 		addonsFiltro = addonsFiltro + "DataConsegna ";// caso in cui si fa con la data di consegna
 		
@@ -207,7 +202,55 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		return ricavaSpedizioni(addonsFiltro);
 	}
 	
+	public Spedizione trovaSpedizione(String codSpedizione) throws RisultatoNonRicavabileException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException{
+		String comando = "SELECT CodSpedizione, StatoSpedizione FROM Spedizione WHERE CodSpedizione = '" + codSpedizione + "';";
+		
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+				
+		
+		Spedizione SpedEstratta;
+		
+		try {
+			comunicazioneSQL.prossimaRiga();
+			SpedEstratta = new Spedizione(codSpedizione, null); 
+			SpedEstratta.setStatoSpedizione(risultato.getString(2));
+		}catch (SQLException e) {
+			throw new RisultatoNonRicavabileException();
+		}
+		
+		
+		return SpedEstratta;
+		
+		
+		
+		
+	}
+
 	
+	public String aggiornaStatoSpedizione(Spedizione spedizioneSelezionata) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+		String comando = "UPDATE Spedizione SET StatoSpedizione = '" +  spedizioneSelezionata.getStatoSpedizione() + "' WHERE CodSpedizione = '" + spedizioneSelezionata.getCodSpedizione()+"' ;";
+		int buonfine; 
+		String StatoSpedizione = "OK";
+		
+		
+		try {
+			buonfine = comunicazioneSQL.mandaQDDL_DML(comando);
+		} catch (OperazioneUpdateNonRiuscitaException e) {		
+			comando = "SELECT S.StatoSpedizione FROM Viaggio AS V NATURAL JOIN Spedizione AS S WHERE V.Corrente = true AND V.CodSpedizione = '" + spedizioneSelezionata.getCodSpedizione()+"' ;";
+			risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+			try {
+				comunicazioneSQL.prossimaRiga();
+				StatoSpedizione = risultato.getString(1);
+			} catch (SQLException e1) {
+				throw new RisultatoNonRicavabileException();
+			}
+			
+			return StatoSpedizione;
+		}
+		
+		return "OK";
+	}
 	
 	
 }

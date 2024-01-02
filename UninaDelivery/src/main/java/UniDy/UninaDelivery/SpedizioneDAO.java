@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 public interface SpedizioneDAO {
 
-	ArrayList<Spedizione> ricavaSpedizioni(String addonsSQL) throws CreazioneStatementFallitaException,
+	ArrayList<Spedizione> ricavaSpedizioni(String addonsSQL) 
+			throws CreazioneStatementFallitaException,
 			ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException;
 
-	ArrayList<Spedizione> ricavaSpedizioniPerCliente(String cliente) throws CreazioneStatementFallitaException,
+	ArrayList<Spedizione> ricavaSpedizioniPerCliente(String cliente) 
+			throws CreazioneStatementFallitaException,
 			ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException;
 
 	ArrayList<Spedizione> ricavaSpedizioniPerDateE(LocalDate dataInizio, LocalDate dataFine)
@@ -23,8 +25,14 @@ public interface SpedizioneDAO {
 			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException,
 			DatiTrovatiDopoIlFiltraggioVuotiException;
 
-	ArrayList<Spedizione> ricavaSpedizioniPerUtenteEDateConsegna(String cliente, LocalDate dataInizio,
-			LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException,
+	ArrayList<Spedizione> ricavaSpedizioniPerUtenteEDateConsegna(String cliente, LocalDate dataInizio, LocalDate dataFine) 
+			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException,
 			RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException;
 
+	Spedizione trovaSpedizione(String codSpedizione) 
+			throws RisultatoNonRicavabileException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException;
+
+	String aggiornaStatoSpedizione(Spedizione spedizioneSelezionata) 
+			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException;
+	
 }

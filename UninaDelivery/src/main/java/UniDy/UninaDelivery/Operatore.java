@@ -8,10 +8,7 @@ public class Operatore {
 	private String cognome;
 	private String username;
 	private String password;
-	private static Operatore istanza;
 	
-	
-	//Singleton
 	protected Operatore(String usernameIN, String passwordIN){
 		username = usernameIN;
 		password = passwordIN;
@@ -56,9 +53,6 @@ public class Operatore {
 		return cognome;
 	}
 	
-
-
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

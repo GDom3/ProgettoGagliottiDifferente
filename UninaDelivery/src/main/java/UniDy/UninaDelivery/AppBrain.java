@@ -1,15 +1,11 @@
 package UniDy.UninaDelivery;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 
@@ -19,13 +15,16 @@ public class AppBrain {
 	private FinestraMenu menuWindow;
 	private FinestraReportStatistico datiStatisticiWindow;
 	private FinestraVisualizzaDatiFiltrabili datiOrdiniWindow;
-
-	ComunicaConDatabase comunicazioneSQL;
+	private FinestraCambiaStato cambiaStatoWindow;
+	private ComunicaConDatabase comunicazioneSQL;
 	private Operatore operatorePrincipale;
 	private OperatoreDAO operatoreDAO;
 	private Operatore nuovoOperatore;
 	private SpedizioneDAO spedizioneDAO;
 	private ArrayList<Spedizione> spedizioni;
+	private OrdineDAOPlainSQL ordineDAO;
+	
+	
 	public static void main(String[] args) {
 		
 		AppBrain gestoreApplicazione = new AppBrain();
@@ -38,14 +37,20 @@ public class AppBrain {
 		datiStatisticiWindow = new FinestraReportStatistico(this);
 		datiOrdiniWindow = new FinestraVisualizzaDatiFiltrabili(this);
 		menuWindow = new FinestraMenu(this);
+		
 		loginWindow = new FinestraLogin(this);
+		loginWindow.setVisible(true);
+		
+		cambiaStatoWindow = new FinestraCambiaStato(this);
+		
 		
 		//mostraFinestraVisualizza();
 		//datiOrdiniWindow.setVisible(true); 
 		//menuWindow.setVisible(true); 
-		loginWindow.setVisible(true);
 		
 		
+		
+		// Avvia Comunicazione
 		try {
 			comunicazioneSQL = new ComunicaConDatabase();
 		} catch (ConnessionNonRiuscitaException e) {
@@ -56,12 +61,13 @@ public class AppBrain {
 		
 		
 		//Inizializzaziione DTO
-			operatorePrincipale = new Operatore(null,null);
-			nuovoOperatore = new Operatore(null,null);
+		operatorePrincipale = new Operatore(null,null);
+		nuovoOperatore = new Operatore(null,null);
 				
 		//Inizializzaziione DAO
-			operatoreDAO = new OperatoreDAOPlainSQL(comunicazioneSQL,this);
-			spedizioneDAO = new SpedizioneDAOPlainSQL(comunicazioneSQL, this);
+		operatoreDAO = new OperatoreDAOPlainSQL(comunicazioneSQL);
+		spedizioneDAO = new SpedizioneDAOPlainSQL(comunicazioneSQL);
+		ordineDAO = new OrdineDAOPlainSQL(comunicazioneSQL);
 			
 	}
 	
@@ -77,18 +83,14 @@ public class AppBrain {
 		//Vedo se è la prima volta o si accede con un altro account
 		if(operatorePrincipale.getUsername() == null || !operatorePrincipale.equals(nuovoOperatore)){	
 			//In tal caso recupero gli attributi necessari
-			operatoreDAO.provaAccesso(username, password);
+			operatorePrincipale = operatoreDAO.provaAccesso(username, password);
 		}else{
 			//Altrimenti è lo stesso Operatore che ha fatto accesso prima e quindi controllo solo la password
 			if(!password.equals(operatorePrincipale.getPassword()))
 				throw new PasswordErrataException();
 		}
 		
-		//Imposto L'operatore validato 
-		operatorePrincipale.setUsername(username);
-		operatorePrincipale.setPassword(password);
-		operatorePrincipale.setNome(nuovoOperatore.getNome());
-		operatorePrincipale.setCognome(nuovoOperatore.getCognome());
+		
 		nomeCompletoOperatore = operatorePrincipale.presentati();
 		
 		//Do il benvenuto all'operatore
@@ -97,15 +99,6 @@ public class AppBrain {
 		// Vado nel menu
 		ritornaMenu(loginWindow); 
 		
-		
-	}
-	
-	protected void restrituisciNomeOperatore(String string) {
-		nuovoOperatore.setNome(string);		
-	}
-
-	protected void restrituisciCognomeOperatore(String string) {
-		nuovoOperatore.setCognome(string);	
 		
 	}
 
@@ -205,8 +198,104 @@ public class AppBrain {
 	}
 
 
+	protected void modificaStatoOrdine(Object valueAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+		
+		String codOrdine = valueAt.toString(); 
+		
+		Ordine ord = ordineDAO.trovaOrdine(codOrdine);
 
+		
+		cambiaStatoWindow.modificaStatoOrdine(ord);
+		cambiaStatoWindow.setVisible(true);
+		datiOrdiniWindow.setVisible(false);
+	}
+
+
+	protected void annullaOperazioneCambioStato() {
+		cambiaStatoWindow.setVisible(false);
+		datiOrdiniWindow.setVisible(true);
+		
+		
+	}
 	
+	protected int annullaCambioStato() {
+		
+		if(!loginWindow.isVisible())
+			datiOrdiniWindow.setVisible(true);
+	
+		
+		
+		
+		return JFrame.DISPOSE_ON_CLOSE;
+	}
+	
+
+	protected void modificaStatoSpedizione(Object valueAt) throws RisultatoNonRicavabileException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException {
+		
+		String codSpedizione = valueAt.toString(); 
+		
+		Spedizione sped;
+		
+		sped = spedizioneDAO.trovaSpedizione(codSpedizione);
+
+
+		
+		cambiaStatoWindow.modificaStatoSpedizione(sped);
+		cambiaStatoWindow.setVisible(true);
+		datiOrdiniWindow.setVisible(false);
+	}
+
+
+	public void confermaNuovoStatoOrdine(Ordine ordineSelezionato, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+		String StatoOrdine = elementAt.toString();
+		if(ordineSelezionato.getStatoOrdine().equals(StatoOrdine)) 
+			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
+			
+		else {
+		
+			ordineSelezionato.setStatoOrdine(StatoOrdine);
+			String responso = ordineDAO.aggiornaStatoOrdine(ordineSelezionato);
+		
+			if(responso.equals("OK")){
+				String msg = "Stato ordine modificato Correttamente.\nDettaglio : L'ordine "+ordineSelezionato.getCodOrdine()+" ha come nuovo stato "+StatoOrdine;
+				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
+				cambiaStatoWindow.setVisible(false);
+				datiOrdiniWindow.setVisible(true);
+			}else{
+				String msg = "Operazione non possibile.\nDettaglio : Lo stato "+ StatoOrdine +" non è coerente con lo stato "+ responso + " della spedizione" ;
+				cambiaStatoWindow.messaggioPopUp(msg, "Operazione Non Riuscita");
+			}
+		
+		}
+	}
+
+
+	public void confermaNuovoStatoSpedizione(Spedizione spedizioneSelezionata, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+		String StatoSpedizione = elementAt.toString();
+		if(spedizioneSelezionata.getStatoSpedizione().equals(StatoSpedizione)) 
+			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
+			
+		else {
+		
+			spedizioneSelezionata.setStatoSpedizione(StatoSpedizione);
+			String responso = spedizioneDAO.aggiornaStatoSpedizione(spedizioneSelezionata);
+		
+			if(responso.equals("OK")){
+				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata.getCodSpedizione()+" ha come nuovo stato "+StatoSpedizione;
+				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
+				cambiaStatoWindow.setVisible(false);
+				datiOrdiniWindow.setVisible(true);
+			}else{
+				String msg = "Operazione non possibile.\nDettaglio : Lo stato "+ StatoSpedizione +" non è coerente con lo stato "+ responso + " della spedizione" ;
+				cambiaStatoWindow.messaggioPopUp(msg, "Operazione Non Riuscita");
+			}
+		
+		}
+		
+		
+		
+		
+	}
 
 
 }

@@ -8,25 +8,27 @@ public class OperatoreDAOPlainSQL implements OperatoreDAO  {
 	private String passwordCorretto = null;
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
-	private AppBrain gestoreApplicazione;
-
+	private Operatore utenteOperatore;
 	
-	public OperatoreDAOPlainSQL(ComunicaConDatabase comunicazioneSQL,AppBrain appBrain) {
+	public OperatoreDAOPlainSQL(ComunicaConDatabase comunicazioneSQL) {
 		this.comunicazioneSQL = comunicazioneSQL;
-		gestoreApplicazione = appBrain;
 	}
 
 	@Override
-	public void provaAccesso(String username, String password)
+	public Operatore provaAccesso(String username, String password)
 			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, UsernameNonEsistenteException, PasswordErrataException {
-
+			
+			utenteOperatore = new Operatore(usernameCorretto, password);
+			
 			richiestaVerifica(username);
 
 			verificaUsername(username);
 			usernameCorretto = username;
 			verificaPassword(password);
 
-
+			
+			
+			return utenteOperatore;
 	}
 
 	@Override
@@ -64,8 +66,8 @@ public class OperatoreDAOPlainSQL implements OperatoreDAO  {
 
 		try {
 			// mi estraggo il nome e il cognome
-			gestoreApplicazione.restrituisciNomeOperatore(risultato.getString(1));
-			gestoreApplicazione.restrituisciCognomeOperatore(risultato.getString(2));
+			utenteOperatore.setNome(risultato.getString(1));
+			utenteOperatore.setCognome(risultato.getString(2));
 		} catch (SQLException e) {
 			// nel caso non si trova nessun valore significa che l'operatore non esiste nel
 			// database

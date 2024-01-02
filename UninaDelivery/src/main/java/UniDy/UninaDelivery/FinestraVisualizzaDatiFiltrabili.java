@@ -1,7 +1,5 @@
 package UniDy.UninaDelivery;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -9,7 +7,6 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
 import java.awt.Color;
@@ -18,8 +15,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
@@ -28,16 +23,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import com.toedter.calendar.JDateChooser;
 import java.awt.Cursor;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JSlider;
-import javax.swing.JProgressBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.JRadioButton;
 
@@ -315,27 +305,32 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		tabellaOrdini.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tabellaOrdini.setRowSelectionAllowed(false);
 		modelloTabella = new DefaultTableModel(
-				new Object[][] {
-					
-				},
-				new String[] {
-					"Codice Fiscale", "Codice Ordine", "N° Merci", "Totale €", "Codice Spedizione"
-				}
-			) {
-				Class[] columnTypes = new Class[] {
-					String.class, String.class, Integer.class, Float.class, String.class
-				};
-				public Class getColumnClass(int columnIndex) {
-					return columnTypes[columnIndex];
-				}
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
+				
+				new Object[][] {},
+				
+				new String[] {"Codice Fiscale", "Codice Ordine", "N° Merci", "Totale €", "Codice Spedizione"}
+		){
+			
+			private static final long serialVersionUID = 1L;
+				
+				
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, Integer.class, Float.class, String.class
 			};
-						
+			
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+				
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false
+			};
+				
+			public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+			}
+		};
+					
 				
 		tabellaOrdini.setModel(modelloTabella);
 		
@@ -350,22 +345,43 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 		ListSelectionModel modelloSelezione = tabellaOrdini.getSelectionModel();
         modelloSelezione.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        tabellaOrdini.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int rigaSelezionata = tabellaOrdini.getSelectedRow();
+                int colonnaSelezionata = tabellaOrdini.getSelectedColumn();
 
-        modelloSelezione.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                // Verifica se l'evento di selezione è ancora in fase di regolazione
-                if (!e.getValueIsAdjusting()) {
-                    // Ottieni la riga e la colonna selezionate
-                    int rigaSelezionata = tabellaOrdini.getSelectedRow();
-                    int colonnaSelezionata = tabellaOrdini.getSelectedColumn();
-  
-                    // Puoi quindi utilizzare questi valori per fare ulteriori operazioni
-                    System.out.println("Riga selezionata: " + rigaSelezionata);
-                    System.out.println("Colonna selezionata: " + colonnaSelezionata);
+                if(colonnaSelezionata == 1) {
+          	
+                	try {
+						gestoreApplicazione.modificaStatoOrdine(tabellaOrdini.getValueAt(rigaSelezionata, colonnaSelezionata));
+					} catch (CreazioneStatementFallitaException e1) {
+						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+					} catch (ConnessionNonRiuscitaException e1) {
+						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+					} catch (RisultatoNonRicavabileException e1) {
+						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+					}
+                	
+                	
+                } else if(colonnaSelezionata == 4) {
+                	
+                	try {
+						gestoreApplicazione.modificaStatoSpedizione(tabellaOrdini.getValueAt(rigaSelezionata, colonnaSelezionata));
+					} catch (CreazioneStatementFallitaException e1) {
+						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+					} catch (ConnessionNonRiuscitaException e1) {
+						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+					} catch (RisultatoNonRicavabileException e1) {
+						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+					}
+             
                 }
-            }
-        });
+			}
+		});
+     
 		
 		
 		scrollPane.setViewportView(tabellaOrdini);	
@@ -373,48 +389,16 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 	}
 	
-	/* DA SPERIMENTARE
-	private void mostraOptionPane(int vaule) {
-        // Creazione di un array di opzioni per il JComboBox
-        String[] opzioni = {"Conclusa","Partita","Preso In Carico","Ritardo"};
 
-        // Creazione di un pannello contenente un JComboBox
-        JPanel panel = new JPanel();
-        JComboBox<String> comboBox = new JComboBox<>(opzioni);
-        panel.add(comboBox);
-
-        // Creazione del JOptionPane con un pannello personalizzato (contenente il JComboBox)
-        int result =  JOptionPane.showOptionDialog(this,"Scegli Stato Spedizione","Stato Spedizione " + vaule,JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,opzioni,null);
-        
-        /*int result = JOptionPane.showOptionDialog(
-                this,
-                panel,
-                "Seleziona un'opzione",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                null,
-                null);
-	
-        // Verifica se l'utente ha premuto "OK"
-        if (result == JOptionPane.OK_OPTION) {
-            // Ottieni l'opzione selezionata
-            String opzioneSelezionata = (String) comboBox.getSelectedItem();
-            System.out.println("Opzione selezionata: " + opzioneSelezionata);
-        }
-    }
-	
-	*/
-
-	protected void schiarisciBottoneFiltraggio() {
+	private void schiarisciBottoneFiltraggio() {
 		FiltraB.setBackground(arancioneChiaro);
 	}
 
-	protected void scurisciBottoneFiltraggio() {
+	private void scurisciBottoneFiltraggio() {
 		FiltraB.setBackground(arancioneScuro);
 	}
 
-	protected void autoDeleteUtente() {
+	private void autoDeleteUtente() {
 		//Se è utente si deve levare
 		if(utenteTF.getText().equals("Utente")) 
 			utenteTF.setText("");
@@ -423,7 +407,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 
 
 
-	protected void rimpicciolisciGradualmenteBottoneMenu() {
+	private void rimpicciolisciGradualmenteBottoneMenu() {
 		//Diventa Piccolo gradualmente
 		menuB.setFont(new Font("Century", Font.PLAIN, 19));
 		menuB.setFont(new Font("Century", Font.PLAIN, 18));
@@ -432,7 +416,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 
 
 
-	protected void ingradisciGradualmenteBottoneMenu() {
+	private void ingradisciGradualmenteBottoneMenu() {
 		//Diventa grande gradualmente
 		menuB.setFont(new Font("Century", Font.PLAIN, 19));
 		menuB.setFont(new Font("Century", Font.PLAIN, 20));
@@ -460,7 +444,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 	}
 	
-	protected void azionaFiltri(String utente, Date inizio, Date fine) {
+	private void azionaFiltri(String utente, Date inizio, Date fine) {
 		try {
 			controlloInputFilitri(utente,inizio,fine);
 		} catch (DateCronologicamenteSbagliateException e1) {
@@ -503,32 +487,39 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	}
 
 	
-	protected void controlloInputFilitri(String utente, Date inizio, Date fine) throws DateCronologicamenteSbagliateException, FiltriVuotiException {
+	private LocalDate DateToLocalDate(Date data) {
+		return LocalDate.ofInstant(data.toInstant(), ZoneId.systemDefault());
+	}
+	
+	private void controlloInputFilitri(String utente, Date inizio, Date fine) throws DateCronologicamenteSbagliateException, FiltriVuotiException {
 		int output;
 		if(utente.equals("Utente") || utente.isBlank()) {
 			cliente = null;
 			if(inizio == null || fine == null)
 				throw new FiltriVuotiException(this);
 			else{
-				dataFine = LocalDate.ofInstant(fine.toInstant(), ZoneId.systemDefault());
-				dataInizio = LocalDate.ofInstant(inizio.toInstant(), ZoneId.systemDefault());
+				dataFine = DateToLocalDate(fine);
+				dataInizio = DateToLocalDate(inizio);
+				
 				if(dataInizio.isAfter(dataFine)) 
 					throw new DateCronologicamenteSbagliateException(this);
+			
+				
 				output = JOptionPane.showConfirmDialog(this, "Vuoi filtrare solo con le date?", "Conferma filtro",0 ,JOptionPane.YES_NO_OPTION);
 				if(output != 0)
-					throw new FiltriVuotiException(this);
-				
-					
+					throw new FiltriVuotiException(this);		
 			}
 		}else
 			if(inizio != null && fine != null) {
-				dataFine = LocalDate.ofInstant(fine.toInstant(), ZoneId.systemDefault());
-				dataInizio = LocalDate.ofInstant(inizio.toInstant(), ZoneId.systemDefault());
+				dataFine = DateToLocalDate(fine);
+				dataInizio = DateToLocalDate(inizio);
 				cliente = utente;
+				
 				if(dataInizio.isAfter(dataFine))
-					throw new DateCronologicamenteSbagliateException(this);
+				throw new DateCronologicamenteSbagliateException(this);
 				
 			}else {
+				
 				output = JOptionPane.showConfirmDialog(this, "Vuoi filtrare solo con il cliente?", "Conferma filtro",0 ,JOptionPane.YES_NO_OPTION);
 				if(output != 0)
 					throw new FiltriVuotiException(this);
@@ -541,19 +532,17 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	protected void setDataInizio(LocalDate dataInizio) {
 		this.dataInizio = dataInizio;
 	}
-
-
+	
 	protected void setDataFine(LocalDate dataFine) {
 		this.dataFine = dataFine;
 	}
-
-
+	
 	protected void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
 
 
-	private void messaggioPopUp(String testo, String titolo) {
+	protected void messaggioPopUp(String testo, String titolo) {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
 

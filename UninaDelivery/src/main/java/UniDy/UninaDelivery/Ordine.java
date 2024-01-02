@@ -6,11 +6,11 @@ import java.util.Objects;
 public class Ordine {
 	
 	private String codOrdine;
-	private Cliente acquirente ;
+	private String statoOrdine;
+	private Cliente acquirente;
 	private float costoTotale;
 	private ArrayList<Spedizione> spedizioni = new ArrayList<Spedizione>();
 	private int numMerci;
-	
 	
 	protected Ordine(String codOrdine, Cliente acquirente, float costoTotale, int numMerci) {
 		this.codOrdine = codOrdine;
@@ -18,7 +18,15 @@ public class Ordine {
 		this.costoTotale = costoTotale;
 		this.numMerci = numMerci;
 	}
+	
+	protected String getStatoOrdine() {
+		return statoOrdine;
+	}
 
+	protected void setStatoOrdine(String statoOrdine) {
+		this.statoOrdine = statoOrdine;
+	}
+	
 	protected int getNumMerci() {
 		return numMerci;
 	}

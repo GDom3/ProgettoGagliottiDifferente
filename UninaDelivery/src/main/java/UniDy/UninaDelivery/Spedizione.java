@@ -6,6 +6,7 @@ import java.util.Objects;
 public class Spedizione {
 	
 	private String codSpedizione;
+	private String StatoSpedizione;
 	private ArrayList <Ordine> ordini ;
 	
 	
@@ -46,6 +47,14 @@ public class Spedizione {
 	
 	protected void addOrdini(Ordine ordini) {
 		this.ordini.add(ordini);
+	}
+
+	protected String getStatoSpedizione() {
+		return StatoSpedizione;
+	}
+
+	protected void setStatoSpedizione(String statoSpedizione) {
+		StatoSpedizione = statoSpedizione;
 	} 
 	
 	

@@ -12,13 +12,15 @@ public class ComunicaConDatabase {
 	private ConnessioneDataBase connectionDataBase = null;
 	private Statement trasportatore = null;
 	private ResultSet risultato;
+	private int BuonFine;
 	private ResultSetMetaData risultatoMetaDati;
 	
 	
 	protected ComunicaConDatabase() throws ConnessionNonRiuscitaException, CreazioneStatementFallitaException  {
 		//Istanzio la classe o la recupero, per comunicare con il database;
 		connectionDataBase = ConnessioneDataBase.getConnessioneDataBase(); 
-	
+		
+		
 		this.creaConnessione();
 		
 		
@@ -64,10 +66,25 @@ public class ComunicaConDatabase {
 		return risultato;
 	}
 	
+	
+	protected int mandaQDDL_DML(String comando) throws OperazioneUpdateNonRiuscitaException {
+		
+		try {
+			BuonFine = trasportatore.executeUpdate(comando);
+		} catch (SQLException e) {
+			throw new OperazioneUpdateNonRiuscitaException();
+		}
+		
+		return BuonFine;
+		
+	}
+
+
 	// crea la conessione e fa i giusti controlli
 	protected Connection creaConnessione() throws  ConnessionNonRiuscitaException,CreazioneStatementFallitaException{
 		
 		connessione = connectionDataBase.getConnection(); //Creo la connessione se è chiusa o non c'è mai stata
+		
 		
 		if(connessione == null)
 				throw new ConnessionNonRiuscitaException();
@@ -89,6 +106,7 @@ public class ComunicaConDatabase {
 			throw new RisultatoNonRicavabileException();
 		}
 	}
+	
 	//Prendo i Campi
 	private void gestioneMetaDati() throws MetaDatiNonTrovatiException  {
 		

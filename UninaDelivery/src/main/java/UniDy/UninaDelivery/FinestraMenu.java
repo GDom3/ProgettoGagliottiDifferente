@@ -21,25 +21,20 @@ import java.awt.Cursor;
 
 
 public class FinestraMenu extends JFrame {
-
-	JPanel parteSxPanel;
-	JPanel parteDxPanel;
-	JLabel logoPrincipaleImgSxL;
-	JLabel operatoreL;
-	JLabel benvenutoL;
-	JButton logOutB;
-
-
 	private static final long serialVersionUID = 1L;
+	private JPanel parteSxPanel;
+	private JPanel parteDxPanel;
+	private JLabel logoPrincipaleImgSxL;
+	private JLabel operatoreL;
+	private JLabel benvenutoL;
+	private JButton logOutB;
 	private JPanel contentPane;
 	private JButton visualizzaB;
 	private JButton nuovaSpedizioneB;
 	private JButton reportB;
 	private AppBrain gestoreApplicazione;
 
-	/**
-	 * Create the frame.
-	 */
+
 	public FinestraMenu(AppBrain appBrain) {
 		gestoreApplicazione = appBrain;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraMenu.class.getResource("/Img/Icon.png")));
@@ -91,11 +86,11 @@ public class FinestraMenu extends JFrame {
 		visualizzaB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				visualizzaB.setBackground(new Color(141, 129, 123));
+				scurisciBottoneMenu(visualizzaB);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				visualizzaB.setBackground(new Color(179, 168, 166));
+				schiarisciBottoneMenu(visualizzaB);	
 			}
 		});
 		visualizzaB.addActionListener(new ActionListener() {
@@ -117,11 +112,11 @@ public class FinestraMenu extends JFrame {
 		nuovaSpedizioneB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseExited(MouseEvent e) {
-				nuovaSpedizioneB.setBackground(new Color(179, 168, 166));
+				schiarisciBottoneMenu(nuovaSpedizioneB);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				nuovaSpedizioneB.setBackground(new Color(141, 129, 123));
+				scurisciBottoneMenu(nuovaSpedizioneB);
 			}
 		});
 		nuovaSpedizioneB.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
@@ -140,11 +135,11 @@ public class FinestraMenu extends JFrame {
 		reportB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				reportB.setBackground(new Color(141, 129, 123));
+				scurisciBottoneMenu(reportB);
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				reportB.setBackground(new Color(179, 168, 166));
+				schiarisciBottoneMenu(reportB);
 			}
 		});
 		reportB.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
@@ -176,15 +171,11 @@ public class FinestraMenu extends JFrame {
 		logOutB.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				//Diventa grande gradualmente
-				logOutB.setFont(new Font("Century", Font.PLAIN, 19));
-				logOutB.setFont(new Font("Century", Font.PLAIN, 20));
+				ingradimentoLogOut();
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				//Diventa Piccolo gradualmente
-				logOutB.setFont(new Font("Century", Font.PLAIN, 19));
-				logOutB.setFont(new Font("Century", Font.PLAIN, 18));
+				rinpicciolisciLogOut();
 			}
 		});
 		logOutB.setBackground(new Color(119, 101, 101));
@@ -196,6 +187,29 @@ public class FinestraMenu extends JFrame {
 		parteDxPanel.add(logOutB);
 	}
 	
+	private void schiarisciBottoneMenu(JButton bottone) {
+		bottone.setBackground(new Color(179, 168, 166));
+		
+	}
+
+	private void scurisciBottoneMenu(JButton bottone) {
+		bottone.setBackground(new Color(141, 129, 123));
+	}
+
+	private void rinpicciolisciLogOut() {
+		//Diventa Piccolo gradualmente
+		logOutB.setFont(new Font("Century", Font.PLAIN, 19));
+		logOutB.setFont(new Font("Century", Font.PLAIN, 18));
+		
+	}
+
+	private void ingradimentoLogOut() {
+		//Diventa grande gradualmente
+		logOutB.setFont(new Font("Century", Font.PLAIN, 19));
+		logOutB.setFont(new Font("Century", Font.PLAIN, 20));
+		
+	}
+
 	private void confermaLogOut() {
 		logOutB.setFont(new Font("Century", Font.PLAIN, 19));
 		logOutB.setFont(new Font("Century", Font.PLAIN, 18));
