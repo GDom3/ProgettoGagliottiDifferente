@@ -2,6 +2,7 @@ package UniDy.UninaDelivery;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class OrdineDAOPlainSQL {
 	
@@ -61,6 +62,36 @@ public class OrdineDAOPlainSQL {
 		}
 		
 		return "OK";
+	}
+
+
+	public ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException  {
+		ArrayList<Ordine> ordini = new ArrayList<Ordine>();
+		String comando = "SELECT CodOrdine,StatoOrdine FROM Ordine WHERE CodOrdine NOT IN (SELECT CodOrdine FROM Viaggio WHERE Corrente = true)";
+		Ordine tempOrdine = null;
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		
+		
+		try {
+			comunicazioneSQL.prossimaRiga();
+			tempOrdine = new Ordine(risultato.getString(1),risultato.getString(2));
+			ordini.add(tempOrdine);
+		} catch (SQLException e) {
+			throw new NonCiSonoOrdiniAttesiException();
+		}
+		
+		do{
+			try {
+				tempOrdine = new Ordine(risultato.getString(1),risultato.getString(2));
+			} catch (SQLException e) {
+				throw new RisultatoNonRicavabileException();
+			}
+			ordini.add(tempOrdine);
+			
+		}while(comunicazioneSQL.prossimaRiga());
+		
+		return ordini;
 	}
 
 

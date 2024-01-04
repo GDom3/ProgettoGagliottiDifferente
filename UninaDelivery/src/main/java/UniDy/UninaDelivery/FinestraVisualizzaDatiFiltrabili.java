@@ -294,9 +294,12 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 	
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBackground(new Color(179, 168, 166));
 		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		scrollPane.setBounds(10, 35, 510, 433);
+		
 		mostraDatiPanel.add(scrollPane);
+		
 		
 		tabellaOrdini = new JTable();
 		tabellaOrdini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));

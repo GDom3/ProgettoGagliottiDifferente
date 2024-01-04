@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -14,6 +15,7 @@ public class AppBrain {
 	private FinestraLogin loginWindow;
 	private FinestraMenu menuWindow;
 	private FinestraReportStatistico datiStatisticiWindow;
+	private FinestraNuovaSpedizione creazioneSpedizioneWindow;
 	private FinestraVisualizzaDatiFiltrabili datiOrdiniWindow;
 	private FinestraCambiaStato cambiaStatoWindow;
 	private ComunicaConDatabase comunicazioneSQL;
@@ -37,7 +39,7 @@ public class AppBrain {
 		datiStatisticiWindow = new FinestraReportStatistico(this);
 		datiOrdiniWindow = new FinestraVisualizzaDatiFiltrabili(this);
 		menuWindow = new FinestraMenu(this);
-		
+		creazioneSpedizioneWindow = new FinestraNuovaSpedizione(this);
 		loginWindow = new FinestraLogin(this);
 		loginWindow.setVisible(true);
 		
@@ -105,21 +107,21 @@ public class AppBrain {
 	protected void logout() {
 		//Funzione che gestisce il logout
 		loginWindow.impostaPassword("Password");
-		menuWindow.setVisible(false);
 		loginWindow.setVisible(true);
-		
+		menuWindow.setVisible(false);
+	
 	}
 
 	protected void ritornaMenu(JFrame finestra) {
 		//Funzione che 'chiude' la finestra data in input e 'apre' il menu
-		finestra.setVisible(false);
 		menuWindow.setVisible(true);
+		finestra.setVisible(false);
 	}
 
 	protected void mostraFinestraVisualizza() {
 		//'chiude' il menu e 'apre' il visuliazza dati finesta 
-		menuWindow.setVisible(false);
 		datiOrdiniWindow.setVisible(true);
+		menuWindow.setVisible(false);
 		datiOrdiniWindow.richiestaVisualizzareTutti();
 		
 	}
@@ -212,8 +214,8 @@ public class AppBrain {
 
 
 	protected void annullaOperazioneCambioStato() {
-		cambiaStatoWindow.setVisible(false);
 		datiOrdiniWindow.setVisible(true);
+		cambiaStatoWindow.setVisible(false);
 		
 		
 	}
@@ -259,8 +261,8 @@ public class AppBrain {
 			if(responso.equals("OK")){
 				String msg = "Stato ordine modificato Correttamente.\nDettaglio : L'ordine "+ordineSelezionato.getCodOrdine()+" ha come nuovo stato "+StatoOrdine;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
-				cambiaStatoWindow.setVisible(false);
 				datiOrdiniWindow.setVisible(true);
+				cambiaStatoWindow.setVisible(false);
 			}else{
 				String msg = "Operazione non possibile.\nDettaglio : Lo stato "+ StatoOrdine +" non è coerente con lo stato "+ responso + " della spedizione" ;
 				cambiaStatoWindow.messaggioPopUp(msg, "Operazione Non Riuscita");
@@ -283,8 +285,8 @@ public class AppBrain {
 			if(responso.equals("OK")){
 				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata.getCodSpedizione()+" ha come nuovo stato "+StatoSpedizione;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
-				cambiaStatoWindow.setVisible(false);
 				datiOrdiniWindow.setVisible(true);
+				cambiaStatoWindow.setVisible(false);
 			}else{
 				String msg = "Operazione non possibile.\nDettaglio : Lo stato "+ StatoSpedizione +" non è coerente con lo stato "+ responso + " della spedizione" ;
 				cambiaStatoWindow.messaggioPopUp(msg, "Operazione Non Riuscita");
@@ -295,6 +297,20 @@ public class AppBrain {
 		
 		
 		
+	}
+
+
+	public void mostraFinestraNuovaSpedizione() {
+		creazioneSpedizioneWindow.avviati();
+		menuWindow.setVisible(false);
+		
+		
+		
+	}
+
+
+	public ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		return ordineDAO.estraiOrdiniSenzaSpedOFalliti();
 	}
 
 

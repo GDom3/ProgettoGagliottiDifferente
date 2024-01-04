@@ -62,15 +62,16 @@ public class FinestraMenu extends JFrame {
 		
 		benvenutoL = new JLabel("Benvenuto/a");
 		benvenutoL.setForeground(new Color(0, 0, 0));
-		benvenutoL.setFont(new Font("Century", Font.BOLD, 30));
+		benvenutoL.setFont(new Font("Century", Font.PLAIN, 30));
 		benvenutoL.setHorizontalAlignment(SwingConstants.CENTER);
 		benvenutoL.setBounds(10, 11, 365, 69);
 		parteSxPanel.add(benvenutoL);
 		
 		operatoreL = new JLabel("");
+		operatoreL.setVerticalAlignment(SwingConstants.TOP);
 		operatoreL.setHorizontalAlignment(SwingConstants.CENTER);
-		operatoreL.setFont(new Font("Century", Font.BOLD | Font.ITALIC, 30));
-		operatoreL.setBounds(10, 69, 365, 55);
+		operatoreL.setFont(new Font("Century", Font.PLAIN, 27));
+		operatoreL.setBounds(10, 75, 365, 125);
 		parteSxPanel.add(operatoreL);
 		
 		parteDxPanel = new JPanel();
@@ -108,6 +109,11 @@ public class FinestraMenu extends JFrame {
 		parteDxPanel.add(visualizzaB);
 		
 		nuovaSpedizioneB = new JButton();
+		nuovaSpedizioneB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				appBrain.mostraFinestraNuovaSpedizione();
+			}
+		});
 		nuovaSpedizioneB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		nuovaSpedizioneB.addMouseListener(new MouseAdapter() {
 			@Override

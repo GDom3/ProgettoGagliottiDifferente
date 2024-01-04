@@ -19,6 +19,11 @@ public class Ordine {
 		this.numMerci = numMerci;
 	}
 	
+	protected Ordine(String codOrdine, String string) {
+		this.codOrdine = codOrdine;
+		statoOrdine = string;
+	}
+	
 	protected String getStatoOrdine() {
 		return statoOrdine;
 	}

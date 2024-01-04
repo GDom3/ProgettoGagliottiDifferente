@@ -5,7 +5,7 @@ public class CampoPasswordVuotoException extends Exception {
 	private String tipoErrore = "Attenzione";
 	
 	public CampoPasswordVuotoException() {
-		messaggioErrore = "Campo PASSWORD vuoto, insetire un valore per poter proseguire";
+		messaggioErrore = "Campo PASSWORD vuoto, inserire un valore per poter proseguire";
 		
 	}
 

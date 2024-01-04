@@ -1,12 +1,13 @@
 package UniDy.UninaDelivery;
 
-public class CampoUsernameVuotoException extends Exception {
+import java.sql.SQLException;
 
+public class NonCiSonoOrdiniAttesiException extends SQLException {
 	private String messaggioErrore;
 	private String tipoErrore = "Attenzione";
 	
-	public CampoUsernameVuotoException() {
-		messaggioErrore = "Campo USERNAME vuoto, inserire un valore per poter proseguire";
+	public NonCiSonoOrdiniAttesiException() {
+		messaggioErrore = "Non ci sono Ordini attesi, ovvero nessun ordine non è stato consegnato";
 		
 	}
 
@@ -17,4 +18,5 @@ public class CampoUsernameVuotoException extends Exception {
 	protected String getTipoErrore() {
 		return tipoErrore;
 	}
+
 }
