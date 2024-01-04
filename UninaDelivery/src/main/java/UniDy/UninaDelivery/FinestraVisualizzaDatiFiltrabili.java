@@ -482,6 +482,11 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 			svuotaTabella();
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 		}
+		
+		
+		cliente = null ;
+		dataInizio = null;
+		dataFine = null ;
 	}
 
 

@@ -29,6 +29,8 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 				+ "FROM Cliente Cl NATURAL JOIN Ordine O NATURAL JOIN ESEMPLARE E NATURAL JOIN Viaggio V WHERE V.Corrente = true " + addonsSQL 
 				  + " GROUP BY (Cl.CodiceFiscale, O.CodOrdine,V.CodSpedizione) ORDER BY(V.CodSpedizione)";
 
+
+		
 		//Mando il comando e prendo il risultato della query
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);  	
 		
