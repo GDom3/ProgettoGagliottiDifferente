@@ -5,14 +5,32 @@ import java.util.Objects;
 
 public class Spedizione {
 	
+
 	private String codSpedizione;
 	private String StatoSpedizione;
 	private ArrayList <Ordine> ordini ;
+	private int KM;
+	private MezzoTrasporto mezzoUtilizzato;
+	private Corriere corriere;
 	
 	
 	protected Spedizione(String codSpedizione, ArrayList<Ordine> ordini) {
 		this.codSpedizione = codSpedizione;
 		this.ordini = ordini;
+	}
+	
+	protected Spedizione(Ordine ordine, MezzoTrasporto mezzo, Corriere corriere) {
+		mezzoUtilizzato = mezzo;
+		this.corriere = corriere;
+		ordini = new ArrayList<Ordine>();
+		ordini.add(ordine);
+		
+	}
+	
+	
+	@Override
+	public String toString() {
+		return  codSpedizione ;
 	}
 	
 	@Override
@@ -53,8 +71,29 @@ public class Spedizione {
 		return StatoSpedizione;
 	}
 
+	protected int getKM() {
+		return KM;
+	}
+
+
+	protected void setKM(int kM) {
+		KM = kM;
+	}
+
 	protected void setStatoSpedizione(String statoSpedizione) {
 		StatoSpedizione = statoSpedizione;
+	}
+
+	protected MezzoTrasporto getMezzoUtilizzato() {
+		return mezzoUtilizzato;
+	}
+
+	protected Corriere getCorriere() {
+		return corriere;
+	}
+
+	protected Ordine getCodOrdineIndex(int i) {
+		return ordini.get(i);
 	} 
 	
 	

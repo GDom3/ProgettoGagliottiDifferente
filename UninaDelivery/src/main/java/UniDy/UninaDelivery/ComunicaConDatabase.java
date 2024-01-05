@@ -54,7 +54,7 @@ public class ComunicaConDatabase {
 	}
 	
 	//Manda la quary e la esegue riportando il risultato e fa i dovuti controlli
-	protected ResultSet comunicaConDatabaseQuery(String comando) throws  CreazioneStatementFallitaException , ConnessionNonRiuscitaException ,RisultatoNonRicavabileException{
+	protected ResultSet comunicaConDatabaseQuery(String comando) throws  RisultatoNonRicavabileException{
 		
 		try { 
 			//Provo a mandare la query

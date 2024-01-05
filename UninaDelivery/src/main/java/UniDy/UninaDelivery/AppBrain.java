@@ -25,6 +25,8 @@ public class AppBrain {
 	private SpedizioneDAO spedizioneDAO;
 	private ArrayList<Spedizione> spedizioni;
 	private OrdineDAOPlainSQL ordineDAO;
+	private CorriereDAOPlainSQL corriereDAO;
+	private MezzoTrasportoDAOPlainSQL mezziTrasportoDAO;
 	
 	
 	public static void main(String[] args) {
@@ -70,7 +72,8 @@ public class AppBrain {
 		operatoreDAO = new OperatoreDAOPlainSQL(comunicazioneSQL);
 		spedizioneDAO = new SpedizioneDAOPlainSQL(comunicazioneSQL);
 		ordineDAO = new OrdineDAOPlainSQL(comunicazioneSQL);
-			
+		corriereDAO = new CorriereDAOPlainSQL(comunicazioneSQL);
+		mezziTrasportoDAO = new MezzoTrasportoDAOPlainSQL(comunicazioneSQL);
 	}
 	
 
@@ -300,17 +303,51 @@ public class AppBrain {
 	}
 
 
-	public void mostraFinestraNuovaSpedizione() {
+	protected void mostraFinestraNuovaSpedizione() {
 		creazioneSpedizioneWindow.avviati();
 		menuWindow.setVisible(false);
-		
-		
+			
 		
 	}
 
 
-	public ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+	protected ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
 		return ordineDAO.estraiOrdiniSenzaSpedOFalliti();
+	}
+
+
+	protected ArrayList<Corriere> estraiCorrieriSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException {
+		return corriereDAO.estraiCorrieriSenzaSped();
+	}
+
+
+	protected ArrayList<MezzoTrasporto> estraiMezziSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
+		return mezziTrasportoDAO.estraiMezziSenzaSped();
+	}
+
+
+	protected void creamiNuovaSpedizione(Spedizione nuovaSpedizione, int km) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException, NonPossibileCreareSpedizioneException {
+		
+		nuovaSpedizione.setKM(km);
+		spedizioneDAO.creaNuovaSpedizione(nuovaSpedizione);
+
+	}
+
+
+	protected ArrayList<Spedizione> dammiSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException {
+		return spedizioneDAO.dammiSpedizioniNonPartite();
+	}
+
+
+	protected void inserisciOrdineInSpedizione(Spedizione spedizione, Ordine ordine) throws OperazioneUpdateNonRiuscitaException {
+			spedizioneDAO.inserisciOrdineInSpedizione(spedizione,ordine);
+		
+	}
+
+
+	protected void mostraFinestraReport() {
+		datiStatisticiWindow.setVisible(true);
+		menuWindow.setVisible(false);
 	}
 
 

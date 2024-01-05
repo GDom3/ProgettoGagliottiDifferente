@@ -15,14 +15,14 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	private ArrayList<Ordine> ordiniDiUnaSpedizione;
 	private Spedizione tempSpedizione = null;
 	private String CodiceSpedizioneMomentaneo;
-	
+	private int maxCodSpedizione = 0;
 	
 	public SpedizioneDAOPlainSQL(ComunicaConDatabase comunicazioneSQL) {
 		this.comunicazioneSQL = comunicazioneSQL;
 	}
 	
 	@Override
-	public ArrayList<Spedizione> ricavaSpedizioni(String addonsSQL) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
+	public ArrayList<Spedizione> ricavaSpedizioni(String addonsSQL) throws RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		
 
 		String comando = "SELECT Cl.CodiceFiscale, O.CodOrdine, count(E.CodiceBarre) AS NumMerci, sum(E.Costo) AS Totale, V.CodSpedizione "
@@ -106,7 +106,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	
 
 	@Override
-	public ArrayList<Spedizione> ricavaSpedizioniPerCliente(String cliente) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
+	public ArrayList<Spedizione> ricavaSpedizioniPerCliente(String cliente) throws RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
 		String addonsFiltro; 
 		
@@ -129,7 +129,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 
 
 	@Override
-	public ArrayList<Spedizione> ricavaSpedizioniPerDateE(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
+	public ArrayList<Spedizione> ricavaSpedizioniPerDateE(LocalDate dataInizio, LocalDate dataFine) throws RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
 		String addonsFiltro =  " AND ";
 		
@@ -142,7 +142,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 
 
 	@Override
-	public ArrayList<Spedizione> ricavaSpedizioniPerDateConsegna(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
+	public ArrayList<Spedizione> ricavaSpedizioniPerDateConsegna(LocalDate dataInizio, LocalDate dataFine) throws  RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
 		String addonsFiltro =  " AND ";
 		
@@ -180,7 +180,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	}
 	
 	@Override
-	public ArrayList<Spedizione> ricavaSpedizioniPerUtenteEDateConsegna(String cliente, LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
+	public ArrayList<Spedizione> ricavaSpedizioniPerUtenteEDateConsegna(String cliente, LocalDate dataInizio, LocalDate dataFine) throws RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		//Rappresenta la selezione da fare il filtro
 		String addonsFiltro =  "  AND (";
 		
@@ -204,7 +204,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		return ricavaSpedizioni(addonsFiltro);
 	}
 	
-	public Spedizione trovaSpedizione(String codSpedizione) throws RisultatoNonRicavabileException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException{
+	public Spedizione trovaSpedizione(String codSpedizione) throws RisultatoNonRicavabileException{
 		String comando = "SELECT CodSpedizione, StatoSpedizione FROM Spedizione WHERE CodSpedizione = '" + codSpedizione + "';";
 		
 		
@@ -230,7 +230,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	}
 
 	
-	public String aggiornaStatoSpedizione(Spedizione spedizioneSelezionata) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+	public String aggiornaStatoSpedizione(Spedizione spedizioneSelezionata) throws RisultatoNonRicavabileException {
 		String comando = "UPDATE Spedizione SET StatoSpedizione = '" +  spedizioneSelezionata.getStatoSpedizione() + "' WHERE CodSpedizione = '" + spedizioneSelezionata.getCodSpedizione()+"' ;";
 		int buonfine; 
 		String StatoSpedizione = "OK";
@@ -252,6 +252,83 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		}
 		
 		return "OK";
+	}
+
+	@Override
+	public void creaNuovaSpedizione(Spedizione nuovaSpedizione) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException,NonPossibileCreareSpedizioneException {
+		
+
+		String comando = "SELECT CodSpedizione FROM SPEDIZIONE ORDER BY(CodSpedizione) DESC;";
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		comunicazioneSQL.prossimaRiga();
+		try{
+			maxCodSpedizione = risultato.getInt(1);
+		}catch (Exception e) {
+			throw new RisultatoNonRicavabileException();
+		}
+		
+		
+		maxCodSpedizione++;
+	
+		
+		comando = "INSERT INTO Spedizione VALUES (" + maxCodSpedizione + ", 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+ nuovaSpedizione.getCorriere().getCodCorriere() + ","+ nuovaSpedizione.getMezzoUtilizzato().getCodMezzo() +");"
+				+ "INSERT INTO Viaggio VALUES (true,"+ nuovaSpedizione.getCodOrdineIndex(0).getCodOrdine() + "," + maxCodSpedizione +")";
+	
+		try {
+			comunicazioneSQL.mandaQDDL_DML(comando);
+		}catch (SQLException e) {
+			throw new NonPossibileCreareSpedizioneException();
+		}
+		
+		
+		
+	}
+
+	@Override
+	public ArrayList<Spedizione> dammiSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException {
+		
+		ArrayList<Spedizione> spedizioniNonPartite = new ArrayList<Spedizione>();
+		Spedizione tempSpedizione;
+		String comando = "SELECT CodSpedizione FROM SPEDIZIONE WHERE StatoSpedizione <> 'Partita' AND StatoSpedizione <> 'Conclusa' ORDER BY (CodSpedizione);";
+		
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		
+		try {
+			comunicazioneSQL.prossimaRiga();
+			tempSpedizione = new Spedizione(risultato.getString(1), null);
+			spedizioniNonPartite.add(tempSpedizione);
+		} catch (SQLException e) {
+			throw new NonCiSonoSpedizioniNonPartite();
+		}
+		
+		if(comunicazioneSQL.prossimaRiga())	
+		do {
+			try {
+				tempSpedizione = new Spedizione(risultato.getString(1), null);
+			} catch (SQLException e) {
+				throw new RisultatoNonRicavabileException();
+			}
+			spedizioniNonPartite.add(tempSpedizione);
+			
+		}while(comunicazioneSQL.prossimaRiga());
+		
+		
+		
+		
+		
+		return spedizioniNonPartite;
+	}
+
+	@Override
+	public void inserisciOrdineInSpedizione(Spedizione spedizione, Ordine ordine) throws OperazioneUpdateNonRiuscitaException {
+		
+		String comando = "INSERT INTO Viaggio VALUES (true,"+ordine.getCodOrdine()+","+spedizione.getCodSpedizione()+");";
+		
+		comunicazioneSQL.mandaQDDL_DML(comando);
+		
+	
 	}
 	
 	

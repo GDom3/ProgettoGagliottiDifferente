@@ -128,7 +128,7 @@ public class FinestraMenu extends JFrame {
 		nuovaSpedizioneB.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
 		nuovaSpedizioneB.setFocusPainted(false);
 		nuovaSpedizioneB.setToolTipText("Qui poi andare a creare una nuova spedizione con i relativi ordini");
-		nuovaSpedizioneB.setText("Nuova Spedizione");
+		nuovaSpedizioneB.setText("Gestisci Spedizione");
 		nuovaSpedizioneB.setHorizontalAlignment(SwingConstants.CENTER);
 		nuovaSpedizioneB.setForeground(Color.WHITE);
 		nuovaSpedizioneB.setFont(new Font("Century", Font.BOLD, 30));
@@ -152,6 +152,7 @@ public class FinestraMenu extends JFrame {
 		reportB.setFocusPainted(false);
 		reportB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				gestoreApplicazione.mostraFinestraReport();
 			}
 		});
 		reportB.setToolTipText("Qui visualizzi un report statistico");

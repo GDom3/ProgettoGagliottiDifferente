@@ -16,7 +16,7 @@ public class OperatoreDAOPlainSQL implements OperatoreDAO  {
 
 	@Override
 	public Operatore provaAccesso(String username, String password)
-			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, UsernameNonEsistenteException, PasswordErrataException {
+			throws RisultatoNonRicavabileException, UsernameNonEsistenteException, PasswordErrataException {
 			
 			utenteOperatore = new Operatore(usernameCorretto, password);
 			
@@ -33,7 +33,7 @@ public class OperatoreDAOPlainSQL implements OperatoreDAO  {
 
 	@Override
 	public void richiestaVerifica(String username)
-			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+			throws RisultatoNonRicavabileException {
 		// La select necessaria per vedere se posso trovare l'utente e se ha inserito i
 		// valori corretti
 		String comando = "SELECT O.nome, O.cognome, O.password FROM operatore AS O WHERE ( O.username = '" + username

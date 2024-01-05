@@ -2,14 +2,13 @@ package UniDy.UninaDelivery;
 
 import java.util.Objects;
 
-public class Operatore {
+public class Operatore extends Persona {
 
-	private String nome;
-	private String cognome;
 	private String username;
 	private String password;
 	
 	protected Operatore(String usernameIN, String passwordIN){
+		super();
 		username = usernameIN;
 		password = passwordIN;
 	}
@@ -19,13 +18,6 @@ public class Operatore {
 	}
 	protected void setPassword(String password) {
 		this.password = password;
-	}
-	protected void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	protected void setCognome(String cognome) {
-		this.cognome = cognome;
 	}
 
 	protected String presentati() {
@@ -45,13 +37,6 @@ public class Operatore {
 		setPassword(password2);
 	}
 
-	protected String getNome() {
-		return nome;
-	}
-
-	protected String getCognome() {
-		return cognome;
-	}
 	
 	@Override
 	public boolean equals(Object obj) {

@@ -85,6 +85,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		contentPane.add(homePanel);
 		
 		menuB = new JButton("Home");
+		menuB.setToolTipText("premi per ritornare al menu");
 		menuB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		menuB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -258,7 +259,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		FiltraB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		FiltraB.setBounds(46, 385, 80, 37);
 		filtroPanel.add(FiltraB);
-		FiltraB.setToolTipText("premi per accedere");
+		FiltraB.setToolTipText("premi per filtrare i dati");
 		FiltraB.setForeground(Color.WHITE);
 		FiltraB.setFont(new Font("Century", Font.BOLD, 20));
 		FiltraB.setFocusPainted(false);

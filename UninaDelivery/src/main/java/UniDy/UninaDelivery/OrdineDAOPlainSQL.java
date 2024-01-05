@@ -15,7 +15,7 @@ public class OrdineDAOPlainSQL {
 	}
 
 
-	public Ordine trovaOrdine(String ordDaCercare) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException  {
+	public Ordine trovaOrdine(String ordDaCercare) throws  RisultatoNonRicavabileException  {
 		
 		String comando = "SELECT CodOrdine, StatoOrdine FROM Ordine WHERE CodOrdine = '" + ordDaCercare + "';";
 		
@@ -39,7 +39,7 @@ public class OrdineDAOPlainSQL {
 	}
 
 
-	public String aggiornaStatoOrdine(Ordine ordineSelezionato) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+	public String aggiornaStatoOrdine(Ordine ordineSelezionato) throws RisultatoNonRicavabileException {
 		String comando = "UPDATE Ordine SET StatoOrdine = '" +  ordineSelezionato.getStatoOrdine() + "' WHERE CodOrdine = '" + ordineSelezionato.getCodOrdine()+"' ;";
 		int buonfine; 
 		String StatoSpedizione = "OK";
@@ -65,9 +65,9 @@ public class OrdineDAOPlainSQL {
 	}
 
 
-	public ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException  {
+	public ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws  RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException  {
 		ArrayList<Ordine> ordini = new ArrayList<Ordine>();
-		String comando = "SELECT CodOrdine,StatoOrdine FROM Ordine WHERE CodOrdine NOT IN (SELECT CodOrdine FROM Viaggio WHERE Corrente = true)";
+		String comando = "SELECT CodOrdine,StatoOrdine FROM Ordine WHERE CodOrdine NOT IN (SELECT CodOrdine FROM Viaggio WHERE Corrente = true) ORDER BY (CodOrdine)";
 		Ordine tempOrdine = null;
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
@@ -77,19 +77,22 @@ public class OrdineDAOPlainSQL {
 			comunicazioneSQL.prossimaRiga();
 			tempOrdine = new Ordine(risultato.getString(1),risultato.getString(2));
 			ordini.add(tempOrdine);
+			
 		} catch (SQLException e) {
 			throw new NonCiSonoOrdiniAttesiException();
 		}
-		
-		do{
-			try {
-				tempOrdine = new Ordine(risultato.getString(1),risultato.getString(2));
-			} catch (SQLException e) {
-				throw new RisultatoNonRicavabileException();
-			}
-			ordini.add(tempOrdine);
 			
-		}while(comunicazioneSQL.prossimaRiga());
+			
+		if(comunicazioneSQL.prossimaRiga())	
+			do{
+			
+				try {
+					tempOrdine = new Ordine(risultato.getString(1),risultato.getString(2));
+					ordini.add(tempOrdine);
+				} catch (SQLException e) {
+					throw new RisultatoNonRicavabileException();
+				}	
+			}while(comunicazioneSQL.prossimaRiga());
 		
 		return ordini;
 	}

@@ -2,11 +2,9 @@ package UniDy.UninaDelivery;
 
 public interface OperatoreDAO {
 
-	Operatore provaAccesso(String username, String password)
-			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, UsernameNonEsistenteException, PasswordErrataException;
+	Operatore provaAccesso(String username, String password) throws RisultatoNonRicavabileException, UsernameNonEsistenteException, PasswordErrataException;
 
-	void richiestaVerifica(String username)
-			throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException;
+	void richiestaVerifica(String username) throws RisultatoNonRicavabileException;
 
 	void verificaPassword(String password) throws RisultatoNonRicavabileException, PasswordErrataException;
 
