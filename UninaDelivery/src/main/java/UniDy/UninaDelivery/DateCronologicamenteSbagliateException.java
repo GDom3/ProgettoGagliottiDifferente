@@ -4,11 +4,10 @@ public class DateCronologicamenteSbagliateException extends Exception {
 	private String messaggioErrore;
 	private String nomeErrore;
 	
-	public DateCronologicamenteSbagliateException(FinestraVisualizzaDatiFiltrabili finestra) {
+	public DateCronologicamenteSbagliateException() {
 		messaggioErrore = "le date inserite non sono valide, il periodo di tempo deve essere coerente";
 		nomeErrore = "Data fine maggiore data inizio";
-		finestra.setDataFine(null);
-		finestra.setDataInizio(null);
+		
 		
 	}
 

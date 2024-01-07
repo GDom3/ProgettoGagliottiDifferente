@@ -7,7 +7,7 @@ public class NonCiSonoOrdiniAttesiException extends SQLException {
 	private String tipoErrore = "Attenzione";
 	
 	public NonCiSonoOrdiniAttesiException() {
-		messaggioErrore = "Non ci sono Ordini attesi, ovvero nessun ordine non è stato consegnato";
+		messaggioErrore = "Non ci sono Ordini attesi, ovvero nessun ordine non è stato consegnato o spedito già";
 		
 	}
 

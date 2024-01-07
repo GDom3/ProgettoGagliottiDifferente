@@ -12,7 +12,7 @@ public class MezzoTrasporto {
 	private int capienza;
 	private boolean disponibilità;
 	private String patentiNecessarie;
-	private ArrayList<Spedizione> spedizioni;
+	private ArrayList<Spedizione> spedizioni = new ArrayList<Spedizione>();
 	
 	protected MezzoTrasporto(String codMezzo, String targa) {
 		this.codMezzo = codMezzo;

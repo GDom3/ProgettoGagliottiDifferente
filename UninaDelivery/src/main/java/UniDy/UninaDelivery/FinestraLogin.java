@@ -53,7 +53,6 @@ public class FinestraLogin extends JFrame {
 		setResizable(false);
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
@@ -84,8 +83,10 @@ public class FinestraLogin extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				autoDeleteUsername();
-			}
+				focusOnPassword(e);
+				
 			
+			}
 		});
 		
 			
@@ -116,7 +117,7 @@ public class FinestraLogin extends JFrame {
 		
 		logoUsernameImgL = new JLabel("");
 		logoUsernameImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OminoUsername.jpg")));
-		logoUsernameImgL.setBounds(205, 291, 73, 89);
+		logoUsernameImgL.setBounds(205, 306, 69, 59);
 		panelPrincipale.add(logoUsernameImgL);
 		
 		loginB = new JButton("Login");
@@ -185,23 +186,29 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.add(logoPrincipaleImgL);
 		
 	}
-	
-	protected void mettiBottoneLoginChiaro() {
+
+	protected void focusOnPassword(KeyEvent e) {
+		if(e.getKeyCode() == 10 && !usernameTF.getText().isEmpty() && !usernameTF.getText().isBlank())
+			passwordPF.requestFocusInWindow();
+		
+	}
+
+	private void mettiBottoneLoginChiaro() {
 		loginB.setBackground(arancioneChiaro);	
 	}
 
-	protected void mettiBottoneLoginScuro() {
+	private void mettiBottoneLoginScuro() {
 		loginB.setBackground(arancioneScuro);	
 	}
 
-	protected void autoDeleteUsername() {
+	private void autoDeleteUsername() {
 		//Se è username si deve levare
 		if(usernameTF.getText().equals("Username")) 
 			usernameTF.setText("");
 		
 	}
 
-	protected void autoDeletePassword() {
+	private void autoDeletePassword() {
 		//Se è password si deve levare
 		if(new String(passwordPF.getPassword()).equals("Password"))
 			passwordPF.setText("");

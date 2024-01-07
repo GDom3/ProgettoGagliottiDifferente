@@ -261,11 +261,11 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		String comando = "SELECT CodSpedizione FROM SPEDIZIONE ORDER BY(CodSpedizione) DESC;";
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
-		comunicazioneSQL.prossimaRiga();
 		try{
+			comunicazioneSQL.prossimaRiga();
 			maxCodSpedizione = risultato.getInt(1);
 		}catch (Exception e) {
-			throw new RisultatoNonRicavabileException();
+			maxCodSpedizione = 0;
 		}
 		
 		
@@ -274,7 +274,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		
 		comando = "INSERT INTO Spedizione VALUES (" + maxCodSpedizione + ", 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+ nuovaSpedizione.getCorriere().getCodCorriere() + ","+ nuovaSpedizione.getMezzoUtilizzato().getCodMezzo() +");"
 				+ "INSERT INTO Viaggio VALUES (true,"+ nuovaSpedizione.getCodOrdineIndex(0).getCodOrdine() + "," + maxCodSpedizione +")";
-	
+		
 		try {
 			comunicazioneSQL.mandaQDDL_DML(comando);
 		}catch (SQLException e) {

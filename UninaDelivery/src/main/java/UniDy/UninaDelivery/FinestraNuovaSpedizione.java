@@ -139,6 +139,8 @@ public class FinestraNuovaSpedizione extends JFrame {
 		homePanel.add(menuB);
 		
 		ordineBox = new JComboBox();
+		ordineBox.setForeground(new Color(255, 255, 255));
+		ordineBox.setBackground(new Color(179, 168, 166));
 		ordineBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		ordineBox.setToolTipText("Qui puoi selezionare l'ordine");
 		ordineBox.setFont(new Font("Century", Font.PLAIN, 20));
@@ -146,6 +148,8 @@ public class FinestraNuovaSpedizione extends JFrame {
 		contentPane.add(ordineBox);
 		
 		corriereBox = new JComboBox();
+		corriereBox.setForeground(new Color(255, 255, 255));
+		corriereBox.setBackground(new Color(179, 168, 166));
 		corriereBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		corriereBox.setToolTipText("Qui puoi selezionare il corriere");
 		corriereBox.setFont(new Font("Century", Font.PLAIN, 20));
@@ -153,6 +157,8 @@ public class FinestraNuovaSpedizione extends JFrame {
 		contentPane.add(corriereBox);
 		
 		mezzoBox = new JComboBox();
+		mezzoBox.setForeground(new Color(255, 255, 255));
+		mezzoBox.setBackground(new Color(179, 168, 166));
 		mezzoBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		mezzoBox.setToolTipText("Qui puoi selezionare il mezzo di trasporto");
 		mezzoBox.setFont(new Font("Century", Font.PLAIN, 20));
@@ -185,6 +191,10 @@ public class FinestraNuovaSpedizione extends JFrame {
 		aggiungiOrdineButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rimpicciolisciGradualmenteBottoneAnnulla(aggiungiOrdineButton);
+				
+				gestoreApplicazione.mostramiSchermataCreaOrdine();
+				
+				
 			}
 		});
 		aggiungiOrdineButton.setFocusPainted(false);
@@ -303,6 +313,8 @@ public class FinestraNuovaSpedizione extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(ordineBox.getItemCount() > 0)
 					addOrdineASpedizione();
+				else 
+					messaggioPopUp("Non puoi aggiungere ordini, in quanto non ci sono ordini attesi", "Non Puoi aggiungere ordini");
 			}
 		});
 		aggiungiOrdineASpedizione.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -398,6 +410,12 @@ public class FinestraNuovaSpedizione extends JFrame {
 		
 	}
 	
+	private void ingradisciGradualmenteBottoneMenu() {
+		//Diventa grande gradualmente
+		menuB.setFont(new Font("Century", Font.PLAIN, 19));
+		menuB.setFont(new Font("Century", Font.PLAIN, 20));
+	}
+	
 	private void rimpicciolisciGradualmenteBottoneAnnulla(JButton bottone) {
 		//Diventa Piccolo gradualmente
 		bottone.setFont(new Font("Century", Font.PLAIN, 19));
@@ -411,11 +429,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		bottone.setFont(new Font("Century", Font.PLAIN, 20));
 	}
 
-	private void ingradisciGradualmenteBottoneMenu() {
-		//Diventa grande gradualmente
-		menuB.setFont(new Font("Century", Font.PLAIN, 19));
-		menuB.setFont(new Font("Century", Font.PLAIN, 20));
-	}
+	
 
 	protected void avviati() {
 		setVisible(true);

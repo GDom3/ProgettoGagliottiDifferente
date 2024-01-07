@@ -8,7 +8,8 @@ public class OrdineDAOPlainSQL {
 	
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
-
+	private ArrayList<Ordine> ordini;
+	private int maxCodOrdine;
 
 	protected OrdineDAOPlainSQL(ComunicaConDatabase comunicazioneSQL) {
 		this.comunicazioneSQL = comunicazioneSQL;
@@ -66,8 +67,14 @@ public class OrdineDAOPlainSQL {
 
 
 	public ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws  RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException  {
-		ArrayList<Ordine> ordini = new ArrayList<Ordine>();
+		ordini = new ArrayList<Ordine>();
 		String comando = "SELECT CodOrdine,StatoOrdine FROM Ordine WHERE CodOrdine NOT IN (SELECT CodOrdine FROM Viaggio WHERE Corrente = true) ORDER BY (CodOrdine)";
+		return estraiOrdini(comando);
+	}
+	
+	
+	private ArrayList<Ordine> estraiOrdini(String comando)  throws  RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		
 		Ordine tempOrdine = null;
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
@@ -95,6 +102,43 @@ public class OrdineDAOPlainSQL {
 			}while(comunicazioneSQL.prossimaRiga());
 		
 		return ordini;
+		
+	}
+
+	protected ArrayList<Ordine> dammiOrdiniNonPartitiOFalliti() throws  RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException{
+
+		ordini = new ArrayList<Ordine>();
+		String comando = "SELECT CodOrdine,StatoOrdine FROM Ordine WHERE StatoOrdine <> 'Spedito' AND  StatoOrdine <> 'In Consegna' AND StatoOrdine <> 'Consegnato'  ORDER BY (CodOrdine)";
+		return estraiOrdini(comando);
+		
+		
+	}
+
+
+	protected void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
+		
+		String comando = "SELECT CodOrdine FROM Ordine ORDER BY (CodOrdine) DESC";
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		try{
+			comunicazioneSQL.prossimaRiga();
+			maxCodOrdine = risultato.getInt(1);
+		}catch (Exception e) {
+			maxCodOrdine = 0;
+		}
+		
+		maxCodOrdine++;
+		
+		comando = "INSERT INTO Ordine VALUES ("+maxCodOrdine+",'Presa In Carico',"+nuovoOrd.getCostoSpedizione()+",'"+nuovoOrd.getDataE()+"','"
+				+nuovoOrd.getDataConsegna()+"','"+nuovoOrd.getIndirizzo().getNumeroCivico()+"','"+nuovoOrd.getIndirizzo().getCittà()+"','"
+				+nuovoOrd.getIndirizzo().getVia()+"','"+nuovoOrd.getIndirizzo().getCAP()+"',"+nuovoOrd.getAcquirente().getCodCliente()+")";
+		comando = comando + "; UPDATE ESEMPLARE SET CodOrdine = " + maxCodOrdine + " WHERE CodiceBarre = " + nuovoOrd.getArticoliVenduti(0).getCodiceBarre() +";";
+		
+		try {
+			comunicazioneSQL.mandaQDDL_DML(comando);
+		}catch (SQLException e) {
+			throw new NonPossibileCreareOrdineException();
+		}
+		
 	}
 
 

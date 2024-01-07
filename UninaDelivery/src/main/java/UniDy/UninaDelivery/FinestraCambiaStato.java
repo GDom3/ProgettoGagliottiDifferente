@@ -16,6 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class FinestraCambiaStato extends JFrame {
 
@@ -139,6 +142,9 @@ public class FinestraCambiaStato extends JFrame {
 		principalePannello.add(confermaBottone);
 
 		statiBox = new JComboBox();
+		statiBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		statiBox.setBackground(new Color(179, 168, 166));
+		statiBox.setForeground(new Color(255, 255, 255));
 		statiBox.setFont(new Font("Century", Font.PLAIN, 20));
 		statiBox.setToolTipText("Qui puoi modificare lo stato");
 		statiBox.setBounds(108, 114, 226, 41);

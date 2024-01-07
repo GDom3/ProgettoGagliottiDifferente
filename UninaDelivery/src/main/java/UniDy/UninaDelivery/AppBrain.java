@@ -18,6 +18,7 @@ public class AppBrain {
 	private FinestraNuovaSpedizione creazioneSpedizioneWindow;
 	private FinestraVisualizzaDatiFiltrabili datiOrdiniWindow;
 	private FinestraCambiaStato cambiaStatoWindow;
+	private FinestraCreazioneNuovoOrdine creaOrdineWindow;
 	private ComunicaConDatabase comunicazioneSQL;
 	private Operatore operatorePrincipale;
 	private OperatoreDAO operatoreDAO;
@@ -27,6 +28,8 @@ public class AppBrain {
 	private OrdineDAOPlainSQL ordineDAO;
 	private CorriereDAOPlainSQL corriereDAO;
 	private MezzoTrasportoDAOPlainSQL mezziTrasportoDAO;
+	private ClienteDAOPlainSQL clienteDAO;
+	private EsemplareDAOPlainSQL esemplareDAO;
 	
 	
 	public static void main(String[] args) {
@@ -42,6 +45,7 @@ public class AppBrain {
 		datiOrdiniWindow = new FinestraVisualizzaDatiFiltrabili(this);
 		menuWindow = new FinestraMenu(this);
 		creazioneSpedizioneWindow = new FinestraNuovaSpedizione(this);
+		creaOrdineWindow = new FinestraCreazioneNuovoOrdine(this);
 		loginWindow = new FinestraLogin(this);
 		loginWindow.setVisible(true);
 		
@@ -74,6 +78,8 @@ public class AppBrain {
 		ordineDAO = new OrdineDAOPlainSQL(comunicazioneSQL);
 		corriereDAO = new CorriereDAOPlainSQL(comunicazioneSQL);
 		mezziTrasportoDAO = new MezzoTrasportoDAOPlainSQL(comunicazioneSQL);
+		clienteDAO = new ClienteDAOPlainSQL(comunicazioneSQL);
+		esemplareDAO = new EsemplareDAOPlainSQL(comunicazioneSQL);
 	}
 	
 
@@ -348,6 +354,50 @@ public class AppBrain {
 	protected void mostraFinestraReport() {
 		datiStatisticiWindow.setVisible(true);
 		menuWindow.setVisible(false);
+	}
+
+
+	protected void mostramiSchermataCreaOrdine() {
+		creaOrdineWindow.setVisible(true);
+		creazioneSpedizioneWindow.setVisible(false);
+		creaOrdineWindow.avviati();
+		
+		
+	}
+
+
+	protected void ritornaNuovaSpededizione(JFrame finestra) {
+		creazioneSpedizioneWindow.setVisible(true);
+		creazioneSpedizioneWindow.avviati();
+		finestra.setVisible(false);
+		
+	}
+
+
+	protected ArrayList<Cliente> dammiTuttiClienti() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
+		return clienteDAO.dammiTuttiClienti();
+	}
+
+
+	protected ArrayList<Esemplare> dammiEsemplariNonVenduti() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
+		return esemplareDAO.dammiEsemplariNonvenduti();
+	}
+
+
+	protected ArrayList<Ordine> dammiOrdiniNonPartitiOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		return ordineDAO.dammiOrdiniNonPartitiOFalliti();
+	}
+
+
+	protected void inserisciEsemplareInOrdine(Ordine ordine, Esemplare esemplare) throws NonCiSonoOrdiniAttesiException {
+		esemplareDAO.inserisciEsemplareInOrdine(ordine,esemplare);
+		
+	}
+
+
+	protected void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
+		ordineDAO.creaOrdine(nuovoOrd);
+		
 	}
 
 

@@ -137,7 +137,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 				autoDeleteUtente();
 			}
 		});
-		utenteTF.setText("Utente");
+		utenteTF.setText("");
 		utenteTF.setHorizontalAlignment(SwingConstants.LEFT);
 		utenteTF.setBounds(10, 106, 160, 24);
 		utenteTF.setToolTipText("Qui inserire il proprio username");
@@ -452,7 +452,8 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		try {
 			controlloInputFilitri(utente,inizio,fine);
 		} catch (DateCronologicamenteSbagliateException e1) {
-			
+			this.dataFine = null;
+			this.dataInizio = null;
 			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
 			return;
 		
@@ -511,7 +512,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 				dataInizio = DateToLocalDate(inizio);
 				
 				if(dataInizio.isAfter(dataFine)) 
-					throw new DateCronologicamenteSbagliateException(this);
+					throw new DateCronologicamenteSbagliateException();
 			
 				
 				output = JOptionPane.showConfirmDialog(this, "Vuoi filtrare solo con le date?", "Conferma filtro",0 ,JOptionPane.YES_NO_OPTION);
@@ -525,7 +526,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 				cliente = utente;
 				
 				if(dataInizio.isAfter(dataFine))
-				throw new DateCronologicamenteSbagliateException(this);
+				throw new DateCronologicamenteSbagliateException();
 				
 			}else {
 				

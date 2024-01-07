@@ -8,7 +8,7 @@ public class Corriere extends Persona {
 	private String codCorriere;
 	private boolean disponibilità;
 	private String patente;
-	private ArrayList<Spedizione> spedizioni;
+	private ArrayList<Spedizione> spedizioni = new ArrayList<Spedizione>();
 	
 	@Override
 	public String toString() {

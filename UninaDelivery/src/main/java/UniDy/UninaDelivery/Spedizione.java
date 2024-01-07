@@ -8,7 +8,7 @@ public class Spedizione {
 
 	private String codSpedizione;
 	private String StatoSpedizione;
-	private ArrayList <Ordine> ordini ;
+	private ArrayList <Ordine> ordini = new ArrayList<Ordine>();;
 	private int KM;
 	private MezzoTrasporto mezzoUtilizzato;
 	private Corriere corriere;
@@ -22,7 +22,6 @@ public class Spedizione {
 	protected Spedizione(Ordine ordine, MezzoTrasporto mezzo, Corriere corriere) {
 		mezzoUtilizzato = mezzo;
 		this.corriere = corriere;
-		ordini = new ArrayList<Ordine>();
 		ordini.add(ordine);
 		
 	}
