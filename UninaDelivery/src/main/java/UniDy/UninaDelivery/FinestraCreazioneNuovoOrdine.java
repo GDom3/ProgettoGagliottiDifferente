@@ -35,6 +35,8 @@ import com.toedter.calendar.JDateChooser;
 import javax.swing.border.LineBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class FinestraCreazioneNuovoOrdine extends JFrame {
 
@@ -172,15 +174,21 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		esemplareLabel.setBounds(0, 11, 347, 25);
 		infoOrdineLabel.add(esemplareLabel);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		scrollPane.setBounds(95, 47, 200, 41);
+		infoOrdineLabel.add(scrollPane);
+		
 		esemplariBox = new JComboBox();
+		scrollPane.setViewportView(esemplariBox);
 		esemplariBox.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		esemplariBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		esemplariBox.setToolTipText("Qui puoi selezionare il cliente");
 		esemplariBox.setForeground(Color.WHITE);
-		esemplariBox.setFont(new Font("Century", Font.PLAIN, 20));
+		esemplariBox.setFont(new Font("Century", Font.PLAIN, 18));
 		esemplariBox.setBackground(new Color(179, 168, 166));
-		esemplariBox.setBounds(95, 47, 200, 41);
-		infoOrdineLabel.add(esemplariBox);
 		
 		JLabel logoCliente_2 = new JLabel("New label");
 		logoCliente_2.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
@@ -282,15 +290,20 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		logoCliente.setBounds(62, 47, 47, 41);
 		infoClientePanel.add(logoCliente);
 		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_1.setBounds(108, 47, 200, 41);
+		infoClientePanel.add(scrollPane_1);
+		
 		clientiBox = new JComboBox();
+		scrollPane_1.setViewportView(clientiBox);
 		clientiBox.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		clientiBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		clientiBox.setForeground(new Color(255, 255, 255));
 		clientiBox.setBackground(new Color(179, 168, 166));
 		clientiBox.setToolTipText("Qui puoi selezionare il cliente");
 		clientiBox.setFont(new Font("Century", Font.PLAIN, 20));
-		clientiBox.setBounds(108, 47, 200, 41);
-		infoClientePanel.add(clientiBox);
 		
 		JButton aggiungiClienteButton = new JButton("Aggiungi cliente");
 		aggiungiClienteButton.addActionListener(new ActionListener() {
@@ -599,7 +612,6 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		
 	}
 
-
 	private void autoDelate(String testoDentro, String testoOrginale, JTextField txtFild) {
 		//svuotare appena si scrive
 		if(testoDentro.equals(testoOrginale))
@@ -620,7 +632,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		indietroBottone.setFont(new Font("Century", Font.PLAIN, 18));
 		int output = JOptionPane.showConfirmDialog(this, "Confermi di ritornare indietro", "Ritorna a crea spedizione",0 ,JOptionPane.YES_NO_OPTION);
 		if(output == 0)
-			gestoreApplicazione.ritornaNuovaSpededizione(this);
+			gestoreApplicazione.ritornaNuovaSpedizione(this);
 		
 	}
 	

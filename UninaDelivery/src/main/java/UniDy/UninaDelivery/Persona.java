@@ -49,5 +49,13 @@ public class Persona {
 	protected void setNumeroCellulare(String numeroCellulare) {
 		this.numeroCellulare = numeroCellulare;
 	}
+
+	protected LocalDate getDataNascita() {
+		return DataNascita;
+	}
+
+	protected void setDataNascita(LocalDate dataNascita) {
+		DataNascita = dataNascita;
+	}
 	
 }

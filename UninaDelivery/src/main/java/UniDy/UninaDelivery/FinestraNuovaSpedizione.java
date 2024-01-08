@@ -228,6 +228,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		aggiungiCorriereButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rimpicciolisciGradualmenteBottoneAnnulla(aggiungiCorriereButton);
+				gestoreApplicazione.mostramiSchermataInserimentoCorriere();
 			}
 		});
 		aggiungiCorriereButton.addMouseListener(new MouseAdapter() {
