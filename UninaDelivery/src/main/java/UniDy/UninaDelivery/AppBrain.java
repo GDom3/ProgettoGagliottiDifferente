@@ -20,6 +20,7 @@ public class AppBrain {
 	private FinestraCambiaStato cambiaStatoWindow;
 	private FinestraCreazioneNuovoOrdine creaOrdineWindow;
 	private FinestraCreazioneNuovoCliente creaClienteWindow;
+	private FinestraInserimentoCorriere inserisciCorriereWindow;
 	private ComunicaConDatabase comunicazioneSQL;
 	private Operatore operatorePrincipale;
 	private OperatoreDAO operatoreDAO;
@@ -47,6 +48,7 @@ public class AppBrain {
 		menuWindow = new FinestraMenu(this);
 		creazioneSpedizioneWindow = new FinestraNuovaSpedizione(this);
 		creaOrdineWindow = new FinestraCreazioneNuovoOrdine(this);
+		inserisciCorriereWindow = new FinestraInserimentoCorriere(this);
 		loginWindow = new FinestraLogin(this);
 		loginWindow.setVisible(true);
 		cambiaStatoWindow = new FinestraCambiaStato(this);
@@ -365,7 +367,7 @@ public class AppBrain {
 	}
 
 
-	protected void ritornaNuovaSpededizione(JFrame finestra) {
+	protected void ritornaNuovaSpedizione(JFrame finestra) {
 		creazioneSpedizioneWindow.setVisible(true);
 		creazioneSpedizioneWindow.avviati();
 		finestra.setVisible(false);
@@ -413,7 +415,22 @@ public class AppBrain {
 		
 	}
 
+	protected void assumiCorriere(Corriere corriere) throws OperazioneUpdateNonRiuscitaException {
+		corriereDAO.assumiCorriere(corriere);
+		
+	}
 
+
+	protected ArrayList<Corriere> estraiTuttiCorrieri() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
+		return corriereDAO.estraiTuttiCorrieri();
+	}
+	
+	protected void mostramiSchermataInserimentoCorriere() {
+		inserisciCorriereWindow.avviati();
+		inserisciCorriereWindow.setVisible(true);
+		creazioneSpedizioneWindow.setVisible(false);
+	}
+	
 }
 
 
