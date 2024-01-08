@@ -35,35 +35,26 @@ import javax.swing.JRadioButton;
 public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JPanel homePanel;
+	//Amministratore
+	private AppBrain gestoreApplicazione;
+	//Grafica Globale
 	private JButton menuB;
-	private JPanel mostraDatiPanel;
-	private JPanel filtroPanel;
-	private JLabel logoSXImgL;
-	private JLabel titoloSXL;
-	private AppBrain gestoreApplicazione ;
 	private JTextField utenteTF;
-	private JLabel utenteL;
-	private JPanel intestazionePanel;
-	private JLabel tempoL;
-	private JDateChooser tempoInizioDC;
-	private JLabel tempoInizioL;
-	private JLabel tempoFineL;
-	private JDateChooser tempoFineDC;
-	private JLabel imgFiltriL;
 	private JButton FiltraB;
-	private LocalDate dataInizio = null;
-	private LocalDate dataFine = null;
-	private String cliente = null;
-	private DefaultTableModel modelloTabella;
-	private JTable tabellaOrdini;
 	private JRadioButton sceltaDataConsegna;
 	private JRadioButton sceltaDataEsecuzione;
 	private ButtonGroup gruppoRadioDate;
 	private Color arancioneScuro = new Color(254, 114, 92);
 	private Color arancioneChiaro = new Color(254, 126, 115);
-	
+	//Tabella
+	private DefaultTableModel modelloTabella;
+	private JTable tabellaOrdini;	
+	//oggetti reali
+	private LocalDate dataInizio = null;
+	private LocalDate dataFine = null;
+	private String cliente = null;
+
+
 	public FinestraVisualizzaDatiFiltrabili(AppBrain appBrain) {
 		gestoreApplicazione = appBrain;
 		setForeground(new Color(119, 101, 101));
@@ -72,6 +63,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
+		JPanel contentPane;
 		contentPane = new JPanel();
 		contentPane.setForeground(new Color(119, 101, 101));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,6 +71,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel homePanel;
 		homePanel = new JPanel();
 		homePanel.setBackground(new Color(119, 101, 101));
 		homePanel.setBounds(69, 0, 715, 37);
@@ -117,12 +110,14 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		menuB.setBackground(new Color(119, 101, 101));
 		homePanel.add(menuB);
 		
+		JPanel mostraDatiPanel;
 		mostraDatiPanel = new JPanel();
 		mostraDatiPanel.setBackground(new Color(119, 101, 101));
 		mostraDatiPanel.setBounds(69, 37, 715, 524);
 		contentPane.add(mostraDatiPanel);
 		mostraDatiPanel.setLayout(null);
 		
+		JPanel filtroPanel;
 		filtroPanel = new JPanel();
 		filtroPanel.setBounds(530, 35, 175, 433);
 		mostraDatiPanel.add(filtroPanel);
@@ -157,36 +152,43 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		titoloFiltriL.setBounds(10, 11, 136, 37);
 		filtroPanel.add(titoloFiltriL);
 		
+
+		JLabel utenteL;
 		utenteL = new JLabel("Utente");
 		utenteL.setFont(new Font("Century", Font.BOLD, 20));
 		utenteL.setForeground(new Color(255, 255, 255));
 		utenteL.setBounds(10, 73, 94, 31);
 		filtroPanel.add(utenteL);
 		
+		JLabel tempoL;
 		tempoL = new JLabel("Tempo");
 		tempoL.setForeground(Color.WHITE);
 		tempoL.setFont(new Font("Century", Font.BOLD, 20));
 		tempoL.setBounds(10, 160, 94, 31);
 		filtroPanel.add(tempoL);
 		
+		JPanel intestazionePanel;
 		intestazionePanel = new JPanel();
 		intestazionePanel.setBackground(new Color(239, 235, 229));
 		intestazionePanel.setBounds(0, 0, 71, 561);
 		contentPane.add(intestazionePanel);
 		intestazionePanel.setLayout(null);
 		
+		JLabel logoSXImgL;
 		logoSXImgL = new JLabel("New label");
 		logoSXImgL.setBackground(new Color(239, 235, 229));
 		logoSXImgL.setIcon(new ImageIcon(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/LogoHSX.png")));
 		logoSXImgL.setBounds(0, 0, 71, 65);
 		intestazionePanel.add(logoSXImgL);
 		
+		JLabel titoloSXL;
 		titoloSXL = new JLabel("New label");
 		titoloSXL.setIcon(new ImageIcon(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/SxTitoloImg.jpg")));
 		titoloSXL.setHorizontalAlignment(SwingConstants.LEFT);
 		titoloSXL.setBounds(10, 76, 45, 474);
 		intestazionePanel.add(titoloSXL);
-		
+
+		JDateChooser tempoInizioDC;
 		tempoInizioDC = new JDateChooser();
 		tempoInizioDC.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
 		tempoInizioDC.getCalendarButton().setBackground(new Color(255, 255, 255));
@@ -199,18 +201,21 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		tempoInizioDC.setSize(160, 24);
 		filtroPanel.add(tempoInizioDC);
 		
+		JLabel tempoInizioL;
 		tempoInizioL = new JLabel("Da");
 		tempoInizioL.setForeground(Color.WHITE);
 		tempoInizioL.setFont(new Font("Century", Font.BOLD, 18));
 		tempoInizioL.setBounds(10, 190, 94, 31);
 		filtroPanel.add(tempoInizioL);
 		
+		JLabel tempoFineL;
 		tempoFineL = new JLabel("A");
 		tempoFineL.setForeground(Color.WHITE);
 		tempoFineL.setFont(new Font("Century", Font.BOLD, 18));
 		tempoFineL.setBounds(10, 251, 80, 31);
 		filtroPanel.add(tempoFineL);
 		
+		JDateChooser tempoFineDC;
 		tempoFineDC = new JDateChooser();
 		tempoFineDC.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
 		tempoFineDC.getCalendarButton().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -221,6 +226,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		tempoFineDC.setBounds(10, 282, 160, 24);
 		filtroPanel.add(tempoFineDC);
 		
+		JLabel imgFiltriL;
 		imgFiltriL = new JLabel("");
 		imgFiltriL.setBounds(132, 11, 33, 37);
 		filtroPanel.add(imgFiltriL);
@@ -434,13 +440,14 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	}
 	
 	protected void svuotaTabella() {
-		
+		//prendo il numero di elementi
 		int NumRighe = tabellaOrdini.getRowCount();
-	
+		
+		//Elimino tante righe quante ne ha
 		if(NumRighe > 0)
 			for(int i = 0; i < NumRighe;i++) 
 				modelloTabella.removeRow(0);	
-		
+	
 	}
 	
 	protected boolean IsTabellaVuota() {
@@ -448,32 +455,25 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 	}
 	
+	
 	private void azionaFiltri(String utente, Date inizio, Date fine) {
 		try {
+			//Controllo i dati d'input
 			controlloInputFilitri(utente,inizio,fine);
-		} catch (DateCronologicamenteSbagliateException e1) {
-			this.dataFine = null;
-			this.dataInizio = null;
-			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
-			return;
-		
-		} catch (FiltriVuotiException e1) {
 			
-			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
-			return;
-		}
-		
-		
-		try {
+			//Filtro in base hai dati dati
 			if(dataInizio != null)
 				if(cliente != null)
-					gestoreApplicazione.filtra(cliente,dataInizio,dataFine);
+					gestoreApplicazione.filtraConTutto(cliente,dataInizio,dataFine);
 				else
-					gestoreApplicazione.filtra(dataInizio,dataFine);
+					gestoreApplicazione.filtraSoloData(dataInizio,dataFine);
 			else 
-				gestoreApplicazione.filtra(cliente);
+				gestoreApplicazione.filtraSoloCliente(cliente);
 				
-		
+		} catch (DateCronologicamenteSbagliateException e1) {
+			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
+		} catch (FiltriVuotiException e1) {
+			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
 		} catch (CreazioneStatementFallitaException e) {
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 		} catch (ConnessionNonRiuscitaException e) {
@@ -483,9 +483,11 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		} catch (DatiTrovatiDopoIlFiltraggioVuotiException e) {
 			svuotaTabella();
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+		} catch (DateVuoteException e) {
+			messaggioPopUp(e.getMessaggioErrore(), e.getNomeErrore());
 		}
 		
-		
+		//Azzera
 		cliente = null ;
 		dataInizio = null;
 		dataFine = null ;
@@ -501,56 +503,49 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		return LocalDate.ofInstant(data.toInstant(), ZoneId.systemDefault());
 	}
 	
-	private void controlloInputFilitri(String utente, Date inizio, Date fine) throws DateCronologicamenteSbagliateException, FiltriVuotiException {
+	private void controlloInputFilitri(String utente, Date inizio, Date fine) throws DateCronologicamenteSbagliateException, FiltriVuotiException, DateVuoteException {
 		int output;
+		//Senza Utente
 		if(utente.equals("Utente") || utente.isBlank()) {
 			cliente = null;
+			//Non Ho nulla
 			if(inizio == null || fine == null)
-				throw new FiltriVuotiException(this);
+				throw new FiltriVuotiException();
+			//Ho solo le date
 			else{
+				//Le convero in LocalDate
 				dataFine = DateToLocalDate(fine);
 				dataInizio = DateToLocalDate(inizio);
 				
+				//Verifico la corettezza temporale
 				if(dataInizio.isAfter(dataFine)) 
 					throw new DateCronologicamenteSbagliateException();
 			
-				
+				//Chiedo Di procedere
 				output = JOptionPane.showConfirmDialog(this, "Vuoi filtrare solo con le date?", "Conferma filtro",0 ,JOptionPane.YES_NO_OPTION);
 				if(output != 0)
-					throw new FiltriVuotiException(this);		
+					throw new FiltriVuotiException();		
 			}
 		}else
+			//Ho tutto
 			if(inizio != null && fine != null) {
 				dataFine = DateToLocalDate(fine);
 				dataInizio = DateToLocalDate(inizio);
 				cliente = utente;
 				
+				//Verifico la corettezza temporale
 				if(dataInizio.isAfter(dataFine))
-				throw new DateCronologicamenteSbagliateException();
+					throw new DateCronologicamenteSbagliateException();
 				
 			}else {
-				
+				//Ho solo il Cliente
 				output = JOptionPane.showConfirmDialog(this, "Vuoi filtrare solo con il cliente?", "Conferma filtro",0 ,JOptionPane.YES_NO_OPTION);
 				if(output != 0)
-					throw new FiltriVuotiException(this);
+					throw new DateVuoteException();
 				else
 					cliente = utente;
 			}
 	}
-
-	
-	protected void setDataInizio(LocalDate dataInizio) {
-		this.dataInizio = dataInizio;
-	}
-	
-	protected void setDataFine(LocalDate dataFine) {
-		this.dataFine = dataFine;
-	}
-	
-	protected void setCliente(String cliente) {
-		this.cliente = cliente;
-	}
-
 
 	protected void messaggioPopUp(String testo, String titolo) {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);

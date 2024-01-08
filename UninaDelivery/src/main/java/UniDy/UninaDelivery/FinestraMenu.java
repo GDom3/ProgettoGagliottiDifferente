@@ -22,19 +22,12 @@ import java.awt.Cursor;
 
 public class FinestraMenu extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private JPanel parteSxPanel;
-	private JPanel parteDxPanel;
-	private JLabel logoPrincipaleImgSxL;
-	private JLabel operatoreL;
-	private JLabel benvenutoL;
-	private JButton logOutB;
-	private JPanel contentPane;
-	private JButton visualizzaB;
-	private JButton nuovaSpedizioneB;
-	private JButton reportB;
+	//Amministratore
 	private AppBrain gestoreApplicazione;
-
-
+	//Grafica Globale
+	private JLabel operatoreL;
+	private JButton logOutB;
+	
 	public FinestraMenu(AppBrain appBrain) {
 		gestoreApplicazione = appBrain;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraMenu.class.getResource("/Img/Icon.png")));
@@ -42,24 +35,29 @@ public class FinestraMenu extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
+		
+		JPanel contentPane;
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel parteSxPanel;
 		parteSxPanel = new JPanel();
 		parteSxPanel.setBackground(new Color(239, 235, 229));
 		parteSxPanel.setBounds(0, 0, 385, 561);
 		contentPane.add(parteSxPanel);
 		parteSxPanel.setLayout(null);
 		
+		JLabel logoPrincipaleImgSxL;
 		logoPrincipaleImgSxL = new JLabel("");
 		logoPrincipaleImgSxL.setHorizontalAlignment(SwingConstants.CENTER);
 		logoPrincipaleImgSxL.setIcon(new ImageIcon(FinestraMenu.class.getResource("/Img/SxMenu.jpg")));
 		logoPrincipaleImgSxL.setBounds(66, 165, 232, 210);
 		parteSxPanel.add(logoPrincipaleImgSxL);
 		
+		JLabel benvenutoL;
 		benvenutoL = new JLabel("Benvenuto/a");
 		benvenutoL.setForeground(new Color(0, 0, 0));
 		benvenutoL.setFont(new Font("Century", Font.PLAIN, 30));
@@ -74,12 +72,14 @@ public class FinestraMenu extends JFrame {
 		operatoreL.setBounds(10, 75, 365, 125);
 		parteSxPanel.add(operatoreL);
 		
+		JPanel parteDxPanel;
 		parteDxPanel = new JPanel();
 		parteDxPanel.setBackground(new Color(119, 101, 101));
 		parteDxPanel.setBounds(383, 0, 401, 561);
 		contentPane.add(parteDxPanel);
 		parteDxPanel.setLayout(null);
 		
+		JButton visualizzaB;
 		visualizzaB = new JButton();
 		visualizzaB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		visualizzaB.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
@@ -108,6 +108,7 @@ public class FinestraMenu extends JFrame {
 		visualizzaB.setBackground(new Color(179, 168, 166));
 		parteDxPanel.add(visualizzaB);
 		
+		JButton nuovaSpedizioneB;
 		nuovaSpedizioneB = new JButton();
 		nuovaSpedizioneB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -136,6 +137,7 @@ public class FinestraMenu extends JFrame {
 		nuovaSpedizioneB.setBounds(48, 255, 306, 51);
 		parteDxPanel.add(nuovaSpedizioneB);
 		
+		JButton reportB;
 		reportB = new JButton();
 		reportB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		reportB.addMouseListener(new MouseAdapter() {

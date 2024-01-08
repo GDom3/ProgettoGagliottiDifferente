@@ -42,28 +42,18 @@ import java.awt.event.HierarchyEvent;
 public class FinestraNuovaSpedizione extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	//Amministratore
 	private AppBrain gestoreApplicazione;
-	private JPanel intestazionePanel;
-	private JLabel titoloSXL;
-	private JLabel logoSXImgL;
-	private JPanel homePanel;
+	//Grafica Globale
 	private JButton menuB;
-	private JButton aggiungiOrdineButton;
-	private JLabel mezzoLabel;
-	private JLabel corriereLabal;
-	private JLabel ordineLabel;
 	private JComboBox mezzoBox;
 	private JComboBox corriereBox;
 	private JComboBox ordineBox;
-	private JButton aggiungiCorriereButton;
-	private JButton aggiungiMezzoButton;
+	private JSpinner regolatoreKM;
+	//Oggetti Reali
 	private ArrayList<Ordine> ordini;
 	private ArrayList<Corriere> corrieri;
 	private ArrayList<MezzoTrasporto> mezzi;
-	private JButton nuovaSpedizioneB;
-	private JSpinner regolatoreKM;
-	private JButton aggiungiOrdineASpedizione;
 	
 	public FinestraNuovaSpedizione(AppBrain appBrain) {
 		setFont(new Font("Century", Font.PLAIN, 12));
@@ -73,6 +63,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		gestoreApplicazione = appBrain;
 		setDefaultCloseOperation(gestoreApplicazione.exit());
 		setBounds(100, 100, 800, 600);
+		JPanel contentPane;
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(119, 101, 101));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -80,25 +71,28 @@ public class FinestraNuovaSpedizione extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		JPanel intestazionePanel;
 		intestazionePanel = new JPanel();
 		intestazionePanel.setLayout(null);
 		intestazionePanel.setBackground(new Color(239, 235, 229));
 		intestazionePanel.setBounds(0, 0, 71, 561);
 		contentPane.add(intestazionePanel);
 		
-		
+		JLabel titoloSXL;
 		titoloSXL = new JLabel("");
 		titoloSXL.setIcon(new ImageIcon(FinestraNuovaSpedizione.class.getResource("/Img/SxTitoloImg.jpg")));
 		titoloSXL.setHorizontalAlignment(SwingConstants.LEFT);
 		titoloSXL.setBounds(10, 76, 45, 474);
 		intestazionePanel.add(titoloSXL);
 		
+		JLabel logoSXImgL;
 		logoSXImgL = new JLabel("New Label");
 		logoSXImgL.setIcon(new ImageIcon(FinestraNuovaSpedizione.class.getResource("/Img/LogoHSX.png")));
 		logoSXImgL.setBounds(0, 0, 71, 65);
 		titoloSXL.setHorizontalAlignment(SwingConstants.LEFT);
 		intestazionePanel.add(logoSXImgL);
 		
+		JPanel homePanel;
 		homePanel = new JPanel();
 		homePanel.setLayout(null);
 		homePanel.setBackground(new Color(119, 101, 101));
@@ -156,6 +150,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		corriereBox.setBounds(324, 194, 200, 41);
 		contentPane.add(corriereBox);
 		
+		
 		mezzoBox = new JComboBox();
 		mezzoBox.setForeground(new Color(255, 255, 255));
 		mezzoBox.setBackground(new Color(179, 168, 166));
@@ -165,6 +160,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		mezzoBox.setBounds(534, 194, 200, 41);
 		contentPane.add(mezzoBox);
 
+		JLabel ordineLabel;
 		ordineLabel = new JLabel("Ordine");
 		ordineLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		ordineLabel.setForeground(new Color(255, 255, 255));
@@ -172,6 +168,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		ordineLabel.setBounds(114, 146, 200, 37);
 		contentPane.add(ordineLabel);
 	
+		JLabel corriereLabal;
 		corriereLabal = new JLabel("Corriere");
 		corriereLabal.setHorizontalAlignment(SwingConstants.CENTER);
 		corriereLabal.setForeground(Color.WHITE);
@@ -179,7 +176,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		corriereLabal.setBounds(324, 146, 200, 37);
 		contentPane.add(corriereLabal);
 
-		
+		JLabel mezzoLabel;
 		mezzoLabel = new JLabel("Mezzo");
 		mezzoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		mezzoLabel.setForeground(Color.WHITE);
@@ -187,6 +184,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		mezzoLabel.setBounds(534, 146, 200, 37);
 		contentPane.add(mezzoLabel);
 		
+		JButton aggiungiOrdineButton;
 		aggiungiOrdineButton = new JButton("Aggiungi ordine");
 		aggiungiOrdineButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -217,6 +215,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		aggiungiOrdineButton.setBounds(114, 246, 200, 33);
 		contentPane.add(aggiungiOrdineButton);
 		
+		JButton aggiungiCorriereButton;
 		aggiungiCorriereButton = new JButton("Aggiungi corriere");
 		aggiungiCorriereButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		aggiungiCorriereButton.setToolTipText("Qui puoi assumere un nuovo corriere");
@@ -243,6 +242,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		});
 		contentPane.add(aggiungiCorriereButton);
 		
+		JButton aggiungiMezzoButton;
 		aggiungiMezzoButton = new JButton("Aggiungi mezzo");
 		aggiungiMezzoButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		aggiungiMezzoButton.addActionListener(new ActionListener() {
@@ -269,6 +269,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		aggiungiMezzoButton.setBounds(534, 246, 200, 33);
 		contentPane.add(aggiungiMezzoButton);
 		
+		JButton nuovaSpedizioneB;
 		nuovaSpedizioneB = new JButton("Crea Nuova Spedizione");
 		nuovaSpedizioneB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -308,6 +309,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		regolatoreKM.setBounds(358, 321, 200, 41);
 		contentPane.add(regolatoreKM);
 		
+		JButton aggiungiOrdineASpedizione;
 		aggiungiOrdineASpedizione = new JButton("Aggiungi Ordine A Spedizione Esistente");
 		aggiungiOrdineASpedizione.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -335,23 +337,28 @@ public class FinestraNuovaSpedizione extends JFrame {
 		
 		ArrayList<Spedizione> spedizioniNonPartite = new ArrayList<Spedizione>();
 		try {
+			//Ricavo le spedizioni disponibili
 			spedizioniNonPartite = gestoreApplicazione.dammiSpedizioniNonPartite();
+			
+			//Gestisco la combobox, e la riempio
+			JComboBox spedizioni = new JComboBox(spedizioniNonPartite.toArray());
+			
+			//Richiedo cosa fare all'utente
+			input = JOptionPane.showConfirmDialog(this,spedizioni,"Seleziona Spedizione",JOptionPane.OK_CANCEL_OPTION);
+			if(input == 0)
+				input = JOptionPane.showConfirmDialog(this,"Vuoi aggiungere l'ordine "+ ordini.get(ordineBox.getSelectedIndex()).getCodOrdine() + " alla spedizione "+spedizioniNonPartite.get(spedizioni.getSelectedIndex()),"Conferma Scelta",JOptionPane.OK_CANCEL_OPTION);
+				if (input == 0) {
+					
+					inserisciOrdineInSpedizione(spedizioniNonPartite.get(spedizioni.getSelectedIndex()),ordini.get(ordineBox.getSelectedIndex()));
+					avviati();
+				}
 		} catch (NonCiSonoSpedizioniNonPartite e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (RisultatoNonRicavabileException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		}
 		
-		JComboBox spedizioni = new JComboBox(spedizioniNonPartite.toArray());
 		
-		input = JOptionPane.showConfirmDialog(this,spedizioni,"Seleziona Spedizione",JOptionPane.OK_CANCEL_OPTION);
-		if(input == 0)
-			input = JOptionPane.showConfirmDialog(this,"Vuoi aggiungere l'ordine "+ ordini.get(ordineBox.getSelectedIndex()).getCodOrdine() + " alla spedizione "+spedizioniNonPartite.get(spedizioni.getSelectedIndex()),"Conferma Scelta",JOptionPane.OK_CANCEL_OPTION);
-			if (input == 0) {
-				
-				inserisciOrdineInSpedizione(spedizioniNonPartite.get(spedizioni.getSelectedIndex()),ordini.get(ordineBox.getSelectedIndex()));
-				avviati();
-			}
 	
 		
 		
@@ -373,23 +380,23 @@ public class FinestraNuovaSpedizione extends JFrame {
 		Spedizione nuovaSpedizione;
 	
 		try {
+			//Preparo la nuova spedizione
 			nuovaSpedizione = new Spedizione(ordini.get(ordineBox.getSelectedIndex()),mezzi.get(mezzoBox.getSelectedIndex()),corrieri.get(corriereBox.getSelectedIndex()));
+			
+			//la provo ad inserire
 			gestoreApplicazione.creamiNuovaSpedizione(nuovaSpedizione,(int) regolatoreKM.getValue());
 			messaggioPopUp("E' stata creata la nuova spedizione","Creazione Riuscita");
 			
+			avviati();
 		} catch (OperazioneUpdateNonRiuscitaException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (RisultatoNonRicavabileException e) {
-			
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (NonPossibileCreareSpedizioneException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (Exception e) {
 			messaggioPopUp("Non puoi procedere con questa funzionalità, in quanto non ci sono dati coerenti e non vuoti disponibili","Errore");
-		}
-		
-		avviati();
-		
+		}	
 		
 	}
 
@@ -435,15 +442,15 @@ public class FinestraNuovaSpedizione extends JFrame {
 		setVisible(true);
 		try {
 			ordini = gestoreApplicazione.estraiOrdiniSenzaSpedOFalliti();
-			corrieri = gestoreApplicazione.estraiCorrieriSenzaSped();
-			mezzi = gestoreApplicazione.estraiMezziSenzaSped();
-			
 			riempiOrdini();
+			
+			corrieri = gestoreApplicazione.estraiCorrieriSenzaSped();
 			riempiCorriere();
+			
+			mezzi = gestoreApplicazione.estraiMezziSenzaSped();
 			riempiMezzi();
 			
 		} catch (RisultatoNonRicavabileException e) {
-			System.out.println("eafef");
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (NonCiSonoOrdiniAttesiException e) {
 			ordineBox.setModel(new DefaultComboBoxModel());
@@ -462,25 +469,24 @@ public class FinestraNuovaSpedizione extends JFrame {
 	private void riempiMezzi() {
 		ArrayList<String> mezziCod = new ArrayList<String>(mezzi.size());
 		
-		for (MezzoTrasporto mezzo : mezzi) {
+		//Bado all'estetica
+		for (MezzoTrasporto mezzo : mezzi) 
 			mezziCod.add( "(" + mezzo.getCodMezzo() +") " + mezzo.getTarga());
-		}
 		
-		
+		//Gestisco la comboBox
 		DefaultComboBoxModel modelloMezzo = new DefaultComboBoxModel(mezziCod.toArray());
 		mezzoBox.setModel(modelloMezzo);
 		
 	}
 
 	private void riempiOrdini() {
-	
 		ArrayList<String> codici = new ArrayList<String>(ordini.size());
-	
-		for (Ordine ordine : ordini) {
+		
+		//Bado all'estetica
+		for (Ordine ordine : ordini) 
 			codici.add(ordine.getCodOrdine() + " (" + ordine.getStatoOrdine() + ")");
-		}
 		
-		
+		//Gestisco la comboBox
 		DefaultComboBoxModel modelloOrdini = new DefaultComboBoxModel(codici.toArray());
 		ordineBox.setModel(modelloOrdini);
 		
@@ -488,14 +494,13 @@ public class FinestraNuovaSpedizione extends JFrame {
 	
 	
 	private void riempiCorriere() {
-		
 		ArrayList<String> codici = new ArrayList<String>(corrieri.size());
 		
-		for (Corriere corriere : corrieri) {
+		//Bado all'estetica
+		for (Corriere corriere : corrieri) 
 			codici.add( "(" + corriere.getCodCorriere() +") " + corriere.getNome() + " " + corriere.getCognome());
-		}
 		
-		
+		//Gestisco la comboBox
 		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(codici.toArray());
 		corriereBox.setModel(modelloCorrieri);
 		

@@ -27,10 +27,11 @@ import javax.swing.JRadioButton;
 public class FinestraReportStatistico extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JButton menuB ;
+	//Amministratore
 	private AppBrain gestoreApplicazione;
-
+	//Grafica Globale
+	private JButton menuB ;
+	
 
 	public FinestraReportStatistico(AppBrain appBrain) {
 		gestoreApplicazione = appBrain;
@@ -39,6 +40,7 @@ public class FinestraReportStatistico extends JFrame {
 		setResizable(false);
 		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
+		JPanel contentPane;
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(119, 101, 101));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

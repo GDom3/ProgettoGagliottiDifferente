@@ -19,6 +19,7 @@ public class AppBrain {
 	private FinestraVisualizzaDatiFiltrabili datiOrdiniWindow;
 	private FinestraCambiaStato cambiaStatoWindow;
 	private FinestraCreazioneNuovoOrdine creaOrdineWindow;
+	private FinestraCreazioneNuovoCliente creaClienteWindow;
 	private ComunicaConDatabase comunicazioneSQL;
 	private Operatore operatorePrincipale;
 	private OperatoreDAO operatoreDAO;
@@ -48,14 +49,12 @@ public class AppBrain {
 		creaOrdineWindow = new FinestraCreazioneNuovoOrdine(this);
 		loginWindow = new FinestraLogin(this);
 		loginWindow.setVisible(true);
-		
 		cambiaStatoWindow = new FinestraCambiaStato(this);
-		
+		creaClienteWindow = new FinestraCreazioneNuovoCliente(this);
 		
 		//mostraFinestraVisualizza();
 		//datiOrdiniWindow.setVisible(true); 
 		//menuWindow.setVisible(true); 
-		
 		
 		
 		// Avvia Comunicazione
@@ -168,7 +167,7 @@ public class AppBrain {
 	
 	
 	
-	protected void filtra(String cliente, LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException{
+	protected void filtraConTutto(String cliente, LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException{
 		if(datiOrdiniWindow.IsDataEsecuzioneSelezionato())
 			spedizioni = spedizioneDAO.ricavaSpedizioniPerUtenteEDateE(cliente, dataInizio, dataFine);
 		else
@@ -179,7 +178,7 @@ public class AppBrain {
 	}
  
 	
-	protected void filtra(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException  {
+	protected void filtraSoloData(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException  {
 		if(datiOrdiniWindow.IsDataEsecuzioneSelezionato())
 			spedizioni = spedizioneDAO.ricavaSpedizioniPerDateE(dataInizio, dataFine);
 		else
@@ -190,7 +189,7 @@ public class AppBrain {
 	}
 
 	
-	protected void filtra(String cliente) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {	
+	protected void filtraSoloCliente(String cliente) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {	
 		spedizioni = spedizioneDAO.ricavaSpedizioniPerCliente(cliente);
 		
 		stampaInTablella();
@@ -397,6 +396,20 @@ public class AppBrain {
 
 	protected void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
 		ordineDAO.creaOrdine(nuovoOrd);
+		
+	}
+
+
+	protected void mostraFinestraCreazioneCliente() {
+		creaClienteWindow.setVisible(true);
+		creaOrdineWindow.setVisible(false);
+		
+	}
+
+
+	protected void ritornaNuovoOrdine(JFrame finestra) {
+		creaOrdineWindow.setVisible(true);
+		finestra.setVisible(false);
 		
 	}
 

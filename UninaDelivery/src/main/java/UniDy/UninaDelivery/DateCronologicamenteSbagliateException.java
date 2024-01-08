@@ -8,7 +8,6 @@ public class DateCronologicamenteSbagliateException extends Exception {
 		messaggioErrore = "le date inserite non sono valide, il periodo di tempo deve essere coerente";
 		nomeErrore = "Data fine maggiore data inizio";
 		
-		
 	}
 
 	protected String getMessaggioErrore() {

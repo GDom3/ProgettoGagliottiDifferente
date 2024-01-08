@@ -39,8 +39,9 @@ import java.awt.event.KeyEvent;
 public class FinestraCreazioneNuovoOrdine extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	//Amministratore
 	private AppBrain gestoreApplicazione;
+	//Grafica Globale
 	private JButton indietroBottone;
 	private JTextField cittaTxF;
 	private JTextField viaTxF;
@@ -49,6 +50,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	private JSpinner costoFild;
 	private JComboBox clientiBox;
 	private JComboBox esemplariBox;
+	//Oggetti Reali
 	private LocalDate dataE;
 	private LocalDate dataConsegna;
 	private ArrayList<Cliente> clienti;
@@ -66,6 +68,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		gestoreApplicazione = appBrain;
 		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
+		JPanel contentPane;
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(119, 101, 101));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -139,13 +142,14 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		infoOrdineLabel.setLayout(null);
 		
 		costoFild = new JSpinner();
+		costoFild.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		costoFild.setForeground(new Color(255, 255, 255));
 		costoFild.setBackground(new Color(179, 168, 166));
 		costoFild.setModel(new SpinnerNumberModel(Float.valueOf(1), Float.valueOf(0), null, Float.valueOf(1)));
 		costoFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		costoFild.setFont(new Font("Century", Font.PLAIN, 20));
-		costoFild.setBounds(95, 187, 200, 41);
+		costoFild.setBounds(95, 187, 200, 43);
 		infoOrdineLabel.add(costoFild);
 		
 		JLabel costoLabel = new JLabel("Costo");
@@ -156,8 +160,9 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		infoOrdineLabel.add(costoLabel);
 		
 		JLabel logoCliente_1 = new JLabel("New label");
+		logoCliente_1.setBorder(new LineBorder(new Color(179, 168, 166), 1, true));
 		logoCliente_1.setIcon(new ImageIcon(FinestraCreazioneNuovoOrdine.class.getResource("/Img/costoImg.png")));
-		logoCliente_1.setBounds(55, 187, 41, 41);
+		logoCliente_1.setBounds(54, 187, 43, 43);
 		infoOrdineLabel.add(logoCliente_1);
 		
 		JLabel esemplareLabel = new JLabel("Esemplare");
@@ -168,6 +173,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		infoOrdineLabel.add(esemplareLabel);
 		
 		esemplariBox = new JComboBox();
+		esemplariBox.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		esemplariBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		esemplariBox.setToolTipText("Qui puoi selezionare il cliente");
 		esemplariBox.setForeground(Color.WHITE);
@@ -177,8 +183,9 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		infoOrdineLabel.add(esemplariBox);
 		
 		JLabel logoCliente_2 = new JLabel("New label");
+		logoCliente_2.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		logoCliente_2.setIcon(new ImageIcon(FinestraCreazioneNuovoOrdine.class.getResource("/Img/esemplari.png")));
-		logoCliente_2.setBounds(55, 47, 41, 41);
+		logoCliente_2.setBounds(54, 47, 42, 41);
 		infoOrdineLabel.add(logoCliente_2);
 		
 		JButton aggiungiEsemplareButton = new JButton("Aggiungi esemplare");
@@ -220,7 +227,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		DataEDataChoser.getCalendarButton().setBackground(Color.WHITE);
 		DataEDataChoser.setToolTipText("inserisci data di esecuzione del ordine");
 		DataEDataChoser.setFont(new Font("Century", Font.PLAIN, 18));
-		DataEDataChoser.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
+		DataEDataChoser.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		DataEDataChoser.setBackground(new Color(179, 168, 166));
 		DataEDataChoser.setBounds(157, 295, 170, 33);
 		infoOrdineLabel.add(DataEDataChoser);
@@ -245,7 +252,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		DataConsegnaDataChoser.getCalendarButton().setBackground(Color.WHITE);
 		DataConsegnaDataChoser.setToolTipText("inserisci data di consegna del ordine");
 		DataConsegnaDataChoser.setFont(new Font("Century", Font.PLAIN, 18));
-		DataConsegnaDataChoser.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
+		DataConsegnaDataChoser.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		DataConsegnaDataChoser.setBackground(new Color(179, 168, 166));
 		DataConsegnaDataChoser.setBounds(157, 354, 170, 33);
 		infoOrdineLabel.add(DataConsegnaDataChoser);
@@ -276,6 +283,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		infoClientePanel.add(logoCliente);
 		
 		clientiBox = new JComboBox();
+		clientiBox.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		clientiBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		clientiBox.setForeground(new Color(255, 255, 255));
 		clientiBox.setBackground(new Color(179, 168, 166));
@@ -288,6 +296,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		aggiungiClienteButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rimpicciolisciGradualmenteBottoneAdd(aggiungiClienteButton);
+				gestoreApplicazione.mostraFinestraCreazioneCliente();
 			}
 		});
 		aggiungiClienteButton.addMouseListener(new MouseAdapter() {
@@ -436,13 +445,13 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
 				} catch (DateVuoteException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoCittàVuoto e1) {
+				} catch (CampoCittàVuotoException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoViaVuoto e1) {
+				} catch (CampoViaVuotoException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoNumeroCivicoVuoto e1) {
+				} catch (CampoNumeroCivicoVuotoException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoCapVuoto e1) {
+				} catch (CampoCapVuotoException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
 				}
 				
@@ -479,9 +488,11 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	}
 	
 	
-	protected void creaOrdine() {
+	private void creaOrdine() {
+		//Preparo l'ordine
 		nuovoOrd = new Ordine(clienti.get(clientiBox.getSelectedIndex()),esemplari.get(esemplariBox.getSelectedIndex()),(float)costoFild.getValue(),dataE,dataConsegna,cittaTxF.getText(),viaTxF.getText(),numeroCivicoTxF.getText(),CAPTxF.getText());		
 		try {
+			//Lo invio al db
 			gestoreApplicazione.creaOrdine(nuovoOrd);
 			messaggioPopUp("Creazioenavvenuta con successo, l'ordine ed ora disponibile", "Inserimento Riuscito");
 			avviati();
@@ -493,40 +504,45 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	}
 
 
-	protected int confermaCreazione() {
+	private int confermaCreazione() {
 		return JOptionPane.showConfirmDialog(this, "Sei sicuro di voler creare l'ordine con questi elementi?","Conferma Scelta",JOptionPane.YES_NO_CANCEL_OPTION);
 		
 	}
 
 
-	protected void verificaTxtFildVuoti() throws CampoCittàVuoto, CampoViaVuoto, CampoNumeroCivicoVuoto, CampoCapVuoto {
+	private void verificaTxtFildVuoti() throws CampoCittàVuotoException, CampoViaVuotoException, CampoNumeroCivicoVuotoException, CampoCapVuotoException {
 		boolean verifica;
+		//Verifico ogni singolo campo di testo
+		
 		verifica = cittaTxF.getText().equals("Città") || cittaTxF.getText().isEmpty() || cittaTxF.getText().isBlank();
 		if(verifica)
-			throw new CampoCittàVuoto();
+			throw new CampoCittàVuotoException();
 
 		verifica = verifica || viaTxF.getText().equals("Via/Viale") || viaTxF.getText().isEmpty() || viaTxF.getText().isBlank();
 		if(verifica)
-			throw new CampoViaVuoto();
+			throw new CampoViaVuotoException();
 		
 		verifica = verifica || numeroCivicoTxF.getText().equals("Numero Civico") || numeroCivicoTxF.getText().isEmpty() || numeroCivicoTxF.getText().isBlank();
 		if(verifica)
-			throw new CampoNumeroCivicoVuoto();
+			throw new CampoNumeroCivicoVuotoException();
 		
 		verifica = verifica || CAPTxF.getText().equals("CAP") || CAPTxF.getText().isEmpty() || CAPTxF.getText().isBlank();
 		if(verifica)
-			throw new CampoCapVuoto();
+			throw new CampoCapVuotoException();
 		
 	}
 
 
 	private void verificaDate(Date esecuzioneData, Date consegnaData) throws DateCronologicamenteSbagliateException, DateVuoteException {
+		//Verifico che non siano vuote
 		if(esecuzioneData == null || consegnaData == null)
 			throw new DateVuoteException();
 		
+		//Converto le date
 		dataConsegna = DateToLocalDate(consegnaData);
 		dataE = DateToLocalDate(esecuzioneData);
 		
+		//verifico che non siano inserite cronologicamente bene
 		if(dataConsegna.isBefore(dataE))
 			throw new DateCronologicamenteSbagliateException();
 		
@@ -538,15 +554,13 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 			
 		ArrayList<Ordine> ordiniNonPartiti = new ArrayList<Ordine>();
 		try {
-			ordiniNonPartiti = gestoreApplicazione.dammiOrdiniNonPartitiOFalliti();;
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonCiSonoOrdiniAttesiException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		}
+			//Prendo gli ordini senza spedizione
+			ordiniNonPartiti = gestoreApplicazione.dammiOrdiniNonPartitiOFalliti();
 			
+			//Gestisco la combobox
 			JComboBox ordiniTemp = new JComboBox(ordiniNonPartiti.toArray());
 			
+			//Richiedo le mosse da fare all'utente
 			input = JOptionPane.showConfirmDialog(this,ordiniTemp,"Seleziona Ordine",JOptionPane.OK_CANCEL_OPTION);
 			if(input == 0)
 				input = JOptionPane.showConfirmDialog(this,"Vuoi aggiungere l'esemplare "+ esemplari.get(esemplariBox.getSelectedIndex()).getCodiceBarre() + " all' ordine "+ ordiniNonPartiti.get(ordiniTemp.getSelectedIndex()),"Conferma Scelta",JOptionPane.OK_CANCEL_OPTION);
@@ -555,9 +569,12 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 					avviati();
 				}
 		
-			
-			
-		
+		} catch (RisultatoNonRicavabileException e) {
+			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		} catch (NonCiSonoOrdiniAttesiException e) {
+			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		}
+					
 		
 	}
 
@@ -566,15 +583,17 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		try {
 			gestoreApplicazione.inserisciEsemplareInOrdine(ordine,esemplare);
 			messaggioPopUp("E' stato Inserito corettamente l'esemplare nell'ordine", "Aggiunta Riuscita");
+			avviati();
 		} catch (NonCiSonoOrdiniAttesiException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		}
-		avviati();
+		
 		
 	}
 
 
 	private void vaiAvanti(JTextField primoCampo, JTextField secondoCampo, KeyEvent e) {
+		//Mi permette di andare al prossimo TextFild con il semplice spazio
 		if(e.getKeyCode() == 10 && !primoCampo.getText().isBlank() && !primoCampo.getText().isEmpty())
 			secondoCampo.requestFocusInWindow();
 		
@@ -582,6 +601,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 
 
 	private void autoDelate(String testoDentro, String testoOrginale, JTextField txtFild) {
+		//svuotare appena si scrive
 		if(testoDentro.equals(testoOrginale))
 			txtFild.setText("");
 
@@ -589,6 +609,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	}
 	
 	private void autoRitornaTesto(String testoDentro, String testoOrginale, JTextField txtFild) {
+		//Riporto il testo originale se non si è scritto niente
 		if(testoDentro.isEmpty() || testoDentro.isBlank())
 			txtFild.setText(testoOrginale);
 	}
@@ -659,26 +680,30 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 
 
 	private void prendiEsemplari() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
+		//Prendo gli esemplari
 		esemplari = gestoreApplicazione.dammiEsemplariNonVenduti();
 		
 		arrayTemp = new ArrayList<String>(esemplari.size());
+		//gestisco l'estetica
 		for(Esemplare esemplare : esemplari)
 			arrayTemp.add("("+ esemplare.getCodiceBarre() + ") "+ esemplare.getMerceRiferimento().getNome() );
 		
-		
+		//E riempio la combobox
 		esemplariBox.setModel(new DefaultComboBoxModel(arrayTemp.toArray()));
 		
 	}
 
 
 	private void prendiClienti() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
+		//Prendo i clienti
 		clienti = gestoreApplicazione.dammiTuttiClienti();
 		
 		arrayTemp = new ArrayList<String>(clienti.size());
+		//gestisco l'estetica
 		for(Cliente cliente : clienti)
 			arrayTemp.add("("+ cliente.getCodCliente() + ") "+ cliente.getNome() + " " + cliente.getCognome() );
 		
-		
+		//E riempio la combobox
 		clientiBox.setModel(new DefaultComboBoxModel(arrayTemp.toArray()));
 		
 	}

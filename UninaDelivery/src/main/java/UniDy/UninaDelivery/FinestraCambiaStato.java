@@ -23,51 +23,20 @@ import java.awt.event.MouseEvent;
 public class FinestraCambiaStato extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	//Amministratore
 	private AppBrain gestoreApplicazione;
-	private JPanel principalePannello;
-	private JButton annullaBottone;
-	private JButton confermaBottone;
-	private JComboBox statiBox;
+	//Grafica Globale
 	private JLabel statoAttualeLabel;
-	private JLabel descrizioneLabel;
 	private JLabel titoloLabel;
+	//Gestione ComboBox
+	private JComboBox statiBox;
 	private String[] statiSpedizioniPossibili = { "Conclusa", "Partita", "Presa In Carico", "Ritardo" };
 	private String[] statiOrdiniPossibili = { "Consegnato", "In Consegna", "Spedito", "Presa In Carico", "Ritardo","Tentativo Fallito" };
-	private Spedizione spedizioneSelezionata;
-	private Ordine ordineSelezionato;
 	private DefaultComboBoxModel modelloStatiOrdini = new DefaultComboBoxModel(statiOrdiniPossibili);
 	private DefaultComboBoxModel modelloStatiSpedizioni = new DefaultComboBoxModel(statiSpedizioniPossibili);
-	
-	
-	protected void modificaStatoOrdine(Ordine ord) {
-
-		// Imposto l'ordine
-		ordineSelezionato = ord;
-		statiBox.setModel(modelloStatiOrdini);
-
-		titoloLabel.setText("Ordine : " + ordineSelezionato.getCodOrdine());
-		statoAttualeLabel.setText("Stato Attuale : "+ ord.getStatoOrdine());
-		
-		
-
-	}
-
-	protected void modificaStatoSpedizione(Spedizione sped) {
-
-		// Imposto la spedizione
-		spedizioneSelezionata = sped;
-		statiBox.setModel(modelloStatiSpedizioni);
-
-		titoloLabel.setText("Spedizione : " + spedizioneSelezionata.getCodSpedizione());
-		statoAttualeLabel.setText("Stato Attuale : "+ sped.getStatoSpedizione());
-
-	}
-	
-	protected void messaggioPopUp(String testo, String titolo) {
-		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
-	}
-
+	//Oggetti Reali
+	private Spedizione spedizioneSelezionata;
+	private Ordine ordineSelezionato;
 
 	public FinestraCambiaStato(AppBrain appBrain) {
 		setAlwaysOnTop(true);
@@ -79,18 +48,21 @@ public class FinestraCambiaStato extends JFrame {
 
 		setDefaultCloseOperation(appBrain.annullaCambioStato());
 		setBounds(100, 100, 450, 300);
+		JPanel contentPane;
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
+		
+		JPanel principalePannello;
 		principalePannello = new JPanel();
 		principalePannello.setBackground(new Color(119, 101, 101));
 		principalePannello.setBounds(0, 0, 434, 261);
 		contentPane.add(principalePannello);
 		principalePannello.setLayout(null);
 
+		JButton annullaBottone;
 		annullaBottone = new JButton();
 		annullaBottone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -108,6 +80,7 @@ public class FinestraCambiaStato extends JFrame {
 		annullaBottone.setBounds(226, 184, 108, 41);
 		principalePannello.add(annullaBottone);
 
+		JButton confermaBottone;
 		confermaBottone = new JButton();
 		confermaBottone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -150,6 +123,7 @@ public class FinestraCambiaStato extends JFrame {
 		statiBox.setBounds(108, 114, 226, 41);
 		principalePannello.add(statiBox);
 
+		JLabel descrizioneLabel;
 		descrizioneLabel = new JLabel("Scegli lo stato in cui aggiornare");
 		descrizioneLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		descrizioneLabel.setForeground(new Color(255, 255, 255));
@@ -171,4 +145,33 @@ public class FinestraCambiaStato extends JFrame {
 		statoAttualeLabel.setBounds(10, 79, 414, 25);
 		principalePannello.add(statoAttualeLabel);
 	}
+	
+	protected void modificaStatoOrdine(Ordine ord) {
+
+		// Imposto l'ordine nella combobox
+		ordineSelezionato = ord;
+		statiBox.setModel(modelloStatiOrdini);
+		//Bado alla grafica
+		titoloLabel.setText("Ordine : " + ordineSelezionato.getCodOrdine());
+		statoAttualeLabel.setText("Stato Attuale : "+ ord.getStatoOrdine());
+		
+		
+
+	}
+
+	protected void modificaStatoSpedizione(Spedizione sped) {
+
+		// Imposto la spedizione nella combobox
+		spedizioneSelezionata = sped;
+		statiBox.setModel(modelloStatiSpedizioni);
+		//Bado alla grafica
+		titoloLabel.setText("Spedizione : " + spedizioneSelezionata.getCodSpedizione());
+		statoAttualeLabel.setText("Stato Attuale : "+ sped.getStatoSpedizione());
+
+	}
+	
+	protected void messaggioPopUp(String testo, String titolo) {
+		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
+	}
+
 }

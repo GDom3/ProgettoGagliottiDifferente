@@ -27,25 +27,18 @@ import javax.swing.border.LineBorder;
 public class FinestraLogin extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
-	private JPanel contentPane;
+	//Amministratore
+	private AppBrain gestoreApplicazione;
+	//Grafica Globale
 	private JPasswordField passwordPF; //Contiene la password inserita dall'utente
 	private JTextField usernameTF; //Contiene  l'username inserito dall'utente
-	private JLabel logoUsernameImgL; // l'immagine dell'omino 
-	private JPanel panelPrincipale; // panello principale eplicativo -.-
-	private JLabel accessoL; //Scritta "Accesso" per fattori estetici
 	private JButton loginB; //Bottone per il lOGIN
-	private JLabel logoPrincipaleImgL; //L'immagine del logo
 	private JButton logoPasswordImgB; //L'immagine del lucchetto dinamico, il quale rende visibile o nascosta la password
-	private boolean isVisiblePassword = false; //Indicatore stato attuale della visibilità della password
 	private Color arancioneScuro = new Color(254, 114, 92);
 	private Color arancioneChiaro = new Color(254, 126, 115);
+	//Condizioni
+	private boolean isVisiblePassword = false; //Indicatore stato attuale della visibilità della password
 	
-	
-	AppBrain gestoreApplicazione;
-	/**
-	 * Create the frame.
-	 */
 	public FinestraLogin(AppBrain appBrain) {
 		
 		gestoreApplicazione = appBrain;
@@ -55,6 +48,7 @@ public class FinestraLogin extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
 		setDefaultCloseOperation(appBrain.exit());
 		setBounds(100, 100, 800, 600);
+		JPanel contentPane;
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(119, 101, 101));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,6 +56,7 @@ public class FinestraLogin extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
+		JPanel panelPrincipale;
 		panelPrincipale = new JPanel();
 		panelPrincipale.setBackground(new Color(119, 101, 101));
 		contentPane.add(panelPrincipale);
@@ -108,6 +103,7 @@ public class FinestraLogin extends JFrame {
 			}
 		});
 		
+		JLabel accessoL;
 		accessoL = new JLabel("Accesso");
 		accessoL.setFont(new Font("Century", Font.BOLD, 30));
 		accessoL.setForeground(new Color(255, 255, 255));
@@ -115,6 +111,7 @@ public class FinestraLogin extends JFrame {
 		accessoL.setBounds(307, 233, 150, 69);
 		panelPrincipale.add(accessoL);
 		
+		JLabel logoUsernameImgL;
 		logoUsernameImgL = new JLabel("");
 		logoUsernameImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/OminoUsername.jpg")));
 		logoUsernameImgL.setBounds(205, 306, 69, 59);
@@ -178,7 +175,7 @@ public class FinestraLogin extends JFrame {
 			}
 		});
 		
-		
+		JLabel logoPrincipaleImgL;
 		logoPrincipaleImgL = new JLabel("");
 		logoPrincipaleImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/UniDyLogoLogin.jpg")));
 		logoPrincipaleImgL.setHorizontalAlignment(SwingConstants.CENTER);
@@ -188,6 +185,7 @@ public class FinestraLogin extends JFrame {
 	}
 
 	protected void focusOnPassword(KeyEvent e) {
+		//Mi permette di andare avanti una volta inserito lo username se si preme invio
 		if(e.getKeyCode() == 10 && !usernameTF.getText().isEmpty() && !usernameTF.getText().isBlank())
 			passwordPF.requestFocusInWindow();
 		
@@ -222,20 +220,13 @@ public class FinestraLogin extends JFrame {
 			
 		try{
 			//Controllo Input
-			sonoNonVuoti(username,password);	
+			sonoNonVuoti(username,password);
+			//Provo ad accedere
+			gestoreApplicazione.accesso(username,password);
 		} catch (CampoUsernameVuotoException vuotoErrore) {
 			messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-			return;
 		} catch (CampoPasswordVuotoException vuotoErrore) {
 			messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-			return;
-		}
-		
-		// se il controllo è andato a buon fine
-
-		try {
-			//proseguo all'autentificazione
-			gestoreApplicazione.accesso(username,password);
 		} catch (CreazioneStatementFallitaException ErroreSQL) {
 			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
 		} catch (ConnessionNonRiuscitaException ErroreSQL) {
@@ -248,7 +239,6 @@ public class FinestraLogin extends JFrame {
 			messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
 		}
 		
-	
 
 	}
 	
