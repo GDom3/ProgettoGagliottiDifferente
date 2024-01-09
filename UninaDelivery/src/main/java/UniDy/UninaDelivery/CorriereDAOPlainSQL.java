@@ -71,9 +71,9 @@ public class CorriereDAOPlainSQL {
 
 
 	protected void assumiCorriere(Corriere corriere) throws OperazioneUpdateNonRiuscitaException {
-		String comando = "INSERT INTO Corriere SELECT codCorriere+1,'"+ corriere.getCodiceFiscale()+"','"+corriere.getNome()+"','"
+		String comando = "INSERT INTO Corriere SELECT MAX(codCorriere)+1,'"+ corriere.getCodiceFiscale()+"','"+corriere.getNome()+"','"
 				+ corriere.getCognome()+"','"+corriere.getEmail()+"','"+corriere.getNumeroCellulare()+"','"+corriere.getDataNascita()+"',"
-						+ corriere.getContratto()+","+corriere.getAnniContributi()+",true,'"+corriere.getPatente()+"',"+corriere.getCordinatore().getCodCorriere()+",1 FROM Corriere ORDER BY CodCorriere DESC LIMIT 1;";
+						+ corriere.getContratto()+","+corriere.getAnniContributi()+",true,'"+corriere.getPatente()+"',"+corriere.getCordinatore().getCodCorriere()+",1 FROM Corriere;";
 	
 		
 		comunicazioneSQL.mandaQDDL_DML(comando);

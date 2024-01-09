@@ -116,11 +116,13 @@ public class OrdineDAOPlainSQL {
 
 	protected void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
 		
-		String comando = "INSERT INTO Ordine SELECT CodOrdine+1,'Presa In Carico',"+nuovoOrd.getCostoSpedizione()+",'"+nuovoOrd.getDataE()+"','"
-				+nuovoOrd.getDataConsegna()+"','"+nuovoOrd.getIndirizzo().getNumeroCivico()+"','"+nuovoOrd.getIndirizzo().getCittà()+"','"
-				+nuovoOrd.getIndirizzo().getVia()+"','"+nuovoOrd.getIndirizzo().getCAP()+"',"+nuovoOrd.getAcquirente().getCodCliente()+" FROM Ordine ORDER BY CodOrdine DESC LIMIT 1;";
-		
-		comando = comando + "; UPDATE ESEMPLARE SET CodOrdine = (SELECT CodOrdine FROM Ordine ORDER BY CodOrdine DESC LIMIT 1) WHERE CodiceBarre = " + nuovoOrd.getArticoliVenduti(0).getCodiceBarre() +";";
+		String comando = "INSERT INTO Ordine SELECT MAX(CodOrdine)+1,'Presa In Carico',"+nuovoOrd.getCostoSpedizione()+",'"+nuovoOrd.getDataE()+"','"
+                +nuovoOrd.getDataConsegna()+"','"+nuovoOrd.getIndirizzo().getNumeroCivico()+"','"+nuovoOrd.getIndirizzo().getCittà()+"','"
+                +nuovoOrd.getIndirizzo().getVia()+"','"+nuovoOrd.getIndirizzo().getCAP()+"',"+nuovoOrd.getAcquirente().getCodCliente()+" FROM Ordine;";
+
+
+
+        comando = comando + " UPDATE ESEMPLARE SET CodOrdine = (SELECT CodOrdine FROM Ordine ORDER BY CodOrdine DESC LIMIT 1) WHERE CodiceBarre = '" + nuovoOrd.getArticoliVenduti(0).getCodiceBarre() +"';";
 		
 		try {
 			comunicazioneSQL.mandaQDDL_DML(comando);

@@ -144,6 +144,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		infoOrdineLabel.setLayout(null);
 		
 		costoFild = new JSpinner();
+		costoFild.setToolTipText("Inserisci costo spedizione");
 		costoFild.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		costoFild.setForeground(new Color(255, 255, 255));
 		costoFild.setBackground(new Color(179, 168, 166));
@@ -154,7 +155,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		costoFild.setBounds(95, 187, 200, 43);
 		infoOrdineLabel.add(costoFild);
 		
-		JLabel costoLabel = new JLabel("Costo");
+		JLabel costoLabel = new JLabel("Costo spedizione");
 		costoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		costoLabel.setForeground(Color.WHITE);
 		costoLabel.setFont(new Font("Century", Font.PLAIN, 20));
