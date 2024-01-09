@@ -48,5 +48,17 @@ public class MezzoTrasportoDAOPlainSQL {
 		
 		return mezzi;
 	}
+	
+	public void registraMezzo(MezzoTrasporto mezzo) throws OperazioneUpdateNonRiuscitaException  {
+	    String comando = "INSERT INTO MezzoTrasporto " +
+	                     "SELECT  MAX(CodMezzo) + 1, '" + mezzo.getTarga() + "', " + mezzo.getCapienza() +
+	                     ", '" + mezzo.getMarca() + "', '" + mezzo.getModello() + "', " + mezzo.getAssicurazione() +
+	                     ", true, '" + mezzo.getPatentiNecessarie() + "', 1 " +
+	                     " FROM MezzoTrasporto;";
+	    
+
+	    
+	    comunicazioneSQL.mandaQDDL_DML(comando);
+	}
 }
 

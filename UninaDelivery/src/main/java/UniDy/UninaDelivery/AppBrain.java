@@ -21,6 +21,7 @@ public class AppBrain {
 	private FinestraCreazioneNuovoOrdine creaOrdineWindow;
 	private FinestraCreazioneNuovoCliente creaClienteWindow;
 	private FinestraInserimentoCorriere inserisciCorriereWindow;
+	private FinestraInserimentoMezzoTrasporto inserisciMezzoWindow;
 	private ComunicaConDatabase comunicazioneSQL;
 	private Operatore operatorePrincipale;
 	private OperatoreDAO operatoreDAO;
@@ -53,6 +54,7 @@ public class AppBrain {
 		loginWindow.setVisible(true);
 		cambiaStatoWindow = new FinestraCambiaStato(this);
 		creaClienteWindow = new FinestraCreazioneNuovoCliente(this);
+		inserisciMezzoWindow = new FinestraInserimentoMezzoTrasporto(this);
 		
 		//mostraFinestraVisualizza();
 		//datiOrdiniWindow.setVisible(true); 
@@ -437,7 +439,15 @@ public class AppBrain {
 		clienteDAO.registraCliente(clienteTemp);
 		
 	}
+	
+	protected void registraMezzo(MezzoTrasporto mezzo)  throws OperazioneUpdateNonRiuscitaException{
+		mezziTrasportoDAO.registraMezzo(mezzo);
+	}
 
+	protected void mostramiSchermataInserimentoMezzo() {
+		inserisciMezzoWindow.setVisible(true);
+		creazioneSpedizioneWindow.setVisible(false);
+	}
 
 }
 	

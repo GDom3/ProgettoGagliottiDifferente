@@ -249,6 +249,8 @@ public class FinestraNuovaSpedizione extends JFrame {
 		aggiungiMezzoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rimpicciolisciGradualmenteBottoneAnnulla(aggiungiMezzoButton);
+				gestoreApplicazione.mostramiSchermataInserimentoMezzo();
+				
 			}
 		});
 		aggiungiMezzoButton.addMouseListener(new MouseAdapter() {

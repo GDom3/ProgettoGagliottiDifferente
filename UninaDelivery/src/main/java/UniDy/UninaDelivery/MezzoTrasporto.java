@@ -10,14 +10,25 @@ public class MezzoTrasporto {
 	private String marca;
 	private String modello;
 	private int capienza;
-	private boolean disponibilità;
+	private boolean disponibilità;	
+	private float assicurazione;
 	private String patentiNecessarie;
 	private ArrayList<Spedizione> spedizioni = new ArrayList<Spedizione>();
-	
+
 	protected MezzoTrasporto(String codMezzo, String targa) {
 		this.codMezzo = codMezzo;
 		this.targa = targa;
 	}
+	
+	public MezzoTrasporto(String targa, String marca, String modello, int capienza, String patente, float costoAssicurazione) {
+		this.targa = targa;
+		this.marca = marca;
+		this.modello = modello;
+		this.capienza = capienza;
+		this.patentiNecessarie = patente;
+		this.assicurazione = costoAssicurazione;
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -91,6 +102,16 @@ public class MezzoTrasporto {
 	protected void setPatentiNecessarie(String patentiNecessarie) {
 		this.patentiNecessarie = patentiNecessarie;
 	}
+
+	protected float getAssicurazione() {
+		return assicurazione;
+	}
+
+	protected void setAssicurazione(float assicurazione) {
+		this.assicurazione = assicurazione;
+	}
+	
+
 	
 	
 	
