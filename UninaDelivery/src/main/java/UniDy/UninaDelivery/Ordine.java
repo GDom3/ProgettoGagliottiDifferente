@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Ordine {
 	
-	private String codOrdine;
+	private String codiceOrdine;
 	private String statoOrdine;
 	private Cliente acquirente;
 	private float costoSpedizione;
@@ -19,14 +19,14 @@ public class Ordine {
 	private int numMerci;
 	
 	protected Ordine(String codOrdine, Cliente acquirente, float costoTotale, int numMerci) {
-		this.codOrdine = codOrdine;
+		this.codiceOrdine = codOrdine;
 		this.acquirente = acquirente;
 		this.costoTotale = costoTotale;
 		this.numMerci = numMerci;
 	}
 	
 	protected Ordine(String codOrdine, String string) {
-		this.codOrdine = codOrdine;
+		this.codiceOrdine = codOrdine;
 		statoOrdine = string;
 	}
 	
@@ -42,7 +42,7 @@ public class Ordine {
 
 	@Override
 	public String toString() {
-		return  codOrdine;
+		return  codiceOrdine;
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class Ordine {
 		if (getClass() != obj.getClass())
 			return false;
 		Ordine other = (Ordine) obj;
-		return Objects.equals(codOrdine, other.codOrdine);
+		return Objects.equals(codiceOrdine, other.codiceOrdine);
 	} 
 	
 	protected String getStatoOrdine() {
@@ -74,11 +74,11 @@ public class Ordine {
 	}
 	
 	protected String getCodOrdine() {
-		return codOrdine;
+		return codiceOrdine;
 	}
 
 	protected void setCodOrdine(String codOrdine) {
-		this.codOrdine = codOrdine;
+		this.codiceOrdine = codOrdine;
 	}
 
 	protected Cliente getAcquirente() {

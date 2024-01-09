@@ -6,7 +6,7 @@ import java.util.Objects;
 public class Spedizione {
 	
 
-	private String codSpedizione;
+	private String codiceSpedizione;
 	private String StatoSpedizione;
 	private ArrayList <Ordine> ordini = new ArrayList<Ordine>();;
 	private int KM;
@@ -15,7 +15,7 @@ public class Spedizione {
 	
 	
 	protected Spedizione(String codSpedizione, ArrayList<Ordine> ordini) {
-		this.codSpedizione = codSpedizione;
+		this.codiceSpedizione = codSpedizione;
 		this.ordini = ordini;
 	}
 	
@@ -29,7 +29,7 @@ public class Spedizione {
 	
 	@Override
 	public String toString() {
-		return  codSpedizione ;
+		return  codiceSpedizione ;
 	}
 	
 	@Override
@@ -41,12 +41,12 @@ public class Spedizione {
 		if (getClass() != obj.getClass())
 			return false;
 		Spedizione other = (Spedizione) obj;
-		return Objects.equals(codSpedizione, other.codSpedizione);
+		return Objects.equals(codiceSpedizione, other.codiceSpedizione);
 	}
 	
 
 	protected String getCodSpedizione() {
-		return codSpedizione;
+		return codiceSpedizione;
 	}
 
 	protected void setOrdini(ArrayList<Ordine> ordini) {
@@ -54,7 +54,7 @@ public class Spedizione {
 	}
 
 	protected void setCodSpedizione(String codSpedizione) {
-		this.codSpedizione = codSpedizione;
+		this.codiceSpedizione = codSpedizione;
 	}
 	
 	protected ArrayList<Ordine> getOrdini() {

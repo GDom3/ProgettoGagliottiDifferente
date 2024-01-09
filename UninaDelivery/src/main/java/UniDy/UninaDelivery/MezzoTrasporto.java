@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public class MezzoTrasporto {
 	
-	private String codMezzo;
 	private String targa;
 	private String marca;
 	private String modello;
@@ -15,11 +14,6 @@ public class MezzoTrasporto {
 	private String patentiNecessarie;
 	private ArrayList<Spedizione> spedizioni = new ArrayList<Spedizione>();
 
-	protected MezzoTrasporto(String codMezzo, String targa) {
-		this.codMezzo = codMezzo;
-		this.targa = targa;
-	}
-	
 	public MezzoTrasporto(String targa, String marca, String modello, int capienza, String patente, float costoAssicurazione) {
 		this.targa = targa;
 		this.marca = marca;
@@ -32,7 +26,7 @@ public class MezzoTrasporto {
 	
 	@Override
 	public String toString() {
-		return  codMezzo ;
+		return targa ;
 	}
 
 	@Override
@@ -47,14 +41,6 @@ public class MezzoTrasporto {
 		return Objects.equals(targa, other.targa);
 	}
 
-	protected String getCodMezzo() {
-		return codMezzo;
-	}
-
-	protected void setCodMezzo(String codMezzo) {
-		this.codMezzo = codMezzo;
-	}
-	
 	protected String getTarga() {
 		return targa;
 	}
@@ -109,6 +95,14 @@ public class MezzoTrasporto {
 
 	protected void setAssicurazione(float assicurazione) {
 		this.assicurazione = assicurazione;
+	}
+
+	protected ArrayList<Spedizione> getSpedizioni() {
+		return spedizioni;
+	}
+
+	protected void setSpedizioni(ArrayList<Spedizione> spedizioni) {
+		this.spedizioni = spedizioni;
 	}
 	
 

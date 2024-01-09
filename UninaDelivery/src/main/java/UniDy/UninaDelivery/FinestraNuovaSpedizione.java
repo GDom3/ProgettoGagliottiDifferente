@@ -469,14 +469,8 @@ public class FinestraNuovaSpedizione extends JFrame {
 	}
 	
 	private void riempiMezzi() {
-		ArrayList<String> mezziCod = new ArrayList<String>(mezzi.size());
-		
-		//Bado all'estetica
-		for (MezzoTrasporto mezzo : mezzi) 
-			mezziCod.add( "(" + mezzo.getCodMezzo() +") " + mezzo.getTarga());
-		
 		//Gestisco la comboBox
-		DefaultComboBoxModel modelloMezzo = new DefaultComboBoxModel(mezziCod.toArray());
+		DefaultComboBoxModel modelloMezzo = new DefaultComboBoxModel(mezzi.toArray());
 		mezzoBox.setModel(modelloMezzo);
 		
 	}

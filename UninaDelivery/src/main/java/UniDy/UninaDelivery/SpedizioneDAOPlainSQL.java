@@ -257,7 +257,8 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	public void creaNuovaSpedizione(Spedizione nuovaSpedizione) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException,NonPossibileCreareSpedizioneException {
 		
 		
-		String comando = "INSERT INTO Spedizione SELECT MAX(CodSpedizione)+1, 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+ nuovaSpedizione.getCorriere().getCodCorriere() + ","+ nuovaSpedizione.getMezzoUtilizzato().getCodMezzo() +" FROM Spedizione;"
+		String comando = "INSERT INTO Spedizione SELECT MAX(CodSpedizione)+1, 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+ nuovaSpedizione.getCorriere().getCodCorriere() + ","
+				+ "(SELECT CodMezzo FROM MezzoTrasporto WHERE Targa ="+ nuovaSpedizione.getMezzoUtilizzato().getTarga() + ")  FROM Spedizione;"
 				+ "INSERT INTO Viaggio VALUES (true,"+ nuovaSpedizione.getCodOrdineIndex(0).getCodOrdine() + ",(SELECT CodSpedizione FROM Spedizione ORDER BY CodSpedizione DESC LIMIT 1) )";
 		
 		try {
