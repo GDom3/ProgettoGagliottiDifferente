@@ -11,12 +11,17 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 import java.awt.Cursor;
@@ -24,6 +29,7 @@ import javax.swing.border.LineBorder;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JRadioButton;
 
 public class FinestraCreazioneNuovoCliente extends JFrame {
 
@@ -35,6 +41,16 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 	private JTextField nomeTextField;
 	private JTextField cognomeTextFild;
 	private JTextField CodiceFiscaleTextField;
+	private JTextField txtEmail;
+	private JTextField txtNumeroCellulare;
+	private JDateChooser DataNascitaDataChoser;
+	//Gestione radio
+	private ButtonGroup gruppoRadioContatto;
+	private JRadioButton telefonoRadio;
+	private JRadioButton smsRadio;
+	private JRadioButton emailRadio;
+	//oggetti reali
+	private LocalDate dataDiNascita;
 	
 	public FinestraCreazioneNuovoCliente(AppBrain appBrain) {
 		setForeground(new Color(255, 255, 255));
@@ -113,14 +129,14 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		
 		JPanel anagraficaPanel = new JPanel();
 		anagraficaPanel.setBackground(new Color(119, 101, 101));
-		anagraficaPanel.setBounds(69, 37, 358, 251);
+		anagraficaPanel.setBounds(69, 37, 358, 262);
 		contentPane.add(anagraficaPanel);
 		anagraficaPanel.setLayout(null);
 		
 		JLabel logoCitta_1_1 = new JLabel("New label");
 		logoCitta_1_1.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/BDate.png")));
 		logoCitta_1_1.setBorder(new LineBorder(new Color(179, 168, 166), 1, true));
-		logoCitta_1_1.setBounds(80, 197, 43, 41);
+		logoCitta_1_1.setBounds(78, 203, 43, 41);
 		anagraficaPanel.add(logoCitta_1_1);
 		
 		JLabel anagraficaTitoloLabel = new JLabel("Dati Anagrafici");
@@ -130,13 +146,8 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		anagraficaTitoloLabel.setBounds(10, 11, 338, 25);
 		anagraficaPanel.add(anagraficaTitoloLabel);
 		
-		JLabel logoCitta = new JLabel("New label");
-		logoCitta.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
-		logoCitta.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/IDCard.png")));
-		logoCitta.setBounds(31, 47, 89, 87);
-		anagraficaPanel.add(logoCitta);
-		
 		nomeTextField = new JTextField();
+		nomeTextField.setToolTipText("inserisci nome");
 		nomeTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -154,10 +165,11 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		nomeTextField.setColumns(10);
 		nomeTextField.setBorder(new MatteBorder(0, 2, 0, 0, (Color) new Color(255, 255, 255)));
 		nomeTextField.setBackground(new Color(179, 168, 166));
-		nomeTextField.setBounds(120, 47, 200, 41);
+		nomeTextField.setBounds(106, 47, 200, 41);
 		anagraficaPanel.add(nomeTextField);
 		
 		cognomeTextFild = new JTextField();
+		cognomeTextFild.setToolTipText("inserisci  cognome");
 		cognomeTextFild.setText("Cognome");
 		cognomeTextFild.addKeyListener(new KeyAdapter() {
 			@Override
@@ -175,22 +187,24 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		cognomeTextFild.setColumns(10);
 		cognomeTextFild.setBorder(new MatteBorder(0, 2, 0, 0, (Color) new Color(255, 255, 255)));
 		cognomeTextFild.setBackground(new Color(179, 168, 166));
-		cognomeTextFild.setBounds(120, 93, 200, 41);
+		cognomeTextFild.setBounds(106, 99, 200, 41);
 		anagraficaPanel.add(cognomeTextFild);
 		
 		JLabel logoCitta_1 = new JLabel("New label");
+		logoCitta_1.setOpaque(true);
 		logoCitta_1.setBorder(new LineBorder(new Color(179, 168, 166), 3, true));
 		logoCitta_1.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/CodFisc.png")));
-		logoCitta_1.setBounds(57, 145, 46, 41);
+		logoCitta_1.setBounds(58, 151, 49, 41);
 		anagraficaPanel.add(logoCitta_1);
 		
 		CodiceFiscaleTextField = new JTextField();
+		CodiceFiscaleTextField.setToolTipText("inserisci codice fiscale");
 		CodiceFiscaleTextField.setText("Codice Fiscale");
 		CodiceFiscaleTextField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				autoDelate(CodiceFiscaleTextField.getText(), "Codice Fiscale", CodiceFiscaleTextField);
-				vaiAvanti(CodiceFiscaleTextField, CodiceFiscaleTextField, e);
+				vaiAvanti(CodiceFiscaleTextField, txtEmail, e);
 			}
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -202,20 +216,239 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		CodiceFiscaleTextField.setColumns(10);
 		CodiceFiscaleTextField.setBorder(new MatteBorder(0, 2, 0, 0, (Color) new Color(255, 255, 255)));
 		CodiceFiscaleTextField.setBackground(new Color(179, 168, 166));
-		CodiceFiscaleTextField.setBounds(103, 145, 200, 41);
+		CodiceFiscaleTextField.setBounds(106, 151, 200, 41);
 		anagraficaPanel.add(CodiceFiscaleTextField);
 		
-		JDateChooser DataEDataChoser = new JDateChooser();
-		DataEDataChoser.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
-		DataEDataChoser.getCalendarButton().setBackground(Color.WHITE);
-		DataEDataChoser.setToolTipText("inserisci data di esecuzione del ordine");
-		DataEDataChoser.setFont(new Font("Century", Font.PLAIN, 18));
-		DataEDataChoser.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
-		DataEDataChoser.setBackground(new Color(179, 168, 166));
-		DataEDataChoser.setBounds(120, 197, 170, 41);
-		anagraficaPanel.add(DataEDataChoser);
+		DataNascitaDataChoser = new JDateChooser();
+		DataNascitaDataChoser.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
+		DataNascitaDataChoser.getCalendarButton().setBackground(Color.WHITE);
+		DataNascitaDataChoser.setToolTipText("inserisci data di esecuzione del ordine");
+		DataNascitaDataChoser.setFont(new Font("Century", Font.PLAIN, 18));
+		DataNascitaDataChoser.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
+		DataNascitaDataChoser.setBackground(new Color(179, 168, 166));
+		DataNascitaDataChoser.setBounds(118, 203, 170, 41);
+		anagraficaPanel.add(DataNascitaDataChoser);
+		
+		JLabel immagineNomeLabel = new JLabel("");
+		immagineNomeLabel.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/nameridimensionata.png")));
+		immagineNomeLabel.setOpaque(true);
+		immagineNomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		immagineNomeLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
+		immagineNomeLabel.setBackground(new Color(179, 168, 166));
+		immagineNomeLabel.setBounds(58, 47, 49, 41);
+		anagraficaPanel.add(immagineNomeLabel);
+		
+		JLabel immagineCognomeLabel = new JLabel("");
+		immagineCognomeLabel.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/cognomeridimensionata.png")));
+		immagineCognomeLabel.setOpaque(true);
+		immagineCognomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		immagineCognomeLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
+		immagineCognomeLabel.setBackground(new Color(179, 168, 166));
+		immagineCognomeLabel.setBounds(58, 99, 49, 41);
+		anagraficaPanel.add(immagineCognomeLabel);
+		
+		JPanel anagraficaPanel_1 = new JPanel();
+		anagraficaPanel_1.setLayout(null);
+		anagraficaPanel_1.setBackground(new Color(119, 101, 101));
+		anagraficaPanel_1.setBounds(426, 37, 358, 262);
+		contentPane.add(anagraficaPanel_1);
+		
+		JLabel lblContatti = new JLabel("Contatti");
+		lblContatti.setHorizontalAlignment(SwingConstants.CENTER);
+		lblContatti.setForeground(Color.WHITE);
+		lblContatti.setFont(new Font("Century", Font.PLAIN, 20));
+		lblContatti.setBounds(10, 11, 338, 25);
+		anagraficaPanel_1.add(lblContatti);
+		
+		txtEmail = new JTextField();
+		txtEmail.setToolTipText("inserisci email");
+		txtEmail.setText("E-Mail");
+		txtEmail.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				autoDelate(txtEmail.getText(), "E-Mail", txtEmail);
+				vaiAvanti(txtEmail, txtNumeroCellulare, e);
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				autoRitornaTesto(txtEmail.getText(), "E-Mail", txtEmail);
+			}
+		});
+		txtEmail.setForeground(Color.WHITE);
+		txtEmail.setFont(new Font("Century", Font.PLAIN, 20));
+		txtEmail.setColumns(10);
+		txtEmail.setBorder(new MatteBorder(0, 2, 0, 0, (Color) new Color(255, 255, 255)));
+		txtEmail.setBackground(new Color(179, 168, 166));
+		txtEmail.setBounds(100, 47, 200, 41);
+		anagraficaPanel_1.add(txtEmail);
+		
+		txtNumeroCellulare = new JTextField();
+		txtNumeroCellulare.setToolTipText("inserisci numero telefonico");
+		txtNumeroCellulare.setText("Numero Cellulare");
+		txtNumeroCellulare.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				autoDelate(txtNumeroCellulare.getText(), "Numero Cellulare", txtNumeroCellulare);
+	
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				autoRitornaTesto(txtNumeroCellulare.getText(), "Numero Cellulare", txtNumeroCellulare);
+			}
+		});
+		txtNumeroCellulare.setForeground(Color.WHITE);
+		txtNumeroCellulare.setFont(new Font("Century", Font.PLAIN, 20));
+		txtNumeroCellulare.setColumns(10);
+		txtNumeroCellulare.setBorder(new MatteBorder(0, 2, 0, 0, (Color) new Color(255, 255, 255)));
+		txtNumeroCellulare.setBackground(new Color(179, 168, 166));
+		txtNumeroCellulare.setBounds(100, 99, 200, 41);
+		anagraficaPanel_1.add(txtNumeroCellulare);
+		
+		JLabel immagineEmailLabel = new JLabel("");
+		immagineEmailLabel.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/emailridimensionata.png")));
+		immagineEmailLabel.setOpaque(true);
+		immagineEmailLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		immagineEmailLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
+		immagineEmailLabel.setBackground(new Color(179, 168, 166));
+		immagineEmailLabel.setBounds(52, 47, 49, 41);
+		anagraficaPanel_1.add(immagineEmailLabel);
+		
+		JLabel immagineNumerotelefonoLabel = new JLabel("");
+		immagineNumerotelefonoLabel.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/telefonoridimensionato.png")));
+		immagineNumerotelefonoLabel.setOpaque(true);
+		immagineNumerotelefonoLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		immagineNumerotelefonoLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
+		immagineNumerotelefonoLabel.setBackground(new Color(179, 168, 166));
+		immagineNumerotelefonoLabel.setBounds(52, 99, 49, 41);
+		anagraficaPanel_1.add(immagineNumerotelefonoLabel);
+		
+		gruppoRadioContatto = new ButtonGroup();
+		
+		emailRadio = new JRadioButton("E-Mail");
+		emailRadio.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
+		emailRadio.setForeground(Color.WHITE);
+		emailRadio.setFont(new Font("Century", Font.PLAIN, 16));
+		emailRadio.setFocusPainted(false);
+		emailRadio.setContentAreaFilled(false);
+		emailRadio.setBounds(132, 179, 92, 24);
+		anagraficaPanel_1.add(emailRadio);
+		
+		telefonoRadio = new JRadioButton("Telefono");
+		telefonoRadio.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
+		telefonoRadio.setForeground(Color.WHITE);
+		telefonoRadio.setFont(new Font("Century", Font.PLAIN, 16));
+		telefonoRadio.setFocusPainted(false);
+		telefonoRadio.setContentAreaFilled(false);
+		telefonoRadio.setBounds(132, 206, 92, 24);
+		anagraficaPanel_1.add(telefonoRadio);
+		
+		smsRadio = new JRadioButton("SMS");
+		smsRadio.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
+		smsRadio.setForeground(Color.WHITE);
+		smsRadio.setFont(new Font("Century", Font.PLAIN, 16));
+		smsRadio.setFocusPainted(false);
+		smsRadio.setContentAreaFilled(false);
+		smsRadio.setBounds(132, 233, 92, 24);
+		anagraficaPanel_1.add(smsRadio);
+		
+		gruppoRadioContatto.add(telefonoRadio);
+		gruppoRadioContatto.add(emailRadio);
+		gruppoRadioContatto.add(smsRadio);
+		emailRadio.setSelected(true);
+		
+		JLabel lblPreferenzaContatto = new JLabel("Preferenza Contatto");
+		lblPreferenzaContatto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPreferenzaContatto.setForeground(Color.WHITE);
+		lblPreferenzaContatto.setFont(new Font("Century", Font.PLAIN, 20));
+		lblPreferenzaContatto.setBounds(10, 145, 338, 25);
+		anagraficaPanel_1.add(lblPreferenzaContatto);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(119, 101, 101));
+		panel.setBounds(69, 293, 715, 268);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		JButton nuovoClienteBtn = new JButton("Registra Nuovo Cliente");
+		nuovoClienteBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					//Controllo l'esattezza e corttezza del'input
+					controllaInput();
+					
+					//preparo i dati di input
+					String RadioScelta = sceltaRadio();
+					Cliente clienteTemp = new Cliente(CodiceFiscaleTextField.getText(),nomeTextField.getText(),cognomeTextFild.getText(),dataDiNascita,txtEmail.getText(),txtNumeroCellulare.getText(),RadioScelta);
+					
+					//Creo il nuovo cliente
+					gestoreApplicazione.registraCliente(clienteTemp);
+					messaggioPopUp("Registrazione nuovo cliente avvenuta con successo", "Registrazione Completata");
+					
+				} catch (CampoNomeVuotoException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (CampoCognomeVuotoException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (CampoCodiceFiscaleVuotoException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (CampoEmailVuotoException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (CampoNumeroCellulareVuotoException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (DateVuoteException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
+				} catch (NonPossibileCreareClienteException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				}
+			}
+		});
+		nuovoClienteBtn.setToolTipText("premi per creare un nuovo cliente");
+		nuovoClienteBtn.setForeground(Color.WHITE);
+		nuovoClienteBtn.setFont(new Font("Century", Font.BOLD, 20));
+		nuovoClienteBtn.setFocusPainted(false);
+		nuovoClienteBtn.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
+		nuovoClienteBtn.setBackground(new Color(254, 126, 115));
+		nuovoClienteBtn.setBounds(228, 45, 265, 50);
+		panel.add(nuovoClienteBtn);
 	}
 	
+	private String sceltaRadio() {
+		String scelta = "Email";
+		if(telefonoRadio.isSelected())
+			scelta = "Telefono";
+		else if(smsRadio.isSelected())
+			scelta = "SMS";
+
+		return scelta;
+	}
+
+	protected void messaggioPopUp(String testo, String titolo) {
+		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
+	}
+	
+	private void controllaInput() throws CampoNomeVuotoException, CampoCognomeVuotoException, CampoCodiceFiscaleVuotoException, CampoEmailVuotoException, CampoNumeroCellulareVuotoException, DateVuoteException {
+		if(nomeTextField.getText().equals("Nome"))
+			throw new CampoNomeVuotoException();
+		else if(cognomeTextFild.getText().equals("Cognome"))
+			throw new CampoCognomeVuotoException();
+		else if(CodiceFiscaleTextField.getText().equals("Codice Fiscale"))
+			throw new CampoCodiceFiscaleVuotoException();	
+		else if(txtEmail.getText().equals("E-Mail"))
+			throw new CampoEmailVuotoException();	
+		else if(txtNumeroCellulare.getText().equals("Numero Cellulare"))
+			throw new CampoNumeroCellulareVuotoException();	
+		else if(DataNascitaDataChoser.getDate() == null)
+			throw new DateVuoteException();
+		else
+			dataDiNascita = DateToLocalDate(DataNascitaDataChoser.getDate());
+			
+		
+		
+	}
+
+	private LocalDate DateToLocalDate(Date data) {
+		return LocalDate.ofInstant(data.toInstant(), ZoneId.systemDefault());
+	}
+
 	private void confermaRitornareIndietro() {
 		indietroBottone.setFont(new Font("Century", Font.PLAIN, 19));
 		indietroBottone.setFont(new Font("Century", Font.PLAIN, 18));

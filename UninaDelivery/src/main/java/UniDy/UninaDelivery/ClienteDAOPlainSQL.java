@@ -34,6 +34,21 @@ public class ClienteDAOPlainSQL {
 		
 		return clientela;
 	}
+
+
+	protected void registraCliente(Cliente clienteTemp) throws NonPossibileCreareClienteException {
+		String comando = "INSERT INTO Cliente SELECT CodCliente+1,'"+clienteTemp.getCodiceFiscale()+"','"+clienteTemp.getNome()+"','"+clienteTemp.getCognome()+"','"+clienteTemp.getEmail()
+				+ "','"+clienteTemp.numeroCellulare+"','"+ clienteTemp.getDataNascita()+"','"+clienteTemp.getPreferenzaContatto()+"' "
+				+ " FROM Cliente ORDER BY CodCliente DESC LIMIT 1;";
+		
+		try {
+			comunicazioneSQL.mandaQDDL_DML(comando);
+		}catch (SQLException e) {
+			throw new NonPossibileCreareClienteException();
+		}
+		
+		
+	}
 	
 	
 	

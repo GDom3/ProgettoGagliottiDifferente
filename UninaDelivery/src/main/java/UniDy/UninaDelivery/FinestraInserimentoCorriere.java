@@ -182,6 +182,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteAmministrativaPanel.add(parteAmministrativaLabel);
 		
 		JLabel immagineContrattoLabel = new JLabel("");
+		immagineContrattoLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineContrattoLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/contractresize.png")));
 		immagineContrattoLabel.setOpaque(true);
 		immagineContrattoLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -229,6 +230,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteAmministrativaPanel.add(patentiTxf);
 		
 		immagineEmailLabel = new JLabel("");
+		immagineEmailLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineEmailLabel.setBounds(55, 99, 49, 41);
 		parteAmministrativaPanel.add(immagineEmailLabel);
 		immagineEmailLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/emailridimensionata.png")));
@@ -259,6 +261,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		emailTxf.setBackground(new Color(179, 168, 166));
 		
 		immagineNumerotelefonoLabel = new JLabel("");
+		immagineNumerotelefonoLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineNumerotelefonoLabel.setBounds(55, 151, 49, 41);
 		parteAmministrativaPanel.add(immagineNumerotelefonoLabel);
 		immagineNumerotelefonoLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/telefonoridimensionato.png")));
@@ -288,6 +291,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		numeroCellulareTxf.setBackground(new Color(179, 168, 166));
 		
 		JLabel immagineAnniContributiLabel = new JLabel("");
+		immagineAnniContributiLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineAnniContributiLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/level.png")));
 		immagineAnniContributiLabel.setOpaque(true);
 		immagineAnniContributiLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -296,6 +300,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteAmministrativaPanel.add(immagineAnniContributiLabel);
 		
 		JLabel immaginePatenteLabel = new JLabel("");
+		immaginePatenteLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immaginePatenteLabel.setBounds(55, 47, 49, 41);
 		parteAmministrativaPanel.add(immaginePatenteLabel);
 		immaginePatenteLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/patentridimensionato.png")));
@@ -322,6 +327,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		
 		
 		JLabel immagineCodiceFiscaleLabel = new JLabel("");
+		immagineCodiceFiscaleLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineCodiceFiscaleLabel.setOpaque(true);
 		parteSpecificheVeicoloPanel.add(immagineCodiceFiscaleLabel);
 		immagineCodiceFiscaleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -353,6 +359,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteSpecificheVeicoloPanel.add(codiceFiscaleTxf);
 		
 		immagineCognomeLabel = new JLabel("");
+		immagineCognomeLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineCognomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		immagineCognomeLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/cognomeridimensionata.png")));
 		immagineCognomeLabel.setOpaque(true);
@@ -383,6 +390,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteSpecificheVeicoloPanel.add(cognomeTxf);
 		
 		immagineNomeLabel = new JLabel("");
+		immagineNomeLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineNomeLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/nameridimensionata.png")));
 		immagineNomeLabel.setOpaque(true);
 		immagineNomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -432,6 +440,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		
 		JLabel immagineDataNascitaLabel = new JLabel("");
 		immagineDataNascitaLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/BDate.png")));
+		immagineDataNascitaLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineDataNascitaLabel.setOpaque(true);
 		immagineDataNascitaLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		immagineDataNascitaLabel.setBackground(new Color(179, 168, 166));
@@ -462,6 +471,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		
 		JLabel immagineCodiceFiscaleLabel_1 = new JLabel("");
 		immagineCodiceFiscaleLabel_1.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/supervisore.png")));
+		immagineCodiceFiscaleLabel_1.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineCodiceFiscaleLabel_1.setOpaque(true);
 		immagineCodiceFiscaleLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		immagineCodiceFiscaleLabel_1.setBackground(new Color(179, 168, 166));

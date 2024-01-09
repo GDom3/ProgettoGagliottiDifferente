@@ -506,7 +506,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	private void controlloInputFilitri(String utente, Date inizio, Date fine) throws DateCronologicamenteSbagliateException, FiltriVuotiException, DateVuoteException {
 		int output;
 		//Senza Utente
-		if(utente.equals("Utente") || utente.isBlank()) {
+		if(utente.isEmpty() || utente.isBlank()) {
 			cliente = null;
 			//Non Ho nulla
 			if(inizio == null || fine == null)

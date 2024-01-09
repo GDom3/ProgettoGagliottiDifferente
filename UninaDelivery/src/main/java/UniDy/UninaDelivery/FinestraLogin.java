@@ -77,11 +77,12 @@ public class FinestraLogin extends JFrame {
 		usernameTF.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteUsername();
-				focusOnPassword(e);
-				
-			
+				if(usernameTF.getText().equals("Username"))
+					autoDelate(usernameTF.getText(),"Username",usernameTF);
+				else
+					focusOnPassword(e);
 			}
+		
 		});
 		
 			
@@ -184,7 +185,7 @@ public class FinestraLogin extends JFrame {
 		
 	}
 
-	protected void focusOnPassword(KeyEvent e) {
+	private void focusOnPassword(KeyEvent e) {
 		//Mi permette di andare avanti una volta inserito lo username se si preme invio
 		if(e.getKeyCode() == 10 && !usernameTF.getText().isEmpty() && !usernameTF.getText().isBlank())
 			passwordPF.requestFocusInWindow();
@@ -199,10 +200,12 @@ public class FinestraLogin extends JFrame {
 		loginB.setBackground(arancioneScuro);	
 	}
 
-	private void autoDeleteUsername() {
-		//Se è username si deve levare
-		if(usernameTF.getText().equals("Username")) 
-			usernameTF.setText("");
+	
+	private void autoDelate(String testoDentro, String testoOrginale, JTextField txtFild) {
+		//svuotare appena si scrive
+		if(testoDentro.equals(testoOrginale))
+			txtFild.setText("");
+
 		
 	}
 

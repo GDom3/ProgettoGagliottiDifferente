@@ -410,6 +410,7 @@ public class AppBrain {
 
 
 	protected void ritornaNuovoOrdine(JFrame finestra) {
+		creaOrdineWindow.avviati();
 		creaOrdineWindow.setVisible(true);
 		finestra.setVisible(false);
 		
@@ -430,7 +431,16 @@ public class AppBrain {
 		inserisciCorriereWindow.setVisible(true);
 		creazioneSpedizioneWindow.setVisible(false);
 	}
-	
+
+
+	protected void registraCliente(Cliente clienteTemp) throws NonPossibileCreareClienteException{
+		clienteDAO.registraCliente(clienteTemp);
+		
+	}
+
+
 }
+	
+
 
 

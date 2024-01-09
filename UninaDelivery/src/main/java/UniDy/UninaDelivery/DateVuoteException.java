@@ -5,7 +5,7 @@ public class DateVuoteException extends Exception {
 	private String nomeErrore;
 	
 	public DateVuoteException() {
-		messaggioErrore = "Devi inserire ambedue le date";
+		messaggioErrore = "Devi inserire anche le date";
 		nomeErrore = "Date vuote";
 		
 		

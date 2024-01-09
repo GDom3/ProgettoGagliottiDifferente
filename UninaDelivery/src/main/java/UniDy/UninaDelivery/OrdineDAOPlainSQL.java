@@ -9,7 +9,6 @@ public class OrdineDAOPlainSQL {
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
 	private ArrayList<Ordine> ordini;
-	private int maxCodOrdine;
 
 	protected OrdineDAOPlainSQL(ComunicaConDatabase comunicazioneSQL) {
 		this.comunicazioneSQL = comunicazioneSQL;
@@ -117,21 +116,11 @@ public class OrdineDAOPlainSQL {
 
 	protected void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
 		
-		String comando = "SELECT CodOrdine FROM Ordine ORDER BY (CodOrdine) DESC";
-		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
-		try{
-			comunicazioneSQL.prossimaRiga();
-			maxCodOrdine = risultato.getInt(1);
-		}catch (Exception e) {
-			maxCodOrdine = 0;
-		}
-		
-		maxCodOrdine++;
-		
-		comando = "INSERT INTO Ordine VALUES ("+maxCodOrdine+",'Presa In Carico',"+nuovoOrd.getCostoSpedizione()+",'"+nuovoOrd.getDataE()+"','"
+		String comando = "INSERT INTO Ordine SELECT CodOrdine+1,'Presa In Carico',"+nuovoOrd.getCostoSpedizione()+",'"+nuovoOrd.getDataE()+"','"
 				+nuovoOrd.getDataConsegna()+"','"+nuovoOrd.getIndirizzo().getNumeroCivico()+"','"+nuovoOrd.getIndirizzo().getCittà()+"','"
-				+nuovoOrd.getIndirizzo().getVia()+"','"+nuovoOrd.getIndirizzo().getCAP()+"',"+nuovoOrd.getAcquirente().getCodCliente()+")";
-		comando = comando + "; UPDATE ESEMPLARE SET CodOrdine = " + maxCodOrdine + " WHERE CodiceBarre = " + nuovoOrd.getArticoliVenduti(0).getCodiceBarre() +";";
+				+nuovoOrd.getIndirizzo().getVia()+"','"+nuovoOrd.getIndirizzo().getCAP()+"',"+nuovoOrd.getAcquirente().getCodCliente()+" FROM Ordine ORDER BY CodOrdine DESC LIMIT 1;";
+		
+		comando = comando + "; UPDATE ESEMPLARE SET CodOrdine = (SELECT CodOrdine FROM Ordine ORDER BY CodOrdine DESC LIMIT 1) WHERE CodiceBarre = " + nuovoOrd.getArticoliVenduti(0).getCodiceBarre() +";";
 		
 		try {
 			comunicazioneSQL.mandaQDDL_DML(comando);

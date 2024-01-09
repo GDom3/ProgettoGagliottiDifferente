@@ -15,7 +15,6 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	private ArrayList<Ordine> ordiniDiUnaSpedizione;
 	private Spedizione tempSpedizione = null;
 	private String CodiceSpedizioneMomentaneo;
-	private int maxCodSpedizione = 0;
 	
 	public SpedizioneDAOPlainSQL(ComunicaConDatabase comunicazioneSQL) {
 		this.comunicazioneSQL = comunicazioneSQL;
@@ -257,23 +256,9 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	@Override
 	public void creaNuovaSpedizione(Spedizione nuovaSpedizione) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException,NonPossibileCreareSpedizioneException {
 		
-
-		String comando = "SELECT CodSpedizione FROM SPEDIZIONE ORDER BY(CodSpedizione) DESC;";
 		
-		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
-		try{
-			comunicazioneSQL.prossimaRiga();
-			maxCodSpedizione = risultato.getInt(1);
-		}catch (Exception e) {
-			maxCodSpedizione = 0;
-		}
-		
-		
-		maxCodSpedizione++;
-	
-		
-		comando = "INSERT INTO Spedizione VALUES (" + maxCodSpedizione + ", 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+ nuovaSpedizione.getCorriere().getCodCorriere() + ","+ nuovaSpedizione.getMezzoUtilizzato().getCodMezzo() +");"
-				+ "INSERT INTO Viaggio VALUES (true,"+ nuovaSpedizione.getCodOrdineIndex(0).getCodOrdine() + "," + maxCodSpedizione +")";
+		String comando = "INSERT INTO Spedizione SELECT CodSpedizione+1, 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+ nuovaSpedizione.getCorriere().getCodCorriere() + ","+ nuovaSpedizione.getMezzoUtilizzato().getCodMezzo() +" FROM Spedizione ORDER BY CodSpedizione DESC LIMIT 1;"
+				+ "INSERT INTO Viaggio VALUES (true,"+ nuovaSpedizione.getCodOrdineIndex(0).getCodOrdine() + ",(SELECT CodSpedizione FROM Spedizione ORDER BY CodSpedizione DESC LIMIT 1) )";
 		
 		try {
 			comunicazioneSQL.mandaQDDL_DML(comando);
