@@ -22,6 +22,7 @@ public class AppBrain {
 	private FinestraCreazioneNuovoCliente creaClienteWindow;
 	private FinestraInserimentoCorriere inserisciCorriereWindow;
 	private FinestraInserimentoMezzoTrasporto inserisciMezzoWindow;
+	private FinestraCreazioneNuovoMerce creaMerceWindow;
 	private ComunicaConDatabase comunicazioneSQL;
 	private Operatore operatorePrincipale;
 	private OperatoreDAO operatoreDAO;
@@ -33,7 +34,8 @@ public class AppBrain {
 	private MezzoTrasportoDAOPlainSQL mezziTrasportoDAO;
 	private ClienteDAOPlainSQL clienteDAO;
 	private EsemplareDAOPlainSQL esemplareDAO;
-	
+	private MerceDAOPlainSQL merceDAO;
+	private FornitoreDAOPlainSQL fornitoreDAO;
 	
 	public static void main(String[] args) {
 		
@@ -55,12 +57,8 @@ public class AppBrain {
 		cambiaStatoWindow = new FinestraCambiaStato(this);
 		creaClienteWindow = new FinestraCreazioneNuovoCliente(this);
 		inserisciMezzoWindow = new FinestraInserimentoMezzoTrasporto(this);
-		
-		//mostraFinestraVisualizza();
-		//datiOrdiniWindow.setVisible(true); 
-		//menuWindow.setVisible(true); 
-		
-		
+		creaMerceWindow = new FinestraCreazioneNuovoMerce(this);
+			
 		// Avvia Comunicazione
 		try {
 			comunicazioneSQL = new ComunicaConDatabase();
@@ -83,6 +81,9 @@ public class AppBrain {
 		mezziTrasportoDAO = new MezzoTrasportoDAOPlainSQL(comunicazioneSQL);
 		clienteDAO = new ClienteDAOPlainSQL(comunicazioneSQL);
 		esemplareDAO = new EsemplareDAOPlainSQL(comunicazioneSQL);
+		merceDAO = new MerceDAOPlainSQL(comunicazioneSQL);
+		fornitoreDAO = new FornitoreDAOPlainSQL(comunicazioneSQL);
+		
 	}
 	
 
@@ -139,7 +140,7 @@ public class AppBrain {
 	}
 
 
-	public int exit() {
+	protected int exit() {
 		BufferedWriter buffer;
 		
 		try {
@@ -260,7 +261,7 @@ public class AppBrain {
 	}
 
 
-	public void confermaNuovoStatoOrdine(Ordine ordineSelezionato, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+	protected void confermaNuovoStatoOrdine(Ordine ordineSelezionato, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
 		String StatoOrdine = elementAt.toString();
 		if(ordineSelezionato.getStatoOrdine().equals(StatoOrdine)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
@@ -284,7 +285,7 @@ public class AppBrain {
 	}
 
 
-	public void confermaNuovoStatoSpedizione(Spedizione spedizioneSelezionata, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+	protected void confermaNuovoStatoSpedizione(Spedizione spedizioneSelezionata, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
 		String StatoSpedizione = elementAt.toString();
 		if(spedizioneSelezionata.getStatoSpedizione().equals(StatoSpedizione)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
@@ -313,6 +314,7 @@ public class AppBrain {
 
 
 	protected void mostraFinestraNuovaSpedizione() {
+		creazioneSpedizioneWindow.setVisible(true);
 		creazioneSpedizioneWindow.avviati();
 		menuWindow.setVisible(false);
 			
@@ -448,6 +450,24 @@ public class AppBrain {
 		inserisciMezzoWindow.setVisible(true);
 		creazioneSpedizioneWindow.setVisible(false);
 	}
+
+
+	protected void mostraFinestraCreazioneMerce() {
+		creaMerceWindow.setVisible(true);
+		creaMerceWindow.avviati();
+		//creaEsemplareindow.setVisible(false);
+	}
+
+
+	protected void creaNuovaMerce(Merce merceTemp) throws NonPossibileCreareMerceException {
+		merceDAO.creaNuovaMerce(merceTemp);
+	}
+	
+	protected ArrayList<Fornitore> dammiTuttiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
+		return fornitoreDAO.dammiTuttiFornitori();
+		
+	}
+	
 
 }
 	

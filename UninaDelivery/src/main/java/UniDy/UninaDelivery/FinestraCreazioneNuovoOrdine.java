@@ -202,6 +202,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		aggiungiEsemplareButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rimpicciolisciGradualmenteBottoneAdd(aggiungiEsemplareButton);
+			
 			}
 		});
 		aggiungiEsemplareButton.addMouseListener(new MouseAdapter() {

@@ -6,10 +6,20 @@ public class Merce {
 	
 	private String codMerce;
 	private String nome;
-	private String peso;
+	private float peso;
 	private String marca;
+	private Fornitore azienda;
+	private int anno;
 	private int scorte;
 	
+	protected Merce(String nome, float peso, String marca, int anno, Fornitore fornitore) {
+		this.nome = nome;
+		this.peso = peso;
+		this.marca = marca;
+		this.anno = anno;
+		azienda = fornitore;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -38,11 +48,11 @@ public class Merce {
 		this.nome = nome;
 	}
 	
-	protected String getPeso() {
+	protected float getPeso() {
 		return peso;
 	}
 
-	protected void setPeso(String peso) {
+	protected void setPeso(float peso) {
 		this.peso = peso;
 	}
 
@@ -60,6 +70,22 @@ public class Merce {
 
 	protected void setScorte(int scorte) {
 		this.scorte = scorte;
+	}
+
+	protected int getAnno() {
+		return anno;
+	}
+
+	protected void setAnno(int anno) {
+		this.anno = anno;
+	}
+
+	protected Fornitore getAzienda() {
+		return azienda;
+	}
+
+	protected void setAzienda(Fornitore azienda) {
+		this.azienda = azienda;
 	}
 	
 	

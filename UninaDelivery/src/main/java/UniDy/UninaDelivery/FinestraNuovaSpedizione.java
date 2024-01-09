@@ -442,7 +442,6 @@ public class FinestraNuovaSpedizione extends JFrame {
 	
 
 	protected void avviati() {
-		setVisible(true);
 		try {
 			ordini = gestoreApplicazione.estraiOrdiniSenzaSpedOFalliti();
 			riempiOrdini();

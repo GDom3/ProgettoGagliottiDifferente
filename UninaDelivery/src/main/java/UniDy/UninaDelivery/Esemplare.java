@@ -7,7 +7,7 @@ public class Esemplare {
 	private String codiceBarre;
 	private String colore;
 	private float costo;
-	private Merce merceRiferimento = new Merce();;
+	private Merce merceRiferimento = new Merce(null,0,null,0,null);;
 	
 	protected Esemplare(String cod, String Nome) {
 		codiceBarre = cod;

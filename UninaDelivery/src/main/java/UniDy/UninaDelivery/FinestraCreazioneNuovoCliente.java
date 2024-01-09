@@ -124,7 +124,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		titoloLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titoloLabel.setForeground(Color.WHITE);
 		titoloLabel.setFont(new Font("Century", Font.BOLD, 30));
-		titoloLabel.setBounds(12, -1, 693, 37);
+		titoloLabel.setBounds(0, -1, 715, 37);
 		homePanel.add(titoloLabel);
 		
 		JPanel anagraficaPanel = new JPanel();
@@ -190,13 +190,6 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		cognomeTextFild.setBounds(106, 99, 200, 41);
 		anagraficaPanel.add(cognomeTextFild);
 		
-		JLabel logoCitta_1 = new JLabel("New label");
-		logoCitta_1.setOpaque(true);
-		logoCitta_1.setBorder(new LineBorder(new Color(179, 168, 166), 3, true));
-		logoCitta_1.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/CodFisc.png")));
-		logoCitta_1.setBounds(58, 151, 49, 41);
-		anagraficaPanel.add(logoCitta_1);
-		
 		CodiceFiscaleTextField = new JTextField();
 		CodiceFiscaleTextField.setToolTipText("inserisci codice fiscale");
 		CodiceFiscaleTextField.setText("Codice Fiscale");
@@ -218,6 +211,14 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		CodiceFiscaleTextField.setBackground(new Color(179, 168, 166));
 		CodiceFiscaleTextField.setBounds(106, 151, 200, 41);
 		anagraficaPanel.add(CodiceFiscaleTextField);
+		
+		JLabel logoCitta_1 = new JLabel("New label");
+		logoCitta_1.setBackground(new Color(179, 168, 166));
+		logoCitta_1.setOpaque(true);
+		logoCitta_1.setBorder(new LineBorder(new Color(179, 168, 166), 3, true));
+		logoCitta_1.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/CodFisc.png")));
+		logoCitta_1.setBounds(58, 151, 49, 41);
+		anagraficaPanel.add(logoCitta_1);
 		
 		DataNascitaDataChoser = new JDateChooser();
 		DataNascitaDataChoser.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
