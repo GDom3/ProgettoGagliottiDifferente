@@ -6,11 +6,23 @@ public class Operatore extends Persona {
 
 	private String username;
 	private String password;
-	
+		
 	protected Operatore(String usernameIN, String passwordIN){
 		super();
 		username = usernameIN;
 		password = passwordIN;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Operatore other = (Operatore) obj;
+		return Objects.equals(username, other.username);
 	}
 	
 	protected void setUsername(String username) {
@@ -21,7 +33,7 @@ public class Operatore extends Persona {
 	}
 
 	protected String presentati() {
-		return nome + " " + cognome;
+		return getNome() + " " + getCognome();
 	}
 	
 	protected String getUsername() {
@@ -36,22 +48,5 @@ public class Operatore extends Persona {
 		setUsername(username2);
 		setPassword(password2);
 	}
-
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Operatore other = (Operatore) obj;
-		return Objects.equals(username, other.username);
-	}
-
-
-
-	
 
 }

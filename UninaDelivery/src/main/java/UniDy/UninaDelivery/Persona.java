@@ -1,14 +1,32 @@
 package UniDy.UninaDelivery;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
-public class Persona {
-	protected String codiceFiscale;
-	protected String nome;
-	protected String cognome;
-	protected String email;
-	protected String numeroCellulare;
-	protected LocalDate DataNascita;
+public abstract class Persona {
+	private String codiceFiscale;
+	private String nome;
+	private String cognome;
+	private String email;
+	private String numeroCellulare;
+	private LocalDate DataNascita;
+	
+	@Override
+	public String toString() {
+		return "(" + codiceFiscale + ") "+ nome +" "+cognome;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Persona other = (Persona) obj;
+		return Objects.equals(codiceFiscale, other.codiceFiscale);
+	}
 	
 	protected String getCodiceFiscale() {
 		return codiceFiscale;
@@ -57,5 +75,7 @@ public class Persona {
 	protected void setDataNascita(LocalDate dataNascita) {
 		DataNascita = dataNascita;
 	}
+
+	
 	
 }

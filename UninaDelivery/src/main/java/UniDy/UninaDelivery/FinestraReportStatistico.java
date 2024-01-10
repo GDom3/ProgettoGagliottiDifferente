@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,15 +16,36 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale.Category;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Paint;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PiePlot3D;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.DefaultKeyedValues;
+import org.jfree.data.KeyedValues;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.general.PieDataset;
+import org.jfree.chart.*;
+
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class FinestraReportStatistico extends JFrame {
 
@@ -31,7 +54,11 @@ public class FinestraReportStatistico extends JFrame {
 	private AppBrain gestoreApplicazione;
 	//Grafica Globale
 	private JButton menuB ;
-	
+	private JSpinner annoFild;
+	private JPanel panel;
+	//Oggetti utili
+	private Ordine MaggiorOrdine ;
+	private Ordine MinoreOrdine;
 
 	public FinestraReportStatistico(AppBrain appBrain) {
 		gestoreApplicazione = appBrain;
@@ -134,7 +161,85 @@ public class FinestraReportStatistico extends JFrame {
 		imgFiltriL.setBounds(132, 11, 33, 37);
 		generaPanel.add(imgFiltriL);
 		
+		panel = new JPanel();
+		panel.setForeground(new Color(255, 255, 255));
+		panel.setBackground(new Color(179, 168, 166));
+		panel.setBounds(81, 96, 508, 335);
+		contentPane.add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		
+		annoFild = new JSpinner();
+		annoFild.setModel(new SpinnerNumberModel(Integer.valueOf(2023), Integer.valueOf(0), null, Integer.valueOf(1)));
+		annoFild.setToolTipText("Inserisci stipendio contratto");
+		annoFild.setForeground(Color.WHITE);
+		annoFild.setFont(new Font("Century", Font.PLAIN, 20));
+		annoFild.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
+		annoFild.setBackground(new Color(179, 168, 166));
+		annoFild.setBounds(10, 183, 155, 41);
+		generaPanel.add(annoFild);
+		
+		JLabel lblAnno = new JLabel("Anno");
+		lblAnno.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAnno.setForeground(Color.WHITE);
+		lblAnno.setFont(new Font("Century", Font.PLAIN, 20));
+		lblAnno.setBounds(10, 147, 155, 25);
+		generaPanel.add(lblAnno);
+		
+		JPanel risultatiScrittiPanel = new JPanel();
+		risultatiScrittiPanel.setBackground(new Color(179, 168, 166));
+		risultatiScrittiPanel.setBounds(81, 442, 508, 87);
+		contentPane.add(risultatiScrittiPanel);
+		risultatiScrittiPanel.setLayout(null);
+		
+		JLabel lblOrdineConMinor = new JLabel("Ordine con Minore Numero di Prodotti :");
+		lblOrdineConMinor.setForeground(Color.WHITE);
+		lblOrdineConMinor.setFont(new Font("Century", Font.PLAIN, 20));
+		lblOrdineConMinor.setBounds(10, 47, 391, 25);
+		risultatiScrittiPanel.add(lblOrdineConMinor);
+		
+		JLabel lblOrdineConMaggior = new JLabel("Ordine con Maggior Numero di Prodotti :");
+		lblOrdineConMaggior.setForeground(Color.WHITE);
+		lblOrdineConMaggior.setFont(new Font("Century", Font.PLAIN, 20));
+		lblOrdineConMaggior.setBounds(10, 11, 391, 25);
+		risultatiScrittiPanel.add(lblOrdineConMaggior);
+		
+		JLabel minOrd = new JLabel("");
+		minOrd.setHorizontalAlignment(SwingConstants.CENTER);
+		minOrd.setForeground(Color.WHITE);
+		minOrd.setFont(new Font("Century", Font.PLAIN, 20));
+		minOrd.setBounds(399, 47, 99, 25);
+		risultatiScrittiPanel.add(minOrd);
+		
+		JLabel magOrd = new JLabel("");
+		magOrd.setHorizontalAlignment(SwingConstants.CENTER);
+		magOrd.setForeground(Color.WHITE);
+		magOrd.setFont(new Font("Century", Font.PLAIN, 20));
+		magOrd.setBounds(399, 11, 99, 25);
+		risultatiScrittiPanel.add(magOrd);
+		
 		JButton generaB = new JButton("Genera Report");
+		generaB.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					
+					chiediRisposteReport();
+					generaGrafico();
+					
+					magOrd.setText(MaggiorOrdine.getCodOrdine());
+					minOrd.setText(MinoreOrdine.getCodOrdine());
+					
+					
+				} catch (RisultatoNonRicavabileException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (NonPossibileRicavareStatistiche e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				}
+				
+		
+			}
+		});
 		generaB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		generaB.setToolTipText("premi per generare il report");
 		generaB.setForeground(Color.WHITE);
@@ -142,11 +247,58 @@ public class FinestraReportStatistico extends JFrame {
 		generaB.setFocusPainted(false);
 		generaB.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
 		generaB.setBackground(new Color(254, 126, 115));
-		generaB.setBounds(10, 385, 155, 37);
+		generaB.setBounds(10, 313, 155, 37);
 		generaPanel.add(generaB);
+		
+		
+		
+	}	
+	
+	protected void messaggioPopUp(String testo, String titolo) {
+		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
 	
-	
+	private void chiediRisposteReport() throws NonPossibileRicavareStatistiche  {
+		try {
+			MaggiorOrdine = gestoreApplicazione.ordineConMaggiorProdotti((int)annoFild.getValue());
+			MinoreOrdine = gestoreApplicazione.ordineConMinorProdotti((int)annoFild.getValue());
+		} catch (RisultatoNonRicavabileException e) {
+			throw new NonPossibileRicavareStatistiche();
+		}
+		
+		
+	}
+
+	private void generaGrafico() throws RisultatoNonRicavabileException {
+		
+		int valori[] = gestoreApplicazione.numeroMedioOrdini((int)annoFild.getValue());
+		String mesi[] = {"Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"};
+		
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		
+		for(int i = 0; i < 12 ; i++)
+			dataset.setValue(valori[i], "", mesi[i]);
+		
+		JFreeChart grafico =  ChartFactory.createBarChart3D("Report Statistico","Numero Ordini", "Mesi", dataset, PlotOrientation.VERTICAL,false,false,false);
+		
+		grafico.setTitle("Numero Medio Ordini");
+		
+		Paint colore = new Color(179, 168, 166);
+		grafico.setBackgroundPaint(colore);
+		CategoryPlot catpot = grafico.getCategoryPlot();
+		
+		catpot.setOutlinePaint(Color.white);
+		catpot.setRangeGridlinePaint(Color.white);
+		catpot.setDomainGridlinePaint(Color.white);
+		catpot.setOutlinePaint(Color.white);
+		ChartPanel pannelloGrafico = new ChartPanel(grafico);
+		panel.removeAll();
+		panel.add(pannelloGrafico,BorderLayout.CENTER);
+		panel.validate();
+		
+		
+	}
+
 	private void confermaRitornareMenu() {
 		menuB.setFont(new Font("Century", Font.PLAIN, 19));
 		menuB.setFont(new Font("Century", Font.PLAIN, 18));
@@ -169,5 +321,4 @@ public class FinestraReportStatistico extends JFrame {
 		menuB.setFont(new Font("Century", Font.PLAIN, 18));
 		
 	}
-	
 }

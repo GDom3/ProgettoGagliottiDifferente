@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class OrdineDAOPlainSQL {
+public class OrdineDAOPlainSQL implements OrdineDAO {
 	
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
@@ -15,6 +15,7 @@ public class OrdineDAOPlainSQL {
 	}
 
 
+	@Override
 	public Ordine trovaOrdine(String ordDaCercare) throws  RisultatoNonRicavabileException  {
 		
 		String comando = "SELECT CodOrdine, StatoOrdine FROM Ordine WHERE CodOrdine = '" + ordDaCercare + "';";
@@ -39,6 +40,7 @@ public class OrdineDAOPlainSQL {
 	}
 
 
+	@Override
 	public String aggiornaStatoOrdine(Ordine ordineSelezionato) throws RisultatoNonRicavabileException {
 		String comando = "UPDATE Ordine SET StatoOrdine = '" +  ordineSelezionato.getStatoOrdine() + "' WHERE CodOrdine = '" + ordineSelezionato.getCodOrdine()+"' ;";
 		int buonfine; 
@@ -65,6 +67,7 @@ public class OrdineDAOPlainSQL {
 	}
 
 
+	@Override
 	public ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws  RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException  {
 		ordini = new ArrayList<Ordine>();
 		String comando = "SELECT CodOrdine,StatoOrdine FROM Ordine WHERE CodOrdine NOT IN (SELECT CodOrdine FROM Viaggio WHERE Corrente = true) ORDER BY (CodOrdine)";
@@ -104,7 +107,8 @@ public class OrdineDAOPlainSQL {
 		
 	}
 
-	protected ArrayList<Ordine> dammiOrdiniNonPartitiOFalliti() throws  RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException{
+	@Override
+	public ArrayList<Ordine> dammiOrdiniNonPartitiOFalliti() throws  RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException{
 
 		ordini = new ArrayList<Ordine>();
 		String comando = "SELECT CodOrdine,StatoOrdine FROM Ordine WHERE StatoOrdine <> 'Spedito' AND  StatoOrdine <> 'In Consegna' AND StatoOrdine <> 'Consegnato'  ORDER BY (CodOrdine)";
@@ -114,11 +118,13 @@ public class OrdineDAOPlainSQL {
 	}
 
 
-	protected void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
+	@Override
+	public void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
 		
 		String comando = "INSERT INTO Ordine SELECT MAX(CodOrdine)+1,'Presa In Carico',"+nuovoOrd.getCostoSpedizione()+",'"+nuovoOrd.getDataE()+"','"
                 +nuovoOrd.getDataConsegna()+"','"+nuovoOrd.getIndirizzo().getNumeroCivico()+"','"+nuovoOrd.getIndirizzo().getCittà()+"','"
-                +nuovoOrd.getIndirizzo().getVia()+"','"+nuovoOrd.getIndirizzo().getCAP()+"',"+nuovoOrd.getAcquirente().getCodCliente()+" FROM Ordine;";
+                +nuovoOrd.getIndirizzo().getVia()+"','"+nuovoOrd.getIndirizzo().getCAP()+"',"+""
+                		+ "(SELECT CodCliente FROM Cliente WHERE CodiceFiscale = '"+ nuovoOrd.getAcquirente().getCodiceFiscale()+"') FROM Ordine;";
 
 
 
@@ -130,6 +136,79 @@ public class OrdineDAOPlainSQL {
 			throw new NonPossibileCreareOrdineException();
 		}
 		
+	}
+	
+	@Override
+	public int[] numeroMedioOrdini(int anno) throws RisultatoNonRicavabileException{
+		int vet[] = new int[12];
+		int valore;
+		int valoreVecchio = 0;
+		int mese = 1;
+		int i = 0;
+		String comando = "SELECT Count(CodOrdine),date_part('month', DataE) FROM Ordine WHERE date_part('year', DataE) = '"+anno+"' GROUP BY (date_part('month', DataE)) ORDER BY (date_part('month', DataE)); ";
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		
+		if(comunicazioneSQL.prossimaRiga())	
+			do{
+				try {
+					valore = risultato.getInt(1);
+					mese = risultato.getInt(2);
+					
+					vet[mese-1] = valore;
+					
+					
+				} catch (SQLException e) {
+					throw new RisultatoNonRicavabileException();
+				}	
+			}while(comunicazioneSQL.prossimaRiga());
+		
+		
+		return vet;
+	}
+	
+	@Override
+	public Ordine ordineConMaggiorProdotti(int anno) throws RisultatoNonRicavabileException {
+		Ordine ord = null;
+		
+		String comando = "SELECT CodOrdine,StatoOrdine,COUNT(CodiceBarre) AS num "
+				+ " FROM ESEMPLARE NATURAL JOIN Ordine "
+				+ " WHERE CodOrdine IS NOT NULL AND  date_part('year', DataE) = '"+anno+"' "
+						+ " GROUP BY(CodOrdine,StatoOrdine) ORDER BY (num) DESC LIMIT 1;";
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		
+		try {
+			comunicazioneSQL.prossimaRiga();
+			ord = new Ordine(risultato.getString(1), risultato.getString(2));System.out.println(comando);
+		} catch (SQLException e) {
+			throw new RisultatoNonRicavabileException();
+		}
+		
+		
+		return ord;
+	}
+	
+	@Override
+	public Ordine ordineConMinorProdotti(int anno) throws RisultatoNonRicavabileException {
+		Ordine ord = null;
+		
+		String comando = "SELECT CodOrdine,StatoOrdine,COUNT(CodiceBarre) AS num "
+				+ " FROM ESEMPLARE NATURAL JOIN Ordine "
+				+ " WHERE CodOrdine IS NOT NULL AND  date_part('year', DataE) = '"+anno+"' "
+						+ " GROUP BY(CodOrdine,StatoOrdine) ORDER BY (num) LIMIT 1;";
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		
+		try {
+			comunicazioneSQL.prossimaRiga();
+			ord = new Ordine(risultato.getString(1), risultato.getString(2));
+		} catch (SQLException e) {
+			throw new RisultatoNonRicavabileException();
+		}
+		
+		
+		return ord;
 	}
 
 

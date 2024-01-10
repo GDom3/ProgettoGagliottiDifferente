@@ -78,7 +78,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	//Spiegata su
 	private void casoAppartieneAdNuovaSpedizione() throws SQLException {
 		CodiceSpedizioneMomentaneo = risultato.getString(5);
-		tempCliente = new Cliente(risultato.getString(1));
+		tempCliente = new Cliente(risultato.getString(1),null,null,null,null,null,null);
 		tempOrdine = new Ordine(risultato.getString(2),tempCliente,risultato.getFloat(4),risultato.getInt(3));
 		ordiniDiUnaSpedizione = new ArrayList<Ordine>(tempOrdine.getNumMerci());
 		ordiniDiUnaSpedizione.add(tempOrdine);
@@ -87,7 +87,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	
 	//Spiegata su
 	private void casoAppartieneAllaSpedizionePrecedente() throws SQLException {
-		tempCliente = new Cliente(risultato.getString(1));
+		tempCliente = new Cliente(risultato.getString(1),null,null,null,null,null,null);
 		tempOrdine = new Ordine(risultato.getString(2),tempCliente,risultato.getFloat(4),risultato.getInt(3));
 		ordiniDiUnaSpedizione.add(tempOrdine);
 		tempCliente.addOrdini(tempOrdine);
@@ -203,6 +203,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		return ricavaSpedizioni(addonsFiltro);
 	}
 	
+	@Override
 	public Spedizione trovaSpedizione(String codSpedizione) throws RisultatoNonRicavabileException{
 		String comando = "SELECT CodSpedizione, StatoSpedizione FROM Spedizione WHERE CodSpedizione = '" + codSpedizione + "';";
 		
@@ -229,6 +230,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	}
 
 	
+	@Override
 	public String aggiornaStatoSpedizione(Spedizione spedizioneSelezionata) throws RisultatoNonRicavabileException {
 		String comando = "UPDATE Spedizione SET StatoSpedizione = '" +  spedizioneSelezionata.getStatoSpedizione() + "' WHERE CodSpedizione = '" + spedizioneSelezionata.getCodSpedizione()+"' ;";
 		int buonfine; 
@@ -257,10 +259,12 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	public void creaNuovaSpedizione(Spedizione nuovaSpedizione) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException,NonPossibileCreareSpedizioneException {
 		
 		
-		String comando = "INSERT INTO Spedizione SELECT MAX(CodSpedizione)+1, 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+ nuovaSpedizione.getCorriere().getCodCorriere() + ","
-				+ "(SELECT CodMezzo FROM MezzoTrasporto WHERE Targa ="+ nuovaSpedizione.getMezzoUtilizzato().getTarga() + ")  FROM Spedizione;"
+		String comando = "INSERT INTO Spedizione SELECT MAX(CodSpedizione)+1, 'Presa In Carico', "+nuovaSpedizione.getKM() + ", 0, 'Base Centrale',"+" "
+				+ "(SELECT CodCorriere FROM Corriere WHERE CodiceFiscale = '"+nuovaSpedizione.getCorriere().getCodiceFiscale()+"'),"
+				+ "(SELECT CodMezzo FROM MezzoTrasporto WHERE Targa = '"+ nuovaSpedizione.getMezzoUtilizzato().getTarga() + "')  FROM Spedizione;"
 				+ "INSERT INTO Viaggio VALUES (true,"+ nuovaSpedizione.getCodOrdineIndex(0).getCodOrdine() + ",(SELECT CodSpedizione FROM Spedizione ORDER BY CodSpedizione DESC LIMIT 1) )";
 		
+
 		try {
 			comunicazioneSQL.mandaQDDL_DML(comando);
 		}catch (SQLException e) {

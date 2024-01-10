@@ -25,9 +25,9 @@ public class Ordine {
 		this.numMerci = numMerci;
 	}
 	
-	protected Ordine(String codOrdine, String string) {
+	protected Ordine(String codOrdine, String stato) {
 		this.codiceOrdine = codOrdine;
-		statoOrdine = string;
+		statoOrdine = stato;
 	}
 	
 	protected Ordine(Cliente cliente, Esemplare esemplare, float value, LocalDate dataE, LocalDate dataConsegna,String city, String via, String numCiv, String cap) {
@@ -40,10 +40,6 @@ public class Ordine {
 		
 	}
 
-	@Override
-	public String toString() {
-		return  codiceOrdine;
-	}
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -57,6 +53,11 @@ public class Ordine {
 		return Objects.equals(codiceOrdine, other.codiceOrdine);
 	} 
 	
+	@Override
+	public String toString() {
+		return codiceOrdine + " (" + statoOrdine + ")";
+	}
+
 	protected String getStatoOrdine() {
 		return statoOrdine;
 	}

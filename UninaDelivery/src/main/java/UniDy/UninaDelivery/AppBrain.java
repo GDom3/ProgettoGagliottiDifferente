@@ -22,6 +22,7 @@ public class AppBrain {
 	private FinestraCreazioneNuovoCliente creaClienteWindow;
 	private FinestraInserimentoCorriere inserisciCorriereWindow;
 	private FinestraInserimentoMezzoTrasporto inserisciMezzoWindow;
+	private FinestraInserimentoEsemplare creaEsemplareWindow;
 	private FinestraCreazioneNuovoMerce creaMerceWindow;
 	private ComunicaConDatabase comunicazioneSQL;
 	private Operatore operatorePrincipale;
@@ -29,13 +30,14 @@ public class AppBrain {
 	private Operatore nuovoOperatore;
 	private SpedizioneDAO spedizioneDAO;
 	private ArrayList<Spedizione> spedizioni;
-	private OrdineDAOPlainSQL ordineDAO;
-	private CorriereDAOPlainSQL corriereDAO;
-	private MezzoTrasportoDAOPlainSQL mezziTrasportoDAO;
-	private ClienteDAOPlainSQL clienteDAO;
-	private EsemplareDAOPlainSQL esemplareDAO;
-	private MerceDAOPlainSQL merceDAO;
-	private FornitoreDAOPlainSQL fornitoreDAO;
+	private OrdineDAO ordineDAO;
+	private CorriereDAO corriereDAO;
+	private MezzoTrasportoDAO mezziTrasportoDAO;
+	private ClienteDAO clienteDAO;
+	private EsemplareDAO esemplareDAO;
+	private MerceDAO merceDAO;
+	private FornitoreDAO fornitoreDAO;
+	private MagazzinoDAO magazzinoDAO;
 	
 	public static void main(String[] args) {
 		
@@ -58,7 +60,9 @@ public class AppBrain {
 		creaClienteWindow = new FinestraCreazioneNuovoCliente(this);
 		inserisciMezzoWindow = new FinestraInserimentoMezzoTrasporto(this);
 		creaMerceWindow = new FinestraCreazioneNuovoMerce(this);
-			
+		creaEsemplareWindow = new FinestraInserimentoEsemplare(this);	
+		
+		
 		// Avvia Comunicazione
 		try {
 			comunicazioneSQL = new ComunicaConDatabase();
@@ -83,6 +87,7 @@ public class AppBrain {
 		esemplareDAO = new EsemplareDAOPlainSQL(comunicazioneSQL);
 		merceDAO = new MerceDAOPlainSQL(comunicazioneSQL);
 		fornitoreDAO = new FornitoreDAOPlainSQL(comunicazioneSQL);
+		magazzinoDAO = new MagazzinoDAOPlainSQL(comunicazioneSQL);
 		
 	}
 	
@@ -416,6 +421,7 @@ public class AppBrain {
 	protected void ritornaNuovoOrdine(JFrame finestra) {
 		creaOrdineWindow.avviati();
 		creaOrdineWindow.setVisible(true);
+		creaOrdineWindow.avviati();
 		finestra.setVisible(false);
 		
 	}
@@ -455,7 +461,13 @@ public class AppBrain {
 	protected void mostraFinestraCreazioneMerce() {
 		creaMerceWindow.setVisible(true);
 		creaMerceWindow.avviati();
-		//creaEsemplareindow.setVisible(false);
+		creaEsemplareWindow.setVisible(false);
+	}
+	
+	protected void mostraFinestraCreazioneEsemplare() {
+		creaEsemplareWindow.setVisible(true);
+		creaEsemplareWindow.avviati();
+		creaOrdineWindow.setVisible(false);
 	}
 
 
@@ -468,7 +480,43 @@ public class AppBrain {
 		
 	}
 	
+	protected ArrayList<Merce> dammiTutteMerci() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
+		return merceDAO.estraiMerce();
+	}
 
+
+	protected void ritornaEsemplare(FinestraCreazioneNuovoMerce finestraCreazioneNuovoMerce)  {
+		creaEsemplareWindow.setVisible(true);
+		creaEsemplareWindow.avviati();
+		creaMerceWindow.setVisible(false);
+	}
+
+
+	protected ArrayList<Magazzino> dammiTutteMagazzini() throws RisultatoNonRicavabileException, NonCiSonoMagazziniDisponibiliException {
+		return magazzinoDAO.dammiTutteMagazzini();
+	}
+
+
+	protected void creaEsemplare(Esemplare esemplareTemp) throws OperazioneUpdateNonRiuscitaException {
+		esemplareDAO.creaEsemplare(esemplareTemp);
+		
+	}
+
+
+	public int[] numeroMedioOrdini(int anno) throws RisultatoNonRicavabileException {
+		return ordineDAO.numeroMedioOrdini(anno);
+	}
+	
+	
+	protected Ordine ordineConMaggiorProdotti (int anno) throws RisultatoNonRicavabileException {
+		return ordineDAO.ordineConMaggiorProdotti(anno);
+
+	}
+	
+	protected Ordine ordineConMinorProdotti (int anno) throws RisultatoNonRicavabileException {
+		return ordineDAO.ordineConMinorProdotti(anno);
+
+	}
 }
 	
 
