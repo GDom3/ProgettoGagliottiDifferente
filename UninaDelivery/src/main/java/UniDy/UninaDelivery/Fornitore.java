@@ -4,17 +4,10 @@ import java.util.ArrayList;
 
 public class Fornitore extends Azienda {
 	private ArrayList<Merce> catalogoMerci = new ArrayList<Merce>();
-	private int codFornitore;
 
-	public Fornitore(int codice, String Nome) {
+	public Fornitore(String Nome, String piva) {
 		setNome(Nome);
-		codFornitore = codice;
-		
-	}
-
-	@Override
-	public String toString() {
-		return getNome();
+		setPartitaIVA(piva);
 	}
 
 	protected ArrayList<Merce> getCatalogoMerci() {
@@ -25,13 +18,4 @@ public class Fornitore extends Azienda {
 		this.catalogoMerci = catalogoMerci;
 	}
 
-	protected int getCodFornitore() {
-		return codFornitore;
-	}
-
-	protected void setCodFornitore(int codFornitore) {
-		this.codFornitore = codFornitore;
-	}
-	
-	
 }

@@ -202,7 +202,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		aggiungiEsemplareButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				rimpicciolisciGradualmenteBottoneAdd(aggiungiEsemplareButton);
-			
+				gestoreApplicazione.mostraFinestraCreazioneEsemplare();
 			}
 		});
 		aggiungiEsemplareButton.addMouseListener(new MouseAdapter() {
@@ -509,7 +509,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		try {
 			//Lo invio al db
 			gestoreApplicazione.creaOrdine(nuovoOrd);
-			messaggioPopUp("Creazioenavvenuta con successo, l'ordine ed ora disponibile", "Inserimento Riuscito");
+			messaggioPopUp("Creazione avvenuta con successo, l'ordine ed ora disponibile", "Inserimento Riuscito");
 			avviati();
 		} catch (RisultatoNonRicavabileException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
@@ -697,13 +697,8 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		//Prendo gli esemplari
 		esemplari = gestoreApplicazione.dammiEsemplariNonVenduti();
 		
-		arrayTemp = new ArrayList<String>(esemplari.size());
-		//gestisco l'estetica
-		for(Esemplare esemplare : esemplari)
-			arrayTemp.add("("+ esemplare.getCodiceBarre() + ") "+ esemplare.getMerceRiferimento().getNome() );
-		
 		//E riempio la combobox
-		esemplariBox.setModel(new DefaultComboBoxModel(arrayTemp.toArray()));
+		esemplariBox.setModel(new DefaultComboBoxModel(esemplari.toArray()));
 		
 	}
 
@@ -712,13 +707,8 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		//Prendo i clienti
 		clienti = gestoreApplicazione.dammiTuttiClienti();
 		
-		arrayTemp = new ArrayList<String>(clienti.size());
-		//gestisco l'estetica
-		for(Cliente cliente : clienti)
-			arrayTemp.add("("+ cliente.getCodCliente() + ") "+ cliente.getNome() + " " + cliente.getCognome() );
-		
 		//E riempio la combobox
-		clientiBox.setModel(new DefaultComboBoxModel(arrayTemp.toArray()));
+		clientiBox.setModel(new DefaultComboBoxModel(clienti.toArray()));
 		
 	}
 	

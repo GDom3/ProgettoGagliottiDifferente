@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class FornitoreDAOPlainSQL {
+public class FornitoreDAOPlainSQL implements FornitoreDAO {
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
 
@@ -14,18 +14,19 @@ public class FornitoreDAOPlainSQL {
 	}
 
 
+	@Override
 	public ArrayList<Fornitore> dammiTuttiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
 		ArrayList<Fornitore> fornitori = new ArrayList<Fornitore>();
 		Fornitore tempFornitore = null;
 		
-		String comando = "SELECT CodAzienda,Nome FROM Azienda WHERE IsFornitore = true ORDER BY (CodAzienda)";
+		String comando = "SELECT Nome,PartitaIva FROM Azienda WHERE IsFornitore = true ORDER BY (CodAzienda)";
 
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
 		
 		
 		try {
 			comunicazioneSQL.prossimaRiga();
-			tempFornitore = new Fornitore(risultato.getInt(1),risultato.getString(2));
+			tempFornitore = new Fornitore(risultato.getString(1),risultato.getString(2));
 			fornitori.add(tempFornitore);
 			
 		} catch (SQLException e) {
@@ -37,7 +38,7 @@ public class FornitoreDAOPlainSQL {
 			do{
 			
 				try {
-					tempFornitore = new Fornitore(risultato.getInt(1),risultato.getString(2));
+					tempFornitore = new Fornitore(risultato.getString(1),risultato.getString(2));
 					fornitori.add(tempFornitore);
 				} catch (SQLException e) {
 					throw new RisultatoNonRicavabileException();

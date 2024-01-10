@@ -29,6 +29,9 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.KeyAdapter;
 import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import java.awt.Cursor;
 
 public class FinestraCreazioneNuovoMerce extends JFrame {
 
@@ -85,6 +88,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		contentPane.add(homePanel);
 		
 		indietroBottone = new JButton("Indietro");
+		indietroBottone.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		indietroBottone.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -97,7 +101,13 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		});
 		indietroBottone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				confermaRitornareIndietro();
+				try {
+					confermaRitornareIndietro();
+				} catch (RisultatoNonRicavabileException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+				} catch (NonCiSonoMerciDisponibiliException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+				}
 			}
 		});
 		indietroBottone.setToolTipText("premi per ritornare alla finestra precedente");
@@ -252,14 +262,20 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		lblFornitore.setBounds(350, 136, 341, 25);
 		anagraficaPanel.add(lblFornitore);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(452, 173, 198, 39);
+		anagraficaPanel.add(scrollPane);
+		
 		fornitoriBox = new JComboBox();
+		fornitoriBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		scrollPane.setViewportView(fornitoriBox);
 		fornitoriBox.setToolTipText("Qui puoi selezionare il fornitore");
 		fornitoriBox.setForeground(Color.WHITE);
 		fornitoriBox.setFont(new Font("Century", Font.PLAIN, 20));
 		fornitoriBox.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		fornitoriBox.setBackground(new Color(179, 168, 166));
-		fornitoriBox.setBounds(452, 173, 198, 39);
-		anagraficaPanel.add(fornitoriBox);
 		
 		JLabel immagineCodiceFiscaleLabel_1 = new JLabel("");
 		immagineCodiceFiscaleLabel_1.setIcon(new ImageIcon(FinestraCreazioneNuovoMerce.class.getResource("/Img/supervisore.png")));
@@ -271,6 +287,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		anagraficaPanel.add(immagineCodiceFiscaleLabel_1);
 		
 		JButton btnCreaNuovaMerce = new JButton("Crea Nuova Merce");
+		btnCreaNuovaMerce.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCreaNuovaMerce.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -335,25 +352,20 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 	private void prendiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException  {
 		//Prendo gli esemplari
 		fornitori = gestoreApplicazione.dammiTuttiFornitori();
-		
-		arrayTemp = new ArrayList<String>(fornitori.size());
-		//gestisco l'estetica
-		for(Fornitore fornitore : fornitori)
-			arrayTemp.add("("+ fornitore.getCodFornitore() + ") "+ fornitore.getNome() );
-
+	
 		//E riempio la combobox
-		fornitoriBox.setModel(new DefaultComboBoxModel(arrayTemp.toArray()));
+		fornitoriBox.setModel(new DefaultComboBoxModel(fornitori.toArray()));
 		
 	}
 
 	
 
-	private void confermaRitornareIndietro() {
+	private void confermaRitornareIndietro() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
 		indietroBottone.setFont(new Font("Century", Font.PLAIN, 19));
 		indietroBottone.setFont(new Font("Century", Font.PLAIN, 18));
 		int output = JOptionPane.showConfirmDialog(this, "Confermi di ritornare indietro", "Ritorna a crea spedizione",0 ,JOptionPane.YES_NO_OPTION);
 		if(output == 0)
-			gestoreApplicazione.ritornaNuovoOrdine(this);
+			gestoreApplicazione.ritornaEsemplare(this);
 		
 	}
 	

@@ -38,6 +38,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.HierarchyListener;
 import java.awt.event.HierarchyEvent;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class FinestraNuovaSpedizione extends JFrame {
 
@@ -132,33 +134,48 @@ public class FinestraNuovaSpedizione extends JFrame {
 		menuB.setBounds(326, 11, 60, 22);
 		homePanel.add(menuB);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setBounds(114, 194, 200, 41);
+		contentPane.add(scrollPane);
+		
 		ordineBox = new JComboBox();
+		scrollPane.setViewportView(ordineBox);
 		ordineBox.setForeground(new Color(255, 255, 255));
 		ordineBox.setBackground(new Color(179, 168, 166));
 		ordineBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		ordineBox.setToolTipText("Qui puoi selezionare l'ordine");
 		ordineBox.setFont(new Font("Century", Font.PLAIN, 20));
-		ordineBox.setBounds(114, 194, 200, 41);
-		contentPane.add(ordineBox);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_1.setBounds(324, 194, 200, 41);
+		contentPane.add(scrollPane_1);
 		
 		corriereBox = new JComboBox();
+		scrollPane_1.setViewportView(corriereBox);
 		corriereBox.setForeground(new Color(255, 255, 255));
 		corriereBox.setBackground(new Color(179, 168, 166));
 		corriereBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		corriereBox.setToolTipText("Qui puoi selezionare il corriere");
 		corriereBox.setFont(new Font("Century", Font.PLAIN, 20));
-		corriereBox.setBounds(324, 194, 200, 41);
-		contentPane.add(corriereBox);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_2.setBounds(534, 194, 200, 41);
+		contentPane.add(scrollPane_2);
 		
 		
 		mezzoBox = new JComboBox();
+		scrollPane_2.setViewportView(mezzoBox);
 		mezzoBox.setForeground(new Color(255, 255, 255));
 		mezzoBox.setBackground(new Color(179, 168, 166));
 		mezzoBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		mezzoBox.setToolTipText("Qui puoi selezionare il mezzo di trasporto");
 		mezzoBox.setFont(new Font("Century", Font.PLAIN, 20));
-		mezzoBox.setBounds(534, 194, 200, 41);
-		contentPane.add(mezzoBox);
 
 		JLabel ordineLabel;
 		ordineLabel = new JLabel("Ordine");
@@ -476,28 +493,16 @@ public class FinestraNuovaSpedizione extends JFrame {
 	}
 
 	private void riempiOrdini() {
-		ArrayList<String> codici = new ArrayList<String>(ordini.size());
-		
-		//Bado all'estetica
-		for (Ordine ordine : ordini) 
-			codici.add(ordine.getCodOrdine() + " (" + ordine.getStatoOrdine() + ")");
-		
 		//Gestisco la comboBox
-		DefaultComboBoxModel modelloOrdini = new DefaultComboBoxModel(codici.toArray());
+		DefaultComboBoxModel modelloOrdini = new DefaultComboBoxModel(ordini.toArray());
 		ordineBox.setModel(modelloOrdini);
 		
 	}
 	
 	
 	private void riempiCorriere() {
-		ArrayList<String> codici = new ArrayList<String>(corrieri.size());
-		
-		//Bado all'estetica
-		for (Corriere corriere : corrieri) 
-			codici.add( "(" + corriere.getCodCorriere() +") " + corriere.getNome() + " " + corriere.getCognome());
-		
 		//Gestisco la comboBox
-		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(codici.toArray());
+		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(corrieri.toArray());
 		corriereBox.setModel(modelloCorrieri);
 		
 	}

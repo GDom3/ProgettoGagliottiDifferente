@@ -487,9 +487,9 @@ public class FinestraInserimentoCorriere extends JFrame {
 				
 					String codCordinatore = "null";
 					if(capoBox.getSelectedIndex() > 0)
-						codCordinatore = corrieri.get(capoBox.getSelectedIndex()-1).getCodCorriere();
+						codCordinatore = corrieri.get(capoBox.getSelectedIndex()-1).getCodiceFiscale();
 				
-					Corriere tempCorriere = new Corriere(codiceFiscaleTxf.getText(), nomeTxf.getText() , cognomeTxf.getText() , dataNascita, patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText(),(int) contrattoFild.getValue(),(int) anniContributiFild.getValue(), codCordinatore);
+					Corriere tempCorriere = new Corriere(codiceFiscaleTxf.getText(), nomeTxf.getText() , cognomeTxf.getText() , dataNascita, patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText(),(int) contrattoFild.getValue(),(int) anniContributiFild.getValue(), codCordinatore,true);
 			
 					gestoreApplicazione.assumiCorriere(tempCorriere);
 					messaggioPopUp("Il Corriere inserito è stato assunto correttamente", "Assunzione Corriere");
@@ -544,13 +544,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 
 	private void riempiCorriere() {
 		
-		ArrayList<String> codici = new ArrayList<String>(corrieri.size());
-		
-		codici.add("E' un Supervisore");
-		for (Corriere corriere : corrieri) 
-			codici.add( "(" + corriere.getCodCorriere() +") " + corriere.getNome() + " " + corriere.getCognome());
-		
-		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(codici.toArray());
+		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(corrieri.toArray());
 		capoBox.setModel(modelloCorrieri);
 		
 	
