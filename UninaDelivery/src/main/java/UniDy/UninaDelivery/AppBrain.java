@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 
 
 public class AppBrain {
-	
+	//Finestre
 	private FinestraLogin loginWindow;
 	private FinestraMenu menuWindow;
 	private FinestraReportStatistico datiStatisticiWindow;
@@ -24,12 +24,11 @@ public class AppBrain {
 	private FinestraInserimentoMezzoTrasporto inserisciMezzoWindow;
 	private FinestraInserimentoEsemplare creaEsemplareWindow;
 	private FinestraCreazioneNuovoMerce creaMerceWindow;
+	//Database
 	private ComunicaConDatabase comunicazioneSQL;
-	private Operatore operatorePrincipale;
+	//DAO
 	private OperatoreDAO operatoreDAO;
-	private Operatore nuovoOperatore;
 	private SpedizioneDAO spedizioneDAO;
-	private ArrayList<Spedizione> spedizioni;
 	private OrdineDAO ordineDAO;
 	private CorriereDAO corriereDAO;
 	private MezzoTrasportoDAO mezziTrasportoDAO;
@@ -38,6 +37,20 @@ public class AppBrain {
 	private MerceDAO merceDAO;
 	private FornitoreDAO fornitoreDAO;
 	private MagazzinoDAO magazzinoDAO;
+	//Oggetti Utili
+		
+	//Nuova Sped 	
+		private ArrayList<Ordine> ordiniSenzaSpedizioneOFalliti;
+		private ArrayList<Corriere> corrieriDisponibili;
+		private ArrayList<MezzoTrasporto> mezziDisponibili;
+		private Spedizione nuovaSpedizione;
+	//Login	
+		private Operatore operatorePrincipale;
+		private Operatore nuovoOperatore;
+	
+		
+		private ArrayList<Spedizione> spedizioni;
+	
 	
 	public static void main(String[] args) {
 		
@@ -327,26 +340,18 @@ public class AppBrain {
 	}
 
 
-	protected ArrayList<Ordine> estraiOrdiniSenzaSpedOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
-		return ordineDAO.estraiOrdiniSenzaSpedOFalliti();
+	protected void estraiOrdiniSenzaSpedOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		ordiniSenzaSpedizioneOFalliti =  ordineDAO.estraiOrdiniSenzaSpedOFalliti();
 	}
 
 
-	protected ArrayList<Corriere> estraiCorrieriSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException {
-		return corriereDAO.estraiCorrieriSenzaSped();
+	protected void estraiCorrieriSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException {
+		corrieriDisponibili =  corriereDAO.estraiCorrieriSenzaSped();
 	}
 
 
-	protected ArrayList<MezzoTrasporto> estraiMezziSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
-		return mezziTrasportoDAO.estraiMezziSenzaSped();
-	}
-
-
-	protected void creamiNuovaSpedizione(Spedizione nuovaSpedizione, int km) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException, NonPossibileCreareSpedizioneException {
-		
-		nuovaSpedizione.setKM(km);
-		spedizioneDAO.creaNuovaSpedizione(nuovaSpedizione);
-
+	protected void estraiMezziSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
+		mezziDisponibili =  mezziTrasportoDAO.estraiMezziSenzaSped();
 	}
 
 
@@ -508,14 +513,37 @@ public class AppBrain {
 	}
 	
 	
-	protected Ordine ordineConMaggiorProdotti (int anno) throws RisultatoNonRicavabileException {
-		return ordineDAO.ordineConMaggiorProdotti(anno);
+	protected String ordineConMaggiorProdotti (int anno) throws RisultatoNonRicavabileException {
+		return ordineDAO.ordineConMaggiorProdotti(anno).getCodOrdine();
 
 	}
 	
-	protected Ordine ordineConMinorProdotti (int anno) throws RisultatoNonRicavabileException {
-		return ordineDAO.ordineConMinorProdotti(anno);
+	protected String ordineConMinorProdotti (int anno) throws RisultatoNonRicavabileException {
+		return ordineDAO.ordineConMinorProdotti(anno).getCodOrdine();
 
+	}
+
+
+	protected Object[] DammiFormatoComboBoxOrdiniSenzaSpedOFalliti() {
+		return ordiniSenzaSpedizioneOFalliti.toArray();
+	}
+
+
+	protected Object[] DammiFormatoComboBoxCorrieriDisponibili() {
+		return corrieriDisponibili.toArray();
+	}
+
+
+	protected Object[] DammiFormatoComboBoxMezziDisponibili() {
+		return mezziDisponibili.toArray();
+	}
+
+
+	protected void creaSpedizioneNuova(int ordineIndex, int mezzoIndex, int corrieriIndex, int km) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException, NonPossibileCreareSpedizioneException {
+		nuovaSpedizione = new Spedizione(ordiniSenzaSpedizioneOFalliti.get(ordineIndex),mezziDisponibili.get(mezzoIndex),corrieriDisponibili.get(corrieriIndex));
+
+		nuovaSpedizione.setKM(km);
+		spedizioneDAO.creaNuovaSpedizione(nuovaSpedizione);
 	}
 }
 	

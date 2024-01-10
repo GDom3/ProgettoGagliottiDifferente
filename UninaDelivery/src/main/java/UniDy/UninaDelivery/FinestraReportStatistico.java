@@ -57,8 +57,8 @@ public class FinestraReportStatistico extends JFrame {
 	private JSpinner annoFild;
 	private JPanel panel;
 	//Oggetti utili
-	private Ordine MaggiorOrdine ;
-	private Ordine MinoreOrdine;
+	private String ordineMaggiore;
+	private String ordineMinore;
 
 	public FinestraReportStatistico(AppBrain appBrain) {
 		gestoreApplicazione = appBrain;
@@ -227,8 +227,8 @@ public class FinestraReportStatistico extends JFrame {
 					chiediRisposteReport();
 					generaGrafico();
 					
-					magOrd.setText(MaggiorOrdine.getCodOrdine());
-					minOrd.setText(MinoreOrdine.getCodOrdine());
+					magOrd.setText(ordineMaggiore);
+					minOrd.setText(ordineMinore);
 					
 					
 				} catch (RisultatoNonRicavabileException e1) {
@@ -260,8 +260,8 @@ public class FinestraReportStatistico extends JFrame {
 	
 	private void chiediRisposteReport() throws NonPossibileRicavareStatistiche  {
 		try {
-			MaggiorOrdine = gestoreApplicazione.ordineConMaggiorProdotti((int)annoFild.getValue());
-			MinoreOrdine = gestoreApplicazione.ordineConMinorProdotti((int)annoFild.getValue());
+			ordineMaggiore = gestoreApplicazione.ordineConMaggiorProdotti((int)annoFild.getValue());
+			ordineMinore = gestoreApplicazione.ordineConMinorProdotti((int)annoFild.getValue());
 		} catch (RisultatoNonRicavabileException e) {
 			throw new NonPossibileRicavareStatistiche();
 		}
