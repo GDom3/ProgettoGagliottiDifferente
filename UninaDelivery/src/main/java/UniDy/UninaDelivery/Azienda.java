@@ -3,6 +3,11 @@ package UniDy.UninaDelivery;
 import java.util.Objects;
 
 public class Azienda {
+	@Override
+	public String toString() {
+		return "(" + partitaIVA + ") " + nome;
+	}
+
 	private String nome;
 	private String partitaIVA;
 	private String indirizzo;
