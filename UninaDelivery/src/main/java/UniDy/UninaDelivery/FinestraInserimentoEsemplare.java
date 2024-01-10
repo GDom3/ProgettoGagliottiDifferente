@@ -394,6 +394,7 @@ public class FinestraInserimentoEsemplare extends JFrame {
 					sonoNonVuoti();
 					Esemplare esemplareTemp = new Esemplare(codiceABarreTxf.getText(), coloreTxf.getText(),(float)costoFild.getValue(),garanzia,descrizioneText.getText(),merci.get(merceBox.getSelectedIndex()),magazzini.get(magazzinoBox.getSelectedIndex()));
 					gestoreApplicazione.creaEsemplare(esemplareTemp);
+					messaggioPopUp("Esemplare registrato correttamente", "Registrazione esemplare");
 				}catch (CampoCodiceABarreVuotoException vuotoErrore) {
 					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
 				} catch (CampoColoreVuotoException vuotoErrore) {

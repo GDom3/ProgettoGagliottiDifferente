@@ -31,26 +31,15 @@ import java.awt.event.KeyEvent;
 public class FinestraInserimentoMezzoTrasporto extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	//Amministratorre
 	private AppBrain gestoreApplicazione;
-	private JPanel intestazionePanel;
-	private	JLabel logoSXImgL;
-	private	JLabel titoloSXL;
-	private JPanel homePanel;
+	//Grafica Globale
+	private JPanel contentPane;
 	private JButton indietroBottone ; 
-	private JLabel titoloLabel;
-	private JLabel specificheVeicoloLabel;
-	private JPanel parteAmministrativaPanel;
-	private JLabel parteAmministrativaLabel;
 	private JTextField targaTxf;
-	private JLabel immagineModelloLabel;
 	private JTextField modelloTxf;
-	private JLabel immagineMarcaLabel;
 	private JTextField marcaTxf;
-	private JLabel immagineCapienzaLabel;
-	private JLabel immaginePatenteLabel;
 	private JTextField patenteTxf;
-	private JLabel immagineCostoAssicurazioneLabel;
 	private JSpinner costoFild;
 	
 	public FinestraInserimentoMezzoTrasporto(AppBrain appBrain) {
@@ -68,26 +57,26 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		intestazionePanel = new JPanel();
+		JPanel intestazionePanel = new JPanel();
 		intestazionePanel.setBackground(new Color(239, 235, 229));
 		intestazionePanel.setBounds(0, 0, 71, 561);
 		contentPane.add(intestazionePanel);
 		intestazionePanel.setLayout(null);
 		
-		logoSXImgL = new JLabel("New label");
+		JLabel logoSXImgL = new JLabel("New label");
 		logoSXImgL.setBackground(new Color(239, 235, 229));
 		logoSXImgL.setIcon(new ImageIcon(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/LogoHSX.png")));
 		logoSXImgL.setBounds(0, 0, 71, 65);
 		intestazionePanel.add(logoSXImgL);
 		
-		titoloSXL = new JLabel("New label");
+		JLabel titoloSXL = new JLabel("New label");
 		titoloSXL.setIcon(new ImageIcon(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/SxTitoloImg.jpg")));
 		titoloSXL.setHorizontalAlignment(SwingConstants.LEFT);
 		titoloSXL.setBounds(10, 76, 45, 474);
 		intestazionePanel.add(titoloSXL);
 		
 		
-		homePanel = new JPanel();
+		JPanel homePanel = new JPanel();
 		homePanel.setBackground(new Color(119, 101, 101));
 		homePanel.setBounds(69, 0, 715, 37);
 		contentPane.add(homePanel);
@@ -125,7 +114,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		indietroBottone.setBackground(new Color(119, 101, 101));
 		homePanel.add(indietroBottone);
 		
-		titoloLabel = new JLabel("Registrazione nuovo mezzo ");
+		JLabel titoloLabel = new JLabel("Registrazione nuovo mezzo ");
 		titoloLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titoloLabel.setForeground(Color.WHITE);
 		titoloLabel.setFont(new Font("Century", Font.BOLD, 30));
@@ -139,27 +128,27 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		contentPane.add(parteSpecificheVeicoloPanel);
 		
 		
-		specificheVeicoloLabel = new JLabel("Specifiche veicolo");
+		JLabel specificheVeicoloLabel = new JLabel("Specifiche veicolo");
 		specificheVeicoloLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		specificheVeicoloLabel.setForeground(Color.WHITE);
 		specificheVeicoloLabel.setFont(new Font("Century", Font.PLAIN, 20));
 		specificheVeicoloLabel.setBounds(10, 11, 327, 25);
 		parteSpecificheVeicoloPanel.add(specificheVeicoloLabel);
 		
-		parteAmministrativaPanel = new JPanel();
+		JPanel parteAmministrativaPanel = new JPanel();
 		parteAmministrativaPanel.setLayout(null);
 		parteAmministrativaPanel.setBackground(new Color(119, 101, 101));
 		parteAmministrativaPanel.setBounds(427, 48, 347, 357);
 		contentPane.add(parteAmministrativaPanel);
 		
-		parteAmministrativaLabel = new JLabel("Parte amministrativa");
+		JLabel parteAmministrativaLabel = new JLabel("Parte amministrativa");
 		parteAmministrativaLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		parteAmministrativaLabel.setForeground(Color.WHITE);
 		parteAmministrativaLabel.setFont(new Font("Century", Font.PLAIN, 20));
 		parteAmministrativaLabel.setBounds(10, 11, 327, 25);
 		parteAmministrativaPanel.add(parteAmministrativaLabel);
 		
-		immagineCapienzaLabel = new JLabel("");
+		JLabel immagineCapienzaLabel = new JLabel("");
 		immagineCapienzaLabel.setIcon(new ImageIcon(FinestraInserimentoMezzoTrasporto.class.getResource("/Img/maxsize.png")));
 		immagineCapienzaLabel.setOpaque(true);
 		immagineCapienzaLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -167,7 +156,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		immagineCapienzaLabel.setBounds(42, 169, 77, 41);
 		parteAmministrativaPanel.add(immagineCapienzaLabel);
 		
-		immagineCostoAssicurazioneLabel = new JLabel("");
+		JLabel immagineCostoAssicurazioneLabel = new JLabel("");
 		immagineCostoAssicurazioneLabel.setIcon(new ImageIcon(FinestraInserimentoMezzoTrasporto.class.getResource("/Img/dollarridimensionato.png")));
 		immagineCostoAssicurazioneLabel.setOpaque(true);
 		immagineCostoAssicurazioneLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -228,7 +217,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		patenteTxf.setBorder(new MatteBorder(0, 2, 0, 0, (Color) new Color(255, 255, 255)));
 		patenteTxf.setBackground(new Color(179, 168, 166));
 		
-		immaginePatenteLabel = new JLabel("");
+		JLabel immaginePatenteLabel = new JLabel("");
 		immaginePatenteLabel.setBounds(41, 81, 77, 41);
 		parteAmministrativaPanel.add(immaginePatenteLabel);
 		immaginePatenteLabel.setIcon(new ImageIcon(FinestraInserimentoMezzoTrasporto.class.getResource("/Img/patentridimensionato.png")));
@@ -267,7 +256,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		targaTxf.setBounds(112, 81, 200, 41);
 		parteSpecificheVeicoloPanel.add(targaTxf);
 		
-		immagineModelloLabel = new JLabel("");
+		JLabel immagineModelloLabel = new JLabel("");
 		immagineModelloLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		immagineModelloLabel.setIcon(new ImageIcon(FinestraInserimentoMezzoTrasporto.class.getResource("/Img/mezzoridimensionato.png")));
 		immagineModelloLabel.setOpaque(true);
@@ -298,7 +287,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		modelloTxf.setBounds(112, 257, 200, 41);
 		parteSpecificheVeicoloPanel.add(modelloTxf);
 		
-		immagineMarcaLabel = new JLabel("");
+		JLabel immagineMarcaLabel = new JLabel("");
 		immagineMarcaLabel.setIcon(new ImageIcon(FinestraInserimentoMezzoTrasporto.class.getResource("/Img/brandridimensionato.png")));
 		immagineMarcaLabel.setOpaque(true);
 		immagineMarcaLabel.setHorizontalAlignment(SwingConstants.CENTER);

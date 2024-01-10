@@ -17,6 +17,7 @@ public class Corriere extends Persona {
 		setNome(Nome);
 		setCognome(Cognome);
 		setDataNascita(dataNascita);
+		setPatente(patenti);
 		setEmail(email);
 		setNumeroCellulare(numCell);
 		this.contratto = contratto;

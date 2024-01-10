@@ -41,38 +41,23 @@ public class FinestraInserimentoCorriere extends JFrame {
 	//Amministratorre
 	private AppBrain gestoreApplicazione;
 	//Grafica Globale
+	private JPanel contentPane;
 	private JDateChooser dataNascitaDataChoser;
+	private JButton indietroBottone ; 
+	private JTextField codiceFiscaleTxf;
+	private JTextField cognomeTxf;
+	private JTextField nomeTxf;
+	private JTextField emailTxf;
+	private JTextField numeroCellulareTxf;
+	private JTextField patentiTxf;
+	private Corriere newCorriere ;
+	private LocalDate dataNascita;
+	private JScrollPane scrollPane;
 	//Gestione ComboBox
 	private  JComboBox capoBox;
 	//Oggetti reali
 	private ArrayList<Corriere> corrieri;
 	
-	
-	private JPanel contentPane;
-	
-	private JPanel intestazionePanel;
-	private	JLabel logoSXImgL;
-	private	JLabel titoloSXL;
-	private JPanel homePanel;
-	private JButton indietroBottone ; 
-	private JLabel titoloLabel;
-	private JLabel specificheVeicoloLabel;
-	private JPanel parteAmministrativaPanel;
-	private JLabel parteAmministrativaLabel;
-	private JTextField codiceFiscaleTxf;
-	private JLabel immagineCognomeLabel;
-	private JTextField cognomeTxf;
-	private JLabel immagineNomeLabel;
-	private JTextField nomeTxf;
-	private JLabel immagineEmailLabel;
-	private JLabel immagineNumerotelefonoLabel;
-	private JTextField emailTxf;
-	private JTextField numeroCellulareTxf;
-	private JLabel lblDataDiNascita;
-	private JTextField patentiTxf;
-	private Corriere newCorriere ;
-	private LocalDate dataNascita;
-	private JScrollPane scrollPane;
 	
 	
 	public FinestraInserimentoCorriere(AppBrain appBrain) {
@@ -90,26 +75,26 @@ public class FinestraInserimentoCorriere extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		intestazionePanel = new JPanel();
+		JPanel intestazionePanel = new JPanel();
 		intestazionePanel.setBackground(new Color(239, 235, 229));
 		intestazionePanel.setBounds(0, 0, 71, 561);
 		contentPane.add(intestazionePanel);
 		intestazionePanel.setLayout(null);
 		
-		logoSXImgL = new JLabel("New label");
+		JLabel logoSXImgL = new JLabel("New label");
 		logoSXImgL.setBackground(new Color(239, 235, 229));
 		logoSXImgL.setIcon(new ImageIcon(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/LogoHSX.png")));
 		logoSXImgL.setBounds(0, 0, 71, 65);
 		intestazionePanel.add(logoSXImgL);
 		
-		titoloSXL = new JLabel("New label");
+		JLabel titoloSXL = new JLabel("New label");
 		titoloSXL.setIcon(new ImageIcon(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/SxTitoloImg.jpg")));
 		titoloSXL.setHorizontalAlignment(SwingConstants.LEFT);
 		titoloSXL.setBounds(10, 76, 45, 474);
 		intestazionePanel.add(titoloSXL);
 		
 		
-		homePanel = new JPanel();
+		JPanel homePanel = new JPanel();
 		homePanel.setBackground(new Color(119, 101, 101));
 		homePanel.setBounds(69, 0, 715, 37);
 		contentPane.add(homePanel);
@@ -147,7 +132,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		indietroBottone.setBackground(new Color(119, 101, 101));
 		homePanel.add(indietroBottone);
 		
-		titoloLabel = new JLabel("Registrazione nuovo corriere ");
+		JLabel titoloLabel = new JLabel("Registrazione nuovo corriere ");
 		titoloLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titoloLabel.setForeground(Color.WHITE);
 		titoloLabel.setFont(new Font("Century", Font.BOLD, 30));
@@ -161,20 +146,20 @@ public class FinestraInserimentoCorriere extends JFrame {
 		contentPane.add(parteSpecificheVeicoloPanel);
 		
 		
-		specificheVeicoloLabel = new JLabel("Anagrafica");
-		specificheVeicoloLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		specificheVeicoloLabel.setForeground(Color.WHITE);
-		specificheVeicoloLabel.setFont(new Font("Century", Font.PLAIN, 20));
-		specificheVeicoloLabel.setBounds(10, 11, 327, 25);
-		parteSpecificheVeicoloPanel.add(specificheVeicoloLabel);
+		JLabel AnagraficaLabel = new JLabel("Anagrafica");
+		AnagraficaLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		AnagraficaLabel.setForeground(Color.WHITE);
+		AnagraficaLabel.setFont(new Font("Century", Font.PLAIN, 20));
+		AnagraficaLabel.setBounds(10, 11, 327, 25);
+		parteSpecificheVeicoloPanel.add(AnagraficaLabel);
 		
-		parteAmministrativaPanel = new JPanel();
+		JPanel parteAmministrativaPanel = new JPanel();
 		parteAmministrativaPanel.setLayout(null);
 		parteAmministrativaPanel.setBackground(new Color(119, 101, 101));
 		parteAmministrativaPanel.setBounds(427, 48, 347, 397);
 		contentPane.add(parteAmministrativaPanel);
 		
-		parteAmministrativaLabel = new JLabel("Parte amministrativa");
+		JLabel parteAmministrativaLabel = new JLabel("Parte amministrativa");
 		parteAmministrativaLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		parteAmministrativaLabel.setForeground(Color.WHITE);
 		parteAmministrativaLabel.setFont(new Font("Century", Font.PLAIN, 20));
@@ -229,7 +214,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		patentiTxf.setBounds(104, 47, 200, 41);
 		parteAmministrativaPanel.add(patentiTxf);
 		
-		immagineEmailLabel = new JLabel("");
+		JLabel immagineEmailLabel = new JLabel("");
 		immagineEmailLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineEmailLabel.setBounds(55, 99, 49, 41);
 		parteAmministrativaPanel.add(immagineEmailLabel);
@@ -260,7 +245,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		emailTxf.setBorder(new MatteBorder(0, 2, 0, 0, (Color) new Color(255, 255, 255)));
 		emailTxf.setBackground(new Color(179, 168, 166));
 		
-		immagineNumerotelefonoLabel = new JLabel("");
+		JLabel immagineNumerotelefonoLabel = new JLabel("");
 		immagineNumerotelefonoLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineNumerotelefonoLabel.setBounds(55, 151, 49, 41);
 		parteAmministrativaPanel.add(immagineNumerotelefonoLabel);
@@ -358,7 +343,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		codiceFiscaleTxf.setBounds(95, 47, 200, 41);
 		parteSpecificheVeicoloPanel.add(codiceFiscaleTxf);
 		
-		immagineCognomeLabel = new JLabel("");
+		JLabel immagineCognomeLabel = new JLabel("");
 		immagineCognomeLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineCognomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		immagineCognomeLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/cognomeridimensionata.png")));
@@ -389,7 +374,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		cognomeTxf.setBounds(95, 151, 200, 41);
 		parteSpecificheVeicoloPanel.add(cognomeTxf);
 		
-		immagineNomeLabel = new JLabel("");
+		JLabel immagineNomeLabel = new JLabel("");
 		immagineNomeLabel.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		immagineNomeLabel.setIcon(new ImageIcon(FinestraInserimentoCorriere.class.getResource("/Img/nameridimensionata.png")));
 		immagineNomeLabel.setOpaque(true);
@@ -421,7 +406,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		nomeTxf.setBounds(95, 99, 200, 41);
 		parteSpecificheVeicoloPanel.add(nomeTxf);
 		
-		lblDataDiNascita = new JLabel("Data di nascita");
+		JLabel lblDataDiNascita = new JLabel("Data di nascita");
 		lblDataDiNascita.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDataDiNascita.setForeground(Color.WHITE);
 		lblDataDiNascita.setFont(new Font("Century", Font.PLAIN, 20));
