@@ -35,7 +35,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 
 	private static final long serialVersionUID = 1L; 
 	//Aministratore
-	AppBrain gestoreApplicazione;
+	private AppBrain gestoreApplicazione;
 	//Grafica Globale
 	private JButton indietroBottone;
 	private JTextField nomeTextField;

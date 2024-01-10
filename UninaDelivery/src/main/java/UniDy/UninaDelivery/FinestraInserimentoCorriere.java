@@ -512,7 +512,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 	}
 	
 	protected void avviati() {
-		setVisible(true);
+	
 		try {
 			corrieri = gestoreApplicazione.estraiTuttiCorrieri();
 			riempiCorriere();
@@ -529,7 +529,14 @@ public class FinestraInserimentoCorriere extends JFrame {
 
 	private void riempiCorriere() {
 		
-		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(corrieri.toArray());
+		ArrayList<String> formato = new ArrayList<String>();
+		
+		formato.add("E' un Supervisore");
+		for(Corriere corriere : corrieri)
+			formato.add(corriere.toString());
+		
+		
+		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(formato.toArray());
 		capoBox.setModel(modelloCorrieri);
 		
 	

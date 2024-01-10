@@ -40,14 +40,16 @@ import java.awt.Cursor;
 public class FinestraInserimentoEsemplare extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	//Amministratore
 	private AppBrain gestoreApplicazione;
+	//Grafica Globale
 	private JButton indietroBottone;
 	private JTextField codiceABarreTxf;
 	private JTextField coloreTxf;
 	private JComboBox merceBox;
 	private JComboBox magazzinoBox;
 	private JDateChooser dataFineGaranziaDataChoser;
+	//oggetti utili
 	private ArrayList<Magazzino> magazzini;
 	private ArrayList<Merce> merci;
 	private LocalDate garanzia;

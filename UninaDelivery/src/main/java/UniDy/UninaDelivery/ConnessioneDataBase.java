@@ -8,8 +8,7 @@ public class ConnessioneDataBase {
 	private static ConnessioneDataBase istanzaClasse = null;
 	private Connection connessione = null;
 	private String driver = "org.postgresql.Driver";
-	//private String indirizzo = "jdbc:postgresql://localhost:5432/UninaDelivery";
-	private String indirizzo = "jdbc:postgresql://localhost:5432/postgres";
+	private String indirizzo = "jdbc:postgresql://localhost:5432/UninaDelivery";
 	private String tipoDB = "postgres";
 	private String messaggioErrore;
 	

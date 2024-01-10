@@ -180,7 +180,7 @@ public class OrdineDAOPlainSQL implements OrdineDAO {
 		
 		try {
 			comunicazioneSQL.prossimaRiga();
-			ord = new Ordine(risultato.getString(1), risultato.getString(2));System.out.println(comando);
+			ord = new Ordine(risultato.getString(1), risultato.getString(2));
 		} catch (SQLException e) {
 			throw new RisultatoNonRicavabileException();
 		}

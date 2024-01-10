@@ -279,7 +279,7 @@ public class FinestraReportStatistico extends JFrame {
 		for(int i = 0; i < 12 ; i++)
 			dataset.setValue(valori[i], "", mesi[i]);
 		
-		JFreeChart grafico =  ChartFactory.createBarChart3D("Report Statistico","Numero Ordini", "Mesi", dataset, PlotOrientation.VERTICAL,false,false,false);
+		JFreeChart grafico =  ChartFactory.createBarChart3D("Report Statistico","Mesi", "Numero Ordini", dataset, PlotOrientation.VERTICAL,false,false,false);
 		
 		grafico.setTitle("Numero Medio Ordini");
 		
