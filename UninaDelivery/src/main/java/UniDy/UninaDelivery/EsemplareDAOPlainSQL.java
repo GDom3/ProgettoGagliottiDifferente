@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class EsemplareDAOPlainSQL {
+public class EsemplareDAOPlainSQL implements EsemplareDAO {
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
 	
@@ -14,6 +14,7 @@ public class EsemplareDAOPlainSQL {
 	}
 
 
+	@Override
 	public ArrayList<Esemplare> dammiEsemplariNonvenduti () throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
 		ArrayList<Esemplare> esemplari = new ArrayList<Esemplare>();
 		Esemplare tempesemplare;
@@ -35,6 +36,7 @@ public class EsemplareDAOPlainSQL {
 	}
 
 
+	@Override
 	public void inserisciEsemplareInOrdine(Ordine ordine, Esemplare esemplare) throws NonCiSonoOrdiniAttesiException {
 
 		String comando = "UPDATE Esemplare SET CodOrdine = '"+ordine.getCodOrdine()+"' WHERE CodiceBarre = '"+esemplare.getCodiceBarre()+"';";
@@ -44,6 +46,25 @@ public class EsemplareDAOPlainSQL {
 		} catch (OperazioneUpdateNonRiuscitaException e) {
 			throw new NonCiSonoOrdiniAttesiException();
 		}
+		
+		
+	}
+
+
+	@Override
+	public void creaEsemplare(Esemplare esemplareTemp) throws OperazioneUpdateNonRiuscitaException {
+		
+		String comando = "INSERT INTO ESEMPLARE VALUES ('"+ esemplareTemp.getCodiceBarre()+"','"+esemplareTemp.getColore()+"',"+esemplareTemp.getCosto()+",'"+esemplareTemp.getGaranzia()+"','"
+				+ esemplareTemp.getDescrizione()+"',(SELECT CodMerce FROM Merce WHERE Nome = '"+ esemplareTemp.getMerceRiferimento().getNome()+ "' AND "
+						+ " Marca = '"+ esemplareTemp.getMerceRiferimento().getMarca()+ "' AND Anno = "+ esemplareTemp.getMerceRiferimento().getAnno() + " ),null,("
+								+ "SELECT CodMagazzino FROM Magazzino WHERE Nome = '"+ esemplareTemp.getMagazzinoRiferimento().getNome()+"' AND "
+										+ "NumeroCivico = '"+ esemplareTemp.getMagazzinoRiferimento().getNumeroCivico()+ "' AND "
+												+ "Città = '"+ esemplareTemp.getMagazzinoRiferimento().getCitta() + "' AND Via = '"+ esemplareTemp.getMagazzinoRiferimento().getVia() + "' AND "
+														+ "CAP = '"+ esemplareTemp.getMagazzinoRiferimento().getCAP() + "'));";
+
+		
+		comunicazioneSQL.mandaQDDL_DML(comando);
+		
 		
 		
 	}

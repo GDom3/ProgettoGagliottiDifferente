@@ -5,60 +5,28 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Corriere extends Persona {
-
-	private String codCorriere;
 	private boolean disponibilità;
 	private String patente;
 	private int contratto;
 	private int anniContributi;
-	private Corriere cordinatore;
+	private String codiceFiscaleCordinatore;
 	private ArrayList<Spedizione> spedizioni;
-	
-	@Override
-	public String toString() {
-		return codCorriere;
-	}
 
-	protected Corriere(String codCorriere, boolean disponibilità, String patente, String Nome, String Cognome) {
-		super();
-		this.codCorriere = codCorriere;
-		this.disponibilità = disponibilità;
-		this.patente = patente;
-		nome = Nome;
-		cognome = Cognome;
-	}
-
-	protected Corriere(String codCorriere, String Nome, String Cognome) {
-		super();
-		nome = Nome;
-		cognome = Cognome;
-		this.codCorriere = codCorriere;
-		
-		
-		
-	}
-	
-	protected Corriere(String CodFisc, String Nome, String Cognome, LocalDate dataNascita, String patenti, String email, String numCell, int contratto, int anni, String codCordinatore) {
-		codiceFiscale = CodFisc;
-		nome = Nome;
-		cognome = Cognome;
-		DataNascita = dataNascita;
-		patente = patenti;
-		this.email = email;
-		numeroCellulare = numCell;
+	protected Corriere(String CodFisc, String Nome,String Cognome, LocalDate dataNascita, String patenti, String email, String numCell, int contratto, int anni, String codCordinatore, boolean b) {
+		setCodiceFiscale(CodFisc);
+		setNome(Nome);
+		setCognome(Cognome);
+		setDataNascita(dataNascita);
+		setEmail(email);
+		setNumeroCellulare(numCell);
 		this.contratto = contratto;
 		anniContributi = anni;
-		cordinatore = new Corriere(codCordinatore,null,null);
-		disponibilità = true;
+		codiceFiscaleCordinatore =codCordinatore;
+		disponibilità = b;
 	
 		
 	}
 
-	
-
-	protected String getCodCorriere() {
-		return codCorriere;
-	}
 
 	protected boolean isDisponibilità() {
 		return disponibilità;
@@ -66,18 +34,6 @@ public class Corriere extends Persona {
 
 	protected String getPatente() {
 		return patente;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Corriere other = (Corriere) obj;
-		return Objects.equals(codCorriere, other.codCorriere);
 	}
 
 	protected int getContratto() {
@@ -96,21 +52,29 @@ public class Corriere extends Persona {
 		this.anniContributi = anniContributi;
 	}
 
-	protected void setCodCorriere(String codCorriere) {
-		this.codCorriere = codCorriere;
+	protected String getCodiceFiscaleCordinatore() {
+		return codiceFiscaleCordinatore;
 	}
 
-	protected Corriere getCordinatore() {
-		return cordinatore;
+	protected void setCodiceFiscaleCordinatore(String codiceFiscaleCordinatore) {
+		this.codiceFiscaleCordinatore = codiceFiscaleCordinatore;
 	}
 
-	protected void setCordinatore(Corriere cordinatore) {
-		this.cordinatore = cordinatore;
+	protected ArrayList<Spedizione> getSpedizioni() {
+		return spedizioni;
 	}
 
-	
+	protected void setSpedizioni(ArrayList<Spedizione> spedizioni) {
+		this.spedizioni = spedizioni;
+	}
 
-	
+	protected void setDisponibilità(boolean disponibilità) {
+		this.disponibilità = disponibilità;
+	}
+
+	protected void setPatente(String patente) {
+		this.patente = patente;
+	}
 	
 	
 }
