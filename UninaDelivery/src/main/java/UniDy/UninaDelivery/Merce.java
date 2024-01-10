@@ -3,8 +3,7 @@ package UniDy.UninaDelivery;
 import java.util.Objects;
 
 public class Merce {
-	
-	private String codMerce;
+
 	private String nome;
 	private float peso;
 	private String marca;
@@ -19,7 +18,12 @@ public class Merce {
 		this.anno = anno;
 		azienda = fornitore;
 	}
-
+	
+	@Override
+	public String toString() {
+		return nome + " " + marca + " " + anno;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -29,15 +33,7 @@ public class Merce {
 		if (getClass() != obj.getClass())
 			return false;
 		Merce other = (Merce) obj;
-		return Objects.equals(codMerce, other.codMerce);
-	}
-
-	protected String getCodMerce() {
-		return codMerce;
-	}
-
-	protected void setCodMerce(String codMerce) {
-		this.codMerce = codMerce;
+		return anno == other.anno && Objects.equals(marca, other.marca) && Objects.equals(nome, other.nome);
 	}
 
 	protected String getNome() {
@@ -87,6 +83,10 @@ public class Merce {
 	protected void setAzienda(Fornitore azienda) {
 		this.azienda = azienda;
 	}
+
+
+
+	
 	
 	
 

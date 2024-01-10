@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class MezzoTrasportoDAOPlainSQL {
+public class MezzoTrasportoDAOPlainSQL implements MezzoTrasportoDAO {
 
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
@@ -16,6 +16,7 @@ public class MezzoTrasportoDAOPlainSQL {
 	}
 
 
+	@Override
 	public ArrayList<MezzoTrasporto> estraiMezziSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
 		
 		ArrayList<MezzoTrasporto> mezzi = new ArrayList<MezzoTrasporto>();
@@ -49,6 +50,7 @@ public class MezzoTrasportoDAOPlainSQL {
 		return mezzi;
 	}
 	
+	@Override
 	public void registraMezzo(MezzoTrasporto mezzo) throws OperazioneUpdateNonRiuscitaException  {
 	    String comando = "INSERT INTO MezzoTrasporto " +
 	                     "SELECT  MAX(CodMezzo) + 1, '" + mezzo.getTarga() + "', " + mezzo.getCapienza() +
