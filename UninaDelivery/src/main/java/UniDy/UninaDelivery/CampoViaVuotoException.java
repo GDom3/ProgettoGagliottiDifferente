@@ -1,12 +1,11 @@
 package UniDy.UninaDelivery;
 
 public class CampoViaVuotoException extends Exception {
-	private String messaggioErrore;
-	private String nomeErrore;
+	private String messaggioErrore = "Devi inserire la via/viale";
+	private String nomeErrore = "Via/viale vuota";
 	
 	public CampoViaVuotoException() {
-		messaggioErrore = "Devi inserire la via/viale";
-		nomeErrore = "Via/viale vuota";
+		
 		
 		
 	}

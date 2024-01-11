@@ -1,12 +1,11 @@
 package UniDy.UninaDelivery;
 
 public class DateVuoteException extends Exception {
-	private String messaggioErrore;
-	private String nomeErrore;
+	private String messaggioErrore = "Devi inserire anche le date";
+	private String nomeErrore = "Date vuote";
 	
 	public DateVuoteException() {
-		messaggioErrore = "Devi inserire anche le date";
-		nomeErrore = "Date vuote";
+
 		
 		
 	}

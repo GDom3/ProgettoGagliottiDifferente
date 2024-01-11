@@ -1,11 +1,11 @@
 package UniDy.UninaDelivery;
 
 public class DatiTrovatiDopoIlFiltraggioVuotiException extends Exception {
-	private String messaggioErrore;
+	private String messaggioErrore  = "Il Risultato del filtraggio ha dato un esito vuoto, ovvero non esistono spedizioni con queste caratteristiche";
 	private String tipoErrore = "Attenzione";
 	
 	public DatiTrovatiDopoIlFiltraggioVuotiException() {
-		messaggioErrore = "Il Risultato del filtraggio ha dato un esito vuoto, ovvero non esistono spedizioni con queste caratteristiche";
+	
 		
 	}
 
