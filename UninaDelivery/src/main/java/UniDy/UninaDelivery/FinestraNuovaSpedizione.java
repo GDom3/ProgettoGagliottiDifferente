@@ -52,10 +52,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 	private JComboBox corriereBox;
 	private JComboBox ordineBox;
 	private JSpinner regolatoreKM;
-	//Oggetti Reali
-	//private ArrayList<Ordine> ordini;
-	//private ArrayList<Corriere> corrieri;
-	//private ArrayList<MezzoTrasporto> mezzi;
+
 	
 	public FinestraNuovaSpedizione(AppBrain appBrain) {
 		setFont(new Font("Century", Font.PLAIN, 12));
@@ -352,48 +349,36 @@ public class FinestraNuovaSpedizione extends JFrame {
 
 	}
 
-	
 	private void addOrdineASpedizione() {
 		int input = 0;
 		
-		ArrayList<Spedizione> spedizioniNonPartite = new ArrayList<Spedizione>();
 		try {
-			//Ricavo le spedizioni disponibili
-			spedizioniNonPartite = gestoreApplicazione.dammiSpedizioniNonPartite();
+		
 			
 			//Gestisco la combobox, e la riempio
-			JComboBox spedizioni = new JComboBox(spedizioniNonPartite.toArray());
+			JComboBox spedizioni = new JComboBox(gestoreApplicazione.dammiFormatoComboBoxSpedizioniNonPartite());
 			
 			//Richiedo cosa fare all'utente
 			input = JOptionPane.showConfirmDialog(this,spedizioni,"Seleziona Spedizione",JOptionPane.OK_CANCEL_OPTION);
 			if(input == 0)
-				input = JOptionPane.showConfirmDialog(this,"Vuoi aggiungere l'ordine "+ gestoreApplicazione.dammiCo ordini.get(ordineBox.getSelectedIndex()).getCodOrdine() + " alla spedizione "+spedizioniNonPartite.get(spedizioni.getSelectedIndex()),"Conferma Scelta",JOptionPane.OK_CANCEL_OPTION);
+				input = JOptionPane.showConfirmDialog(this,"Vuoi aggiungere l'ordine "+ gestoreApplicazione.dammiCodiceOrdineDeiDisponibili(ordineBox.getSelectedIndex()) + " alla spedizione "+gestoreApplicazione.dammiCodiceSpedizioneDaiNonPartiti(spedizioni.getSelectedIndex()),"Conferma Scelta",JOptionPane.OK_CANCEL_OPTION);
 				if (input == 0) {
 					
-					inserisciOrdineInSpedizione(spedizioniNonPartite.get(spedizioni.getSelectedIndex()),ordini.get(ordineBox.getSelectedIndex()));
+					gestoreApplicazione.inserisciOrdineInSpedizione(spedizioni.getSelectedIndex(), ordineBox.getSelectedIndex());
+					messaggioPopUp("L'Ordine è stato aggiunto correttamente alla spedizione","Operazione Riuscita");
 					avviati();
 				}
 		} catch (NonCiSonoSpedizioniNonPartite e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (RisultatoNonRicavabileException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		}
-		
-		
-	
-		
-		
-	}
-
-	private void inserisciOrdineInSpedizione(Spedizione spedizione, Ordine ordine) {
-		try {
-			gestoreApplicazione.inserisciOrdineInSpedizione(spedizione,ordine);
 		} catch (OperazioneUpdateNonRiuscitaException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		}
-		avviati();
+				
 		
 	}
+
 
 	private void creaSpedizioneDaInput() {
 	
@@ -455,13 +440,10 @@ public class FinestraNuovaSpedizione extends JFrame {
 
 	protected void avviati() {
 		try {
-			gestoreApplicazione.estraiOrdiniSenzaSpedOFalliti();
 			riempiOrdini();
 			
-			gestoreApplicazione.estraiCorrieriSenzaSped();
 			riempiCorriere();
 			
-			gestoreApplicazione.estraiMezziSenzaSped();
 			riempiMezzi();
 			
 		} catch (RisultatoNonRicavabileException e) {
@@ -480,24 +462,24 @@ public class FinestraNuovaSpedizione extends JFrame {
 		
 	}
 	
-	private void riempiMezzi() {
+	private void riempiMezzi() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
 		//Gestisco la comboBox
-		DefaultComboBoxModel modelloMezzo = new DefaultComboBoxModel(gestoreApplicazione.DammiFormatoComboBoxMezziDisponibili());
+		DefaultComboBoxModel modelloMezzo = new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxMezziDisponibili());
 		mezzoBox.setModel(modelloMezzo);
 		
 	}
 
-	private void riempiOrdini() {
+	private void riempiOrdini() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
 		//Gestisco la comboBox
-		DefaultComboBoxModel modelloOrdini = new DefaultComboBoxModel(gestoreApplicazione.DammiFormatoComboBoxOrdiniSenzaSpedOFalliti());
+		DefaultComboBoxModel modelloOrdini = new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxOrdiniSenzaSpedOFalliti());
 		ordineBox.setModel(modelloOrdini);
 		
 	}
 	
 	
-	private void riempiCorriere() {
+	private void riempiCorriere() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException {
 		//Gestisco la comboBox
-		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(gestoreApplicazione.DammiFormatoComboBoxCorrieriDisponibili());
+		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxCorrieriDisponibili());
 		corriereBox.setModel(modelloCorrieri);
 		
 	}

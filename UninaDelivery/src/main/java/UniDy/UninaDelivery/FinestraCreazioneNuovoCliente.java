@@ -379,10 +379,9 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 					
 					//preparo i dati di input
 					String RadioScelta = sceltaRadio();
-					Cliente clienteTemp = new Cliente(CodiceFiscaleTextField.getText(),nomeTextField.getText(),cognomeTextFild.getText(),dataDiNascita,txtEmail.getText(),txtNumeroCellulare.getText(),RadioScelta);
-					
+				
 					//Creo il nuovo cliente
-					gestoreApplicazione.registraCliente(clienteTemp);
+					gestoreApplicazione.registraCliente(CodiceFiscaleTextField.getText(),nomeTextField.getText(),cognomeTextFild.getText(),dataDiNascita,txtEmail.getText(),txtNumeroCellulare.getText(),RadioScelta);
 					messaggioPopUp("Registrazione nuovo cliente avvenuta con successo", "Registrazione Completata");
 					
 				} catch (CampoNomeVuotoException e1) {

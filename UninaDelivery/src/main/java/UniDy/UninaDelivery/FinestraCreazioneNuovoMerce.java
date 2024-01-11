@@ -46,8 +46,8 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 	private JSpinner annoProduioneUscita;
 	//Gestione ComboBox
 	private JComboBox fornitoriBox;
-	private ArrayList<Fornitore> fornitori;
-	private ArrayList<String> arrayTemp;
+	//private ArrayList<Fornitore> fornitori;
+	//private ArrayList<String> arrayTemp;
 	
 	public FinestraCreazioneNuovoMerce(AppBrain appBrain) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCreazioneNuovoMerce.class.getResource("/Img/Icon.png")));
@@ -292,11 +292,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					controlloInput();
-					
-					
-					Merce merceTemp = new Merce(nomeField.getText(),(float)txtPeso.getValue(),txtMarca.getText(),(int)annoProduioneUscita.getValue(),fornitori.get(fornitoriBox.getSelectedIndex()));
-					
-					gestoreApplicazione.creaNuovaMerce(merceTemp);
+					gestoreApplicazione.creaNuovaMerce(nomeField.getText(),(float)txtPeso.getValue(),txtMarca.getText(),(int)annoProduioneUscita.getValue(),fornitoriBox.getSelectedIndex());
 					messaggioPopUp("Merce inserita correttamente nel DataBase", "Inserimento riuscito");
 				} catch (CampoNomeVuotoException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
@@ -338,27 +334,14 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 	protected void avviati() {
 		
 		try {
-			prendiFornitori();
+			fornitoriBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxFornitori()));
 		} catch (RisultatoNonRicavabileException e) {
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 		} catch (NonCiSonoFornitoriException e) {
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
 		}
 	
-		
-	}
-
-
-	private void prendiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException  {
-		//Prendo gli esemplari
-		fornitori = gestoreApplicazione.dammiTuttiFornitori();
-	
-		//E riempio la combobox
-		fornitoriBox.setModel(new DefaultComboBoxModel(fornitori.toArray()));
-		
-	}
-
-	
+	}	
 
 	private void confermaRitornareIndietro() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
 		indietroBottone.setFont(new Font("Century", Font.PLAIN, 19));

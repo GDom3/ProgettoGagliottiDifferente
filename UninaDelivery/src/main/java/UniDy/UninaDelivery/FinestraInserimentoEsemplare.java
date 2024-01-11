@@ -50,8 +50,6 @@ public class FinestraInserimentoEsemplare extends JFrame {
 	private JComboBox magazzinoBox;
 	private JDateChooser dataFineGaranziaDataChoser;
 	//oggetti utili
-	private ArrayList<Magazzino> magazzini;
-	private ArrayList<Merce> merci;
 	private LocalDate garanzia;
 	
 	public FinestraInserimentoEsemplare(AppBrain appBrain ) {
@@ -394,9 +392,10 @@ public class FinestraInserimentoEsemplare extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					sonoNonVuoti();
-					Esemplare esemplareTemp = new Esemplare(codiceABarreTxf.getText(), coloreTxf.getText(),(float)costoFild.getValue(),garanzia,descrizioneText.getText(),merci.get(merceBox.getSelectedIndex()),magazzini.get(magazzinoBox.getSelectedIndex()));
-					gestoreApplicazione.creaEsemplare(esemplareTemp);
+					
+					gestoreApplicazione.creaEsemplare(codiceABarreTxf.getText(), coloreTxf.getText(),(float)costoFild.getValue(),garanzia,descrizioneText.getText(),merceBox.getSelectedIndex(),magazzinoBox.getSelectedIndex());
 					messaggioPopUp("Esemplare registrato correttamente", "Registrazione esemplare");
+				
 				}catch (CampoCodiceABarreVuotoException vuotoErrore) {
 					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
 				} catch (CampoColoreVuotoException vuotoErrore) {
@@ -499,11 +498,10 @@ public class FinestraInserimentoEsemplare extends JFrame {
 	
 	protected void avviati()  {
 		try {
-			merci = gestoreApplicazione.dammiTutteMerci();
-			riempiMerci();
-			magazzini = gestoreApplicazione.dammiTutteMagazzini();
-			riempiMagazzini();
-			
+			//Setto le combobox
+			merceBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxMerce()));
+			magazzinoBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxMagazzini()));
+		
 		} catch (RisultatoNonRicavabileException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (NonCiSonoMerciDisponibiliException e) {
@@ -513,19 +511,8 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		}
 	}
 	
-	private void riempiMagazzini() {
-		//E riempio la combobox
-		magazzinoBox.setModel(new DefaultComboBoxModel(magazzini.toArray()));
-		
-	}
 
 
-
-	private void riempiMerci() {	
-		//E riempio la combobox
-		merceBox.setModel(new DefaultComboBoxModel(merci.toArray()));
-		
-	}
 
 	private void rimpicciolisciGradualmenteBottoneAdd(JButton bottone) {
 		//Diventa Piccolo gradualmente

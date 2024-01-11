@@ -50,13 +50,12 @@ public class FinestraInserimentoCorriere extends JFrame {
 	private JTextField emailTxf;
 	private JTextField numeroCellulareTxf;
 	private JTextField patentiTxf;
-	private Corriere newCorriere ;
 	private LocalDate dataNascita;
 	private JScrollPane scrollPane;
 	//Gestione ComboBox
 	private  JComboBox capoBox;
 	//Oggetti reali
-	private ArrayList<Corriere> corrieri;
+	//private ArrayList<Corriere> corrieri;
 	
 	
 	
@@ -470,13 +469,8 @@ public class FinestraInserimentoCorriere extends JFrame {
 				
 					controlloInput(codiceFiscaleTxf.getText() , nomeTxf.getText() , cognomeTxf.getText() , patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText());
 				
-					String codCordinatore = "null";
-					if(capoBox.getSelectedIndex() > 0)
-						codCordinatore = corrieri.get(capoBox.getSelectedIndex()-1).getCodiceFiscale();
-				
-					Corriere tempCorriere = new Corriere(codiceFiscaleTxf.getText(), nomeTxf.getText() , cognomeTxf.getText() , dataNascita, patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText(),(int) contrattoFild.getValue(),(int) anniContributiFild.getValue(), codCordinatore,true);
-			
-					gestoreApplicazione.assumiCorriere(tempCorriere);
+					gestoreApplicazione.assumiCorriere(codiceFiscaleTxf.getText(), nomeTxf.getText() , cognomeTxf.getText() , dataNascita, patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText(),(int) contrattoFild.getValue(),(int) anniContributiFild.getValue(),capoBox.getSelectedIndex() - 1);
+					
 					messaggioPopUp("Il Corriere inserito è stato assunto correttamente", "Assunzione Corriere");
 					avviati();
 					
@@ -514,7 +508,6 @@ public class FinestraInserimentoCorriere extends JFrame {
 	protected void avviati() {
 	
 		try {
-			corrieri = gestoreApplicazione.estraiTuttiCorrieri();
 			riempiCorriere();
 	
 		} catch (RisultatoNonRicavabileException e) {
@@ -527,16 +520,9 @@ public class FinestraInserimentoCorriere extends JFrame {
 	}
 
 
-	private void riempiCorriere() {
+	private void riempiCorriere() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
 		
-		ArrayList<String> formato = new ArrayList<String>();
-		
-		formato.add("E' un Supervisore");
-		for(Corriere corriere : corrieri)
-			formato.add(corriere.toString());
-		
-		
-		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(formato.toArray());
+		DefaultComboBoxModel modelloCorrieri = new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxSupervisori());
 		capoBox.setModel(modelloCorrieri);
 		
 	

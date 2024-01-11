@@ -38,18 +38,28 @@ public class AppBrain {
 	private FornitoreDAO fornitoreDAO;
 	private MagazzinoDAO magazzinoDAO;
 	//Oggetti Utili
-		
+	private ArrayList<Spedizione> spedizioni;	
 	//Nuova Sped 	
 		private ArrayList<Ordine> ordiniSenzaSpedizioneOFalliti;
 		private ArrayList<Corriere> corrieriDisponibili;
 		private ArrayList<MezzoTrasporto> mezziDisponibili;
 		private Spedizione nuovaSpedizione;
+		private ArrayList<Spedizione> spedizioniNonPartite;
 	//Login	
 		private Operatore operatorePrincipale;
 		private Operatore nuovoOperatore;
-	
+	//Nuovo Corriere
+		private ArrayList<Corriere> supervisori;
+	//Nuovo Ord
+		private ArrayList<Esemplare> esemplariNonVenduti;
+		private ArrayList<Cliente> clientela;
+		private ArrayList<Ordine> ordiniNonPartiti;
+	//Nuovo Esemplare
+		private ArrayList<Magazzino> magazzini;
+		private ArrayList<Merce> merci;
+	//nuova Merce
+		private ArrayList<Fornitore> fornitori;
 		
-		private ArrayList<Spedizione> spedizioni;
 	
 	
 	public static void main(String[] args) {
@@ -226,7 +236,7 @@ public class AppBrain {
 		
 		for (Spedizione sped : spedizioni) 
 			for(Ordine ord : sped.getOrdini()) 
-				datiOrdiniWindow.aggiungiTupla(ord.getAcquirente().toString(),ord.getCodOrdine(),ord.getNumMerci(),ord.getCostoTotale(), sped.getCodSpedizione());
+				datiOrdiniWindow.aggiungiTupla(ord.getAcquirente().getCodiceFiscale(),ord.getCodOrdine(),ord.getNumMerci(),ord.getCostoTotale(), sped.getCodSpedizione());
 		
 	}
 
@@ -355,13 +365,11 @@ public class AppBrain {
 	}
 
 
-	protected ArrayList<Spedizione> dammiSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException {
-		return spedizioneDAO.dammiSpedizioniNonPartite();
-	}
+	
 
 
-	protected void inserisciOrdineInSpedizione(Spedizione spedizione, Ordine ordine) throws OperazioneUpdateNonRiuscitaException {
-			spedizioneDAO.inserisciOrdineInSpedizione(spedizione,ordine);
+	protected void inserisciOrdineInSpedizione(int spedizione, int ordine) throws OperazioneUpdateNonRiuscitaException {
+			spedizioneDAO.inserisciOrdineInSpedizione(spedizioniNonPartite.get(spedizione),ordiniSenzaSpedizioneOFalliti.get(ordine));
 		
 	}
 
@@ -389,31 +397,26 @@ public class AppBrain {
 	}
 
 
-	protected ArrayList<Cliente> dammiTuttiClienti() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
-		return clienteDAO.dammiTuttiClienti();
+	protected void dammiTuttiClienti() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
+		clientela =  clienteDAO.dammiTuttiClienti();
 	}
 
 
-	protected ArrayList<Esemplare> dammiEsemplariNonVenduti() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
-		return esemplareDAO.dammiEsemplariNonvenduti();
+	protected void estraiEsemplariNonVenduti() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
+		esemplariNonVenduti = esemplareDAO.dammiEsemplariNonvenduti();
 	}
 
 
-	protected ArrayList<Ordine> dammiOrdiniNonPartitiOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
-		return ordineDAO.dammiOrdiniNonPartitiOFalliti();
+	protected void dammiOrdiniNonPartitiOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		ordiniNonPartiti =  ordineDAO.dammiOrdiniNonPartitiOFalliti();
 	}
 
 
-	protected void inserisciEsemplareInOrdine(Ordine ordine, Esemplare esemplare) throws NonCiSonoOrdiniAttesiException {
-		esemplareDAO.inserisciEsemplareInOrdine(ordine,esemplare);
+	protected void inserisciEsemplareInOrdine(int ordineIndex, int esemplareIndex) throws NonCiSonoOrdiniAttesiException {
+		esemplareDAO.inserisciEsemplareInOrdine(ordiniNonPartiti.get(ordineIndex),esemplariNonVenduti.get(esemplareIndex));
 		
 	}
 
-
-	protected void creaOrdine(Ordine nuovoOrd) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
-		ordineDAO.creaOrdine(nuovoOrd);
-		
-	}
 
 
 	protected void mostraFinestraCreazioneCliente() {
@@ -431,30 +434,28 @@ public class AppBrain {
 		
 	}
 
-	protected void assumiCorriere(Corriere corriere) throws OperazioneUpdateNonRiuscitaException {
+	protected void assumiCorriere(String CF, String nome, String cognome, LocalDate dataNascita, String patenti, String email, String numero, int contratto, int anni, int index) throws OperazioneUpdateNonRiuscitaException {
+		
+		Corriere corriere;
+		
+		if(index < 0)
+			corriere = new Corriere(CF,nome,cognome,dataNascita,patenti,email,numero,contratto,anni,"null",true);
+		else
+			corriere = new Corriere(CF,nome,cognome,dataNascita,patenti,email,numero,contratto,anni,supervisori.get(index).getCodiceFiscale(),true);
+		
 		corriereDAO.assumiCorriere(corriere);
 		
 	}
 
 
-	protected ArrayList<Corriere> estraiTuttiCorrieri() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
-		return corriereDAO.estraiTuttiCorrieri();
+	protected void estraiTuttiCorrieri() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
+		supervisori = corriereDAO.estraiTuttiCorrieri();
 	}
 	
 	protected void mostramiSchermataInserimentoCorriere() {
 		inserisciCorriereWindow.avviati();
 		inserisciCorriereWindow.setVisible(true);
 		creazioneSpedizioneWindow.setVisible(false);
-	}
-
-
-	protected void registraCliente(Cliente clienteTemp) throws NonPossibileCreareClienteException{
-		clienteDAO.registraCliente(clienteTemp);
-		
-	}
-	
-	protected void registraMezzo(MezzoTrasporto mezzo)  throws OperazioneUpdateNonRiuscitaException{
-		mezziTrasportoDAO.registraMezzo(mezzo);
 	}
 
 	protected void mostramiSchermataInserimentoMezzo() {
@@ -476,17 +477,15 @@ public class AppBrain {
 	}
 
 
-	protected void creaNuovaMerce(Merce merceTemp) throws NonPossibileCreareMerceException {
-		merceDAO.creaNuovaMerce(merceTemp);
-	}
 	
-	protected ArrayList<Fornitore> dammiTuttiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
-		return fornitoreDAO.dammiTuttiFornitori();
+	
+	protected void dammiTuttiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
+		fornitori =  fornitoreDAO.dammiTuttiFornitori();
 		
 	}
 	
-	protected ArrayList<Merce> dammiTutteMerci() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
-		return merceDAO.estraiMerce();
+	protected void dammiTutteMerci() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
+		merci = merceDAO.estraiMerce();
 	}
 
 
@@ -497,14 +496,8 @@ public class AppBrain {
 	}
 
 
-	protected ArrayList<Magazzino> dammiTutteMagazzini() throws RisultatoNonRicavabileException, NonCiSonoMagazziniDisponibiliException {
-		return magazzinoDAO.dammiTutteMagazzini();
-	}
-
-
-	protected void creaEsemplare(Esemplare esemplareTemp) throws OperazioneUpdateNonRiuscitaException {
-		esemplareDAO.creaEsemplare(esemplareTemp);
-		
+	protected void dammiTutteMagazzini() throws RisultatoNonRicavabileException, NonCiSonoMagazziniDisponibiliException {
+		magazzini =  magazzinoDAO.dammiTutteMagazzini();
 	}
 
 
@@ -524,20 +517,58 @@ public class AppBrain {
 	}
 
 
-	protected Object[] DammiFormatoComboBoxOrdiniSenzaSpedOFalliti() {
+	protected Object[] dammiFormatoComboBoxOrdiniSenzaSpedOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		estraiOrdiniSenzaSpedOFalliti();
 		return ordiniSenzaSpedizioneOFalliti.toArray();
 	}
 
 
-	protected Object[] DammiFormatoComboBoxCorrieriDisponibili() {
+	protected Object[] dammiFormatoComboBoxCorrieriDisponibili() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException {
+		estraiCorrieriSenzaSped();
 		return corrieriDisponibili.toArray();
 	}
 
-
-	protected Object[] DammiFormatoComboBoxMezziDisponibili() {
+	protected Object[] dammiFormatoComboBoxMezziDisponibili() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
+		estraiMezziSenzaSped();
 		return mezziDisponibili.toArray();
 	}
-
+	
+	protected Object[] dammiFormatoComboBoxSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException{
+		//Ricavo le spedizioni disponibili
+		trovaSpedizioniNonPartite();
+		
+		return spedizioniNonPartite.toArray();
+	}
+	
+	protected Object[] dammiFormatoComboBoxEsemplariNonVenduti() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
+		estraiEsemplariNonVenduti();
+		return esemplariNonVenduti.toArray();
+	}
+	
+	protected Object[] dammiFormatoComboBoxClientela() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
+		dammiTuttiClienti();
+		return clientela.toArray();
+	}
+	
+	protected Object[] dammiFormatoComboBoxOrdiniNonPartiti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		dammiOrdiniNonPartitiOFalliti();
+		return ordiniNonPartiti.toArray();
+	}
+	
+	protected Object[] dammiFormatoComboBoxMagazzini() throws RisultatoNonRicavabileException, NonCiSonoMagazziniDisponibiliException {
+		dammiTutteMagazzini();
+		return magazzini.toArray();
+	}
+	
+	protected Object[] dammiFormatoComboBoxMerce() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
+		dammiTutteMerci();
+		return merci.toArray();
+	}
+	
+	protected Object[] dammiFormatoComboBoxFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
+		dammiTuttiFornitori();
+		return fornitori.toArray();
+	}
 
 	protected void creaSpedizioneNuova(int ordineIndex, int mezzoIndex, int corrieriIndex, int km) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException, NonPossibileCreareSpedizioneException {
 		nuovaSpedizione = new Spedizione(ordiniSenzaSpedizioneOFalliti.get(ordineIndex),mezziDisponibili.get(mezzoIndex),corrieriDisponibili.get(corrieriIndex));
@@ -545,6 +576,88 @@ public class AppBrain {
 		nuovaSpedizione.setKM(km);
 		spedizioneDAO.creaNuovaSpedizione(nuovaSpedizione);
 	}
+	
+	protected String dammiCodiceOrdineDeiDisponibili(int i) {
+		
+		return ordiniSenzaSpedizioneOFalliti.get(i).getCodOrdine();
+		
+	}
+	
+	protected String dammiCodiceSpedizioneDaiNonPartiti(int i) {
+		
+		return spedizioniNonPartite.get(i).getCodSpedizione();
+		
+	}
+	
+	protected void trovaSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException {
+			spedizioniNonPartite =  spedizioneDAO.dammiSpedizioniNonPartite();
+	}
+
+
+	protected void registraMezzo(String Targa, String Marca, String Modello, int capienza, String patente, float costo) throws OperazioneUpdateNonRiuscitaException {
+		
+		MezzoTrasporto mezzo = new MezzoTrasporto(Targa, Marca, Modello, capienza, patente, costo);
+		mezziTrasportoDAO.registraMezzo(mezzo);
+	}
+
+
+	protected Object[] dammiFormatoComboBoxSupervisori() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
+		estraiTuttiCorrieri();
+		ArrayList<String> formato = new ArrayList<String>();
+		
+		formato.add("E' un Supervisore");
+		for(Corriere corriere : supervisori)
+			formato.add(corriere.toString());
+		
+		return formato.toArray();
+	}
+	
+	protected void creaOrdine(int indexClienti, int indexEsemplari, float costo, LocalDate dataE, LocalDate dataConsegna,
+			String città, String via, String numCiv, String cap) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
+		
+		Ordine nuovoOrd = new Ordine(clientela.get(indexClienti),esemplariNonVenduti.get(indexEsemplari),costo,dataE,dataConsegna,città,via,numCiv,cap);
+		
+		ordineDAO.creaOrdine(nuovoOrd);
+	}
+
+
+	protected String dammiCodiceBarreDaEsemplariNonVenduti(int selectedIndex) {
+		return esemplariNonVenduti.get(selectedIndex).getCodiceBarre();
+	}
+	
+	protected String dammiCodiceOrdineDaNonPartiti(int selectedIndex) {
+		return ordiniNonPartiti.get(selectedIndex).getCodOrdine();
+	}
+	
+
+	protected void registraCliente(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,
+			String numCell, String radioScelta) throws NonPossibileCreareClienteException {
+		
+		Cliente clienteTemp = new Cliente(cf,nome,cognome,dataDiNascita,email,numCell,radioScelta);
+		
+		
+		clienteDAO.registraCliente(clienteTemp);
+		
+	}
+	
+	protected void creaEsemplare(String cod, String colore, float costo, LocalDate garanzia, String descrizione,
+			int indexMerce, int indexMagazzini) throws OperazioneUpdateNonRiuscitaException {
+		
+		Esemplare esemplareTemp = new Esemplare(cod, colore, costo, garanzia, descrizione, merci.get(indexMerce), magazzini.get(indexMagazzini));
+		
+		esemplareDAO.creaEsemplare(esemplareTemp);
+	}
+	
+	protected void creaNuovaMerce(String nome, float peso, String marca, int anno, int indexFornitore) throws NonPossibileCreareMerceException {
+		
+		Merce merceTemp = new Merce(nome,peso,marca,anno,fornitori.get(indexFornitore));
+		merceDAO.creaNuovaMerce(merceTemp);
+		
+		
+	}
+	
+
+
 }
 	
 

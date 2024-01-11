@@ -321,9 +321,8 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		nuovoMezzoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					controlloInput(targaTxf.getText() , marcaTxf.getText() , modelloTxf.getText() , patenteTxf.getText());
-					MezzoTrasporto mezzo = new MezzoTrasporto(targaTxf.getText() , marcaTxf.getText() , modelloTxf.getText() , (int) capienzaFild.getValue() , patenteTxf.getText() , (float) costoFild.getValue());
-					gestoreApplicazione.registraMezzo(mezzo);
+					controlloInput();
+					gestoreApplicazione.registraMezzo(targaTxf.getText() , marcaTxf.getText() , modelloTxf.getText() , (int) capienzaFild.getValue() , patenteTxf.getText() , (float) costoFild.getValue());
 					messaggioPopUp("Hai registrato un nuovo mezzo", "Registrazione mezzo di trasporto");
 					
 				}catch (CampoTargaVuotoException vuotoErrore) {
@@ -413,21 +412,6 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		
 	}
 
-	private void sonoNonVuoti(String targa, String marca, String modello, String patenti) throws CampoTargaVuotoException, CampoModelloVuotoException, CampoMarcaVuotoException, CampoPatentiVuotoException {
-	    // Controlli sulla correttezza dell'input
-
-	    if (targa.isBlank() || targa.equals("Targa")) 
-	        throw new CampoTargaVuotoException();
-
-	    if (marca.isBlank() || marca.equals("Marca"))
-	        throw new CampoMarcaVuotoException();  
-
-	    if (modello.isBlank() || modello.equals("Modello"))
-	        throw new CampoModelloVuotoException();
-
-	    if (patenti.isBlank() || patenti.equals("Patenti"))
-	        throw new CampoPatentiVuotoException();
-	}
 
 	private void vaiAvanti(JTextField primoCampo, JTextField secondoCampo, KeyEvent e) {
 		//Mi permette di andare al prossimo TextFild con il semplice spazio
@@ -442,7 +426,19 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 			txtFild.setText(testoOrginale);
 	}
 	
-	private void controlloInput(String targa, String marca, String modello, String patenti) throws CampoTargaVuotoException, CampoModelloVuotoException, CampoMarcaVuotoException, CampoPatentiVuotoException {
-		sonoNonVuoti(targa,marca,modello,patenti);
+	private void controlloInput() throws CampoTargaVuotoException, CampoModelloVuotoException, CampoMarcaVuotoException, CampoPatentiVuotoException {
+		
+		if (targaTxf.getText().isBlank() || targaTxf.getText().equals("Targa")) 
+	        throw new CampoTargaVuotoException();
+
+	    if (marcaTxf.getText().isBlank() || marcaTxf.getText().equals("Marca"))
+	        throw new CampoMarcaVuotoException();  
+
+	    if (modelloTxf.getText().isBlank() || modelloTxf.getText().equals("Modello"))
+	        throw new CampoModelloVuotoException();
+
+	    if (patenteTxf.getText().isBlank() || patenteTxf.getText().equals("Patenti"))
+	        throw new CampoPatentiVuotoException();
+		
 	}
 }

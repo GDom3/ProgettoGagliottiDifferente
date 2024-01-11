@@ -42,6 +42,7 @@ public class ClienteDAOPlainSQL implements ClienteDAO {
 		String comando = "INSERT INTO Cliente SELECT MAX(codCliente)+1,'"+clienteTemp.getCodiceFiscale()+"','"+clienteTemp.getNome()+"','"+clienteTemp.getCognome()+"','"+clienteTemp.getEmail()
 				+ "','"+clienteTemp.getNumeroCellulare()+"','"+ clienteTemp.getDataNascita()+"','"+clienteTemp.getPreferenzaContatto()+"' "
 				+ " FROM Cliente;";
+	
 		try {
 			comunicazioneSQL.mandaQDDL_DML(comando);
 		}catch (SQLException e) {

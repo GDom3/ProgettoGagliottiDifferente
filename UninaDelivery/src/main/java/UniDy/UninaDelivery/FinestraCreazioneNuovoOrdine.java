@@ -55,10 +55,6 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	//Oggetti Reali
 	private LocalDate dataE;
 	private LocalDate dataConsegna;
-	private ArrayList<Cliente> clienti;
-	private ArrayList<Esemplare> esemplari;
-	private ArrayList<String> arrayTemp;
-	private Ordine nuovoOrd;
 	
 	
 	public FinestraCreazioneNuovoOrdine(AppBrain appBrain) {
@@ -504,11 +500,9 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	
 	
 	private void creaOrdine() {
-		//Preparo l'ordine
-		nuovoOrd = new Ordine(clienti.get(clientiBox.getSelectedIndex()),esemplari.get(esemplariBox.getSelectedIndex()),(float)costoFild.getValue(),dataE,dataConsegna,cittaTxF.getText(),viaTxF.getText(),numeroCivicoTxF.getText(),CAPTxF.getText());		
+			
 		try {
-			//Lo invio al db
-			gestoreApplicazione.creaOrdine(nuovoOrd);
+			gestoreApplicazione.creaOrdine(clientiBox.getSelectedIndex(),esemplariBox.getSelectedIndex(),(float)costoFild.getValue(),dataE,dataConsegna,cittaTxF.getText(),viaTxF.getText(),numeroCivicoTxF.getText(),CAPTxF.getText());
 			messaggioPopUp("Creazione avvenuta con successo, l'ordine ed ora disponibile", "Inserimento Riuscito");
 			avviati();
 		} catch (RisultatoNonRicavabileException e) {
@@ -567,20 +561,18 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	private void aggiungiEsemplareAdOrdneEsistente() {
 		int input = 0;
 			
-		ArrayList<Ordine> ordiniNonPartiti = new ArrayList<Ordine>();
+
 		try {
-			//Prendo gli ordini senza spedizione
-			ordiniNonPartiti = gestoreApplicazione.dammiOrdiniNonPartitiOFalliti();
-			
 			//Gestisco la combobox
-			JComboBox ordiniTemp = new JComboBox(ordiniNonPartiti.toArray());
+			JComboBox ordiniTemp = new JComboBox(gestoreApplicazione.dammiFormatoComboBoxOrdiniNonPartiti());
 			
 			//Richiedo le mosse da fare all'utente
 			input = JOptionPane.showConfirmDialog(this,ordiniTemp,"Seleziona Ordine",JOptionPane.OK_CANCEL_OPTION);
 			if(input == 0)
-				input = JOptionPane.showConfirmDialog(this,"Vuoi aggiungere l'esemplare "+ esemplari.get(esemplariBox.getSelectedIndex()).getCodiceBarre() + " all' ordine "+ ordiniNonPartiti.get(ordiniTemp.getSelectedIndex()),"Conferma Scelta",JOptionPane.OK_CANCEL_OPTION);
+				input = JOptionPane.showConfirmDialog(this,"Vuoi aggiungere l'esemplare "+ gestoreApplicazione.dammiCodiceBarreDaEsemplariNonVenduti(esemplariBox.getSelectedIndex()) + " all' ordine "+ gestoreApplicazione.dammiCodiceOrdineDaNonPartiti(ordiniTemp.getSelectedIndex()),"Conferma Scelta",JOptionPane.OK_CANCEL_OPTION);
 				if (input == 0) {
-					inserisciEsemplareInOrdine(ordiniNonPartiti.get(ordiniTemp.getSelectedIndex()),esemplari.get(esemplariBox.getSelectedIndex()));
+					gestoreApplicazione.inserisciEsemplareInOrdine(ordiniTemp.getSelectedIndex(),esemplariBox.getSelectedIndex());
+					messaggioPopUp("E' stato Inserito corettamente l'esemplare nell'ordine", "Aggiunta Riuscita");
 					avviati();
 				}
 		
@@ -590,19 +582,6 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		}
 					
-		
-	}
-
-
-	private void inserisciEsemplareInOrdine(Ordine ordine, Esemplare esemplare) {
-		try {
-			gestoreApplicazione.inserisciEsemplareInOrdine(ordine,esemplare);
-			messaggioPopUp("E' stato Inserito corettamente l'esemplare nell'ordine", "Aggiunta Riuscita");
-			avviati();
-		} catch (NonCiSonoOrdiniAttesiException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		}
-		
 		
 	}
 
@@ -694,21 +673,16 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 
 
 	private void prendiEsemplari() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
-		//Prendo gli esemplari
-		esemplari = gestoreApplicazione.dammiEsemplariNonVenduti();
-		
 		//E riempio la combobox
-		esemplariBox.setModel(new DefaultComboBoxModel(esemplari.toArray()));
+		esemplariBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxEsemplariNonVenduti()));
 		
 	}
 
 
 	private void prendiClienti() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
-		//Prendo i clienti
-		clienti = gestoreApplicazione.dammiTuttiClienti();
-		
+
 		//E riempio la combobox
-		clientiBox.setModel(new DefaultComboBoxModel(clienti.toArray()));
+		clientiBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxClientela()));
 		
 	}
 	

@@ -263,7 +263,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 				+ "(SELECT CodCorriere FROM Corriere WHERE CodiceFiscale = '"+nuovaSpedizione.getCorriere().getCodiceFiscale()+"'),"
 				+ "(SELECT CodMezzo FROM MezzoTrasporto WHERE Targa = '"+ nuovaSpedizione.getMezzoUtilizzato().getTarga() + "')  FROM Spedizione;"
 				+ "INSERT INTO Viaggio VALUES (true,"+ nuovaSpedizione.getCodOrdineIndex(0).getCodOrdine() + ",(SELECT CodSpedizione FROM Spedizione ORDER BY CodSpedizione DESC LIMIT 1) )";
-		
+	
 
 		try {
 			comunicazioneSQL.mandaQDDL_DML(comando);
