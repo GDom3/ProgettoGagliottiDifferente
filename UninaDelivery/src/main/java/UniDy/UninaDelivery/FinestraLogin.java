@@ -143,9 +143,29 @@ public class FinestraLogin extends JFrame {
 				//Prelevo i valori d'input
 				String username = usernameTF.getText();
 				String password = new String(passwordPF.getPassword());
-				//faccio il controllo
-				richiestaAccesso(username,password);
-					
+		
+				try{
+					//Controllo Input
+					sonoNonVuoti(username,password);
+					//Provo ad accedere
+					gestoreApplicazione.accesso(username,password);
+				
+				} catch (CampoUsernameVuotoException vuotoErrore) {
+					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
+				} catch (CampoPasswordVuotoException vuotoErrore) {
+					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
+				} catch (CreazioneStatementFallitaException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+				} catch (ConnessionNonRiuscitaException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+				} catch (RisultatoNonRicavabileException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
+				} catch (UsernameNonEsistenteException ErroreUtente) {
+					messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
+				} catch (PasswordErrataException ErroreUtente) {
+					messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
+				}
+				
 			}
 
 		});
@@ -217,32 +237,6 @@ public class FinestraLogin extends JFrame {
 	
 	protected void impostaPassword(String txt) {
 		this.passwordPF.setText(txt);
-	}
-
-	private void richiestaAccesso(String username, String password) {
-			
-		try{
-			//Controllo Input
-			sonoNonVuoti(username,password);
-			//Provo ad accedere
-			gestoreApplicazione.accesso(username,password);
-		} catch (CampoUsernameVuotoException vuotoErrore) {
-			messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-		} catch (CampoPasswordVuotoException vuotoErrore) {
-			messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-		} catch (CreazioneStatementFallitaException ErroreSQL) {
-			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-		} catch (ConnessionNonRiuscitaException ErroreSQL) {
-			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-		} catch (RisultatoNonRicavabileException ErroreSQL) {
-			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-		} catch (UsernameNonEsistenteException ErroreUtente) {
-			messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
-		} catch (PasswordErrataException ErroreUtente) {
-			messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
-		}
-		
-
 	}
 	
 	//Procedura che ci permetterà di mostrare con un messaggio PopUp i warnig o gli errori avvenuti, quindi quando ad esempio l'utente sbaglia input 
