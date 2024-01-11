@@ -1,11 +1,10 @@
 package UniDy.UninaDelivery;
 
 public class NonCiSonoMagazziniDisponibiliException extends Exception {
-	private String messaggioErrore;
+	private String messaggioErrore= "Non ci sono Magazzini disponibili, ovvero nessun magazzino è presente";
 	private String tipoErrore = "Attenzione";
 	
 	public NonCiSonoMagazziniDisponibiliException() {
-		messaggioErrore = "Non ci sono Magazzini disponibili, ovvero nessun magazzino è presente";
 		
 	}
 

@@ -1,11 +1,10 @@
 package UniDy.UninaDelivery;
 
 public class NonCiSonoMerciDisponibiliException extends Exception {
-	private String messaggioErrore;
+	private String messaggioErrore= "Non ci sono Merci disponibili, ovvero nessuna merce è presente";
 	private String tipoErrore = "Attenzione";
 	
 	public NonCiSonoMerciDisponibiliException() {
-		messaggioErrore = "Non ci sono Merci disponibili, ovvero nessuna merce è presente";
 		
 	}
 

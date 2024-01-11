@@ -1,11 +1,10 @@
 package UniDy.UninaDelivery;
 
 public class NonCiSonoMezziTrasportoDisponibiliException extends Exception {
-	private String messaggioErrore;
+	private String messaggioErrore= "Non ci sono mezzi di trasporto disponibili, ovvero tutti i mezzi sono adoperati in una spedizione";
 	private String tipoErrore = "Attenzione";
 	
 	public NonCiSonoMezziTrasportoDisponibiliException() {
-		messaggioErrore = "Non ci sono mezzi di trasporto disponibili, ovvero tutti i mezzi sono adoperati in una spedizione";
 		
 	}
 

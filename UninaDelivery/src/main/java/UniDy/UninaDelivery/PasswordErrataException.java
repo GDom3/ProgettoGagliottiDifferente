@@ -1,11 +1,10 @@
 package UniDy.UninaDelivery;
 
 public class PasswordErrataException extends Exception {
-	private String messaggioErrore;
+	private String messaggioErrore= "Password inserita è errata";
 	private String tipoErrore = "Attenzione";
 	
 	public PasswordErrataException(){
-		messaggioErrore = "Password inserita è errata";
 		
 	}
 

@@ -1,11 +1,10 @@
 package UniDy.UninaDelivery;
 
 public class NonCiSonoFornitoriException extends Exception {
-	private String messaggioErrore;
+	private String messaggioErrore= "Non ci sono Fornitori disponibili, ovvero nessun fornitore è presente";
 	private String tipoErrore = "Attenzione";
 	
 	public NonCiSonoFornitoriException() {
-		messaggioErrore = "Non ci sono Fornitori disponibili, ovvero nessun fornitore è presente";
 		
 	}
 

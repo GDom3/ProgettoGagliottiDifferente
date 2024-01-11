@@ -1,11 +1,10 @@
 package UniDy.UninaDelivery;
 
 public class UsernameNonEsistenteException extends Exception {
-	private String messaggioErrore;
+	private String messaggioErrore = "Username o email inseriti non registrate";
 	private String tipoErrore = "Attenzione";
 	
 	public UsernameNonEsistenteException(){
-		messaggioErrore = "Username o email inseriti non registrate";
 		
 	}
 

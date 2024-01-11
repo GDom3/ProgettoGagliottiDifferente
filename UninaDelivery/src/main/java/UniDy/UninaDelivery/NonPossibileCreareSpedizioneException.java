@@ -3,11 +3,10 @@ package UniDy.UninaDelivery;
 import java.sql.SQLException;
 
 public class NonPossibileCreareSpedizioneException extends SQLException {
-	private String messaggioErrore;
+	private String messaggioErrore= "Non è possibile creare una spedizione con i valori inseriti, incoerenza tra parti";
 	private String tipoErrore = "Errore";
 	
 	public NonPossibileCreareSpedizioneException() {
-		messaggioErrore = "Non è possibile creare una spedizione con i valori inseriti, incoerenza tra parti";
 		
 	}
 
