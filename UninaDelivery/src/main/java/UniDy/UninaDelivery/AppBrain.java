@@ -248,7 +248,7 @@ public class AppBrain {
 		Ordine ord = ordineDAO.trovaOrdine(codOrdine);
 
 		
-		cambiaStatoWindow.modificaStatoOrdine(ord);
+		cambiaStatoWindow.modificaStatoOrdine(ord.getCodOrdine(),ord.getStatoOrdine());
 		cambiaStatoWindow.setVisible(true);
 		datiOrdiniWindow.setVisible(false);
 	}
@@ -283,24 +283,25 @@ public class AppBrain {
 
 
 		
-		cambiaStatoWindow.modificaStatoSpedizione(sped);
+		cambiaStatoWindow.modificaStatoSpedizione(sped.getCodSpedizione(),sped.getStatoSpedizione());
 		cambiaStatoWindow.setVisible(true);
 		datiOrdiniWindow.setVisible(false);
 	}
 
 
-	protected void confermaNuovoStatoOrdine(Ordine ordineSelezionato, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
-		String StatoOrdine = elementAt.toString();
-		if(ordineSelezionato.getStatoOrdine().equals(StatoOrdine)) 
+	
+	protected void confermaNuovoStatoOrdine(String ordineSelezionato, Object statoOriginale, Object stato) throws RisultatoNonRicavabileException {
+		String StatoOrdine = stato.toString();
+		if(statoOriginale.equals(StatoOrdine)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
 			
 		else {
 		
-			ordineSelezionato.setStatoOrdine(StatoOrdine);
-			String responso = ordineDAO.aggiornaStatoOrdine(ordineSelezionato);
+			Ordine ordineAggiornato = new Ordine(ordineSelezionato, StatoOrdine);
+			String responso = ordineDAO.aggiornaStatoOrdine(ordineAggiornato);
 		
 			if(responso.equals("OK")){
-				String msg = "Stato ordine modificato Correttamente.\nDettaglio : L'ordine "+ordineSelezionato.getCodOrdine()+" ha come nuovo stato "+StatoOrdine;
+				String msg = "Stato ordine modificato Correttamente.\nDettaglio : L'ordine "+ordineSelezionato+" ha come nuovo stato "+StatoOrdine;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
 				datiOrdiniWindow.setVisible(true);
 				cambiaStatoWindow.setVisible(false);
@@ -311,20 +312,21 @@ public class AppBrain {
 		
 		}
 	}
-
-
-	protected void confermaNuovoStatoSpedizione(Spedizione spedizioneSelezionata, Object elementAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
+	
+	
+	public void confermaNuovoStatoSpedizione(String spedizioneSelezionata, String spedizioneStato, Object elementAt) throws RisultatoNonRicavabileException {
 		String StatoSpedizione = elementAt.toString();
-		if(spedizioneSelezionata.getStatoSpedizione().equals(StatoSpedizione)) 
+		if(spedizioneStato.equals(StatoSpedizione)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
 			
 		else {
-		
-			spedizioneSelezionata.setStatoSpedizione(StatoSpedizione);
-			String responso = spedizioneDAO.aggiornaStatoSpedizione(spedizioneSelezionata);
+			
+			Spedizione spedizioneAggiornata = new Spedizione(spedizioneSelezionata,null);
+			spedizioneAggiornata.setStatoSpedizione(StatoSpedizione);
+			String responso = spedizioneDAO.aggiornaStatoSpedizione(spedizioneAggiornata);
 		
 			if(responso.equals("OK")){
-				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata.getCodSpedizione()+" ha come nuovo stato "+StatoSpedizione;
+				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata+" ha come nuovo stato "+StatoSpedizione;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
 				datiOrdiniWindow.setVisible(true);
 				cambiaStatoWindow.setVisible(false);
@@ -334,11 +336,8 @@ public class AppBrain {
 			}
 		
 		}
-		
-		
-		
-		
 	}
+
 
 
 	protected void mostraFinestraNuovaSpedizione() {
@@ -501,7 +500,7 @@ public class AppBrain {
 	}
 
 
-	public int[] numeroMedioOrdini(int anno) throws RisultatoNonRicavabileException {
+	protected int[] numeroMedioOrdini(int anno) throws RisultatoNonRicavabileException {
 		return ordineDAO.numeroMedioOrdini(anno);
 	}
 	
@@ -533,7 +532,7 @@ public class AppBrain {
 		return mezziDisponibili.toArray();
 	}
 	
-	protected Object[] dammiFormatoComboBoxSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException{
+	protected Object[] dammiFormatoComboBoxSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartiteException, RisultatoNonRicavabileException{
 		//Ricavo le spedizioni disponibili
 		trovaSpedizioniNonPartite();
 		
@@ -589,7 +588,7 @@ public class AppBrain {
 		
 	}
 	
-	protected void trovaSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException {
+	protected void trovaSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartiteException, RisultatoNonRicavabileException {
 			spedizioniNonPartite =  spedizioneDAO.dammiSpedizioniNonPartite();
 	}
 
@@ -655,6 +654,10 @@ public class AppBrain {
 		
 		
 	}
+
+
+	
+
 	
 
 

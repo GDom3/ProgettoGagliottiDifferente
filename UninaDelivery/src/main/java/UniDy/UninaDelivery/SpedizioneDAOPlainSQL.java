@@ -276,7 +276,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	}
 
 	@Override
-	public ArrayList<Spedizione> dammiSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException {
+	public ArrayList<Spedizione> dammiSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartiteException, RisultatoNonRicavabileException {
 		
 		ArrayList<Spedizione> spedizioniNonPartite = new ArrayList<Spedizione>();
 		Spedizione tempSpedizione;
@@ -290,7 +290,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 			tempSpedizione = new Spedizione(risultato.getString(1), null);
 			spedizioniNonPartite.add(tempSpedizione);
 		} catch (SQLException e) {
-			throw new NonCiSonoSpedizioniNonPartite();
+			throw new NonCiSonoSpedizioniNonPartiteException();
 		}
 		
 		if(comunicazioneSQL.prossimaRiga())	

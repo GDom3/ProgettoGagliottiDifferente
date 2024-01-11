@@ -12,6 +12,7 @@ public class Esemplare {
 	private String descrizione;
 	private Magazzino magazzinoRiferimento = new Magazzino(null,null,null,null,null,0);
 	private Merce merceRiferimento = new Merce(null,0,null,0,null);;
+	private Ordine ordineInCuiVenduto = new Ordine(null, null);
 	
 	protected Esemplare(String cod, String Nome) {
 		codiceBarre = cod;
@@ -100,6 +101,14 @@ public class Esemplare {
 
 	protected void setMagazzinoRiferimento(Magazzino magazzinoRiferimento) {
 		this.magazzinoRiferimento = magazzinoRiferimento;
+	}
+
+	protected Ordine getOrdineInCuiVenduto() {
+		return ordineInCuiVenduto;
+	}
+
+	protected void setOrdineInCuiVenduto(Ordine ordineInCuiVenduto) {
+		this.ordineInCuiVenduto = ordineInCuiVenduto;
 	}
 
 	

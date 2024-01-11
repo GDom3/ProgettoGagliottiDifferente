@@ -32,7 +32,7 @@ public interface SpedizioneDAO {
 			RisultatoNonRicavabileException, NonPossibileCreareSpedizioneException;
 
 	ArrayList<Spedizione> dammiSpedizioniNonPartite()
-			throws NonCiSonoSpedizioniNonPartite, RisultatoNonRicavabileException;
+			throws NonCiSonoSpedizioniNonPartiteException, RisultatoNonRicavabileException;
 
 	void inserisciOrdineInSpedizione(Spedizione spedizione, Ordine ordine) throws OperazioneUpdateNonRiuscitaException;
 

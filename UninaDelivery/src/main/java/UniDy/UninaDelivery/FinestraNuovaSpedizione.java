@@ -368,7 +368,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 					messaggioPopUp("L'Ordine è stato aggiunto correttamente alla spedizione","Operazione Riuscita");
 					avviati();
 				}
-		} catch (NonCiSonoSpedizioniNonPartite e) {
+		} catch (NonCiSonoSpedizioniNonPartiteException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
 		} catch (RisultatoNonRicavabileException e) {
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());

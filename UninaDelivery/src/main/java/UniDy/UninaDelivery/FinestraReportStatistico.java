@@ -233,7 +233,7 @@ public class FinestraReportStatistico extends JFrame {
 					
 				} catch (RisultatoNonRicavabileException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (NonPossibileRicavareStatistiche e1) {
+				} catch (NonPossibileRicavareStatisticheException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
 				}
 				
@@ -258,12 +258,12 @@ public class FinestraReportStatistico extends JFrame {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
 	
-	private void chiediRisposteReport() throws NonPossibileRicavareStatistiche  {
+	private void chiediRisposteReport() throws NonPossibileRicavareStatisticheException  {
 		try {
 			ordineMaggiore = gestoreApplicazione.ordineConMaggiorProdotti((int)annoFild.getValue());
 			ordineMinore = gestoreApplicazione.ordineConMinorProdotti((int)annoFild.getValue());
 		} catch (RisultatoNonRicavabileException e) {
-			throw new NonPossibileRicavareStatistiche();
+			throw new NonPossibileRicavareStatisticheException();
 		}
 		
 		

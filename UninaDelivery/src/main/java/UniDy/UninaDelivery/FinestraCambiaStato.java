@@ -35,8 +35,10 @@ public class FinestraCambiaStato extends JFrame {
 	private DefaultComboBoxModel modelloStatiOrdini = new DefaultComboBoxModel(statiOrdiniPossibili);
 	private DefaultComboBoxModel modelloStatiSpedizioni = new DefaultComboBoxModel(statiSpedizioniPossibili);
 	//Oggetti Reali
-	private Spedizione spedizioneSelezionata;
-	private Ordine ordineSelezionato;
+	private String spedizioneSelezionata;
+	private String ordineSelezionato;
+	private String spedizioneStato;
+	private String ordineStato;
 
 	public FinestraCambiaStato(AppBrain appBrain) {
 		setAlwaysOnTop(true);
@@ -89,14 +91,10 @@ public class FinestraCambiaStato extends JFrame {
 					String[] parole = titoloLabel.getText().split(" ");
 					
 					if(parole[0].equals("Spedizione"))
-						gestoreApplicazione.confermaNuovoStatoSpedizione(spedizioneSelezionata,modelloStatiSpedizioni.getElementAt(statiBox.getSelectedIndex()));
+						gestoreApplicazione.confermaNuovoStatoSpedizione(spedizioneSelezionata,spedizioneStato,modelloStatiSpedizioni.getElementAt(statiBox.getSelectedIndex()));
 					else
-						gestoreApplicazione.confermaNuovoStatoOrdine(ordineSelezionato,modelloStatiOrdini.getElementAt(statiBox.getSelectedIndex()));
+						gestoreApplicazione.confermaNuovoStatoOrdine(ordineSelezionato,ordineStato,modelloStatiOrdini.getElementAt(statiBox.getSelectedIndex()));
 					
-				} catch (CreazioneStatementFallitaException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
-				} catch (ConnessionNonRiuscitaException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
 				} catch (RisultatoNonRicavabileException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
 				}
@@ -146,27 +144,29 @@ public class FinestraCambiaStato extends JFrame {
 		principalePannello.add(statoAttualeLabel);
 	}
 	
-	protected void modificaStatoOrdine(Ordine ord) {
+	protected void modificaStatoOrdine(String ord, String statoOrd) {
 
 		// Imposto l'ordine nella combobox
 		ordineSelezionato = ord;
+		ordineStato = statoOrd;
 		statiBox.setModel(modelloStatiOrdini);
 		//Bado alla grafica
-		titoloLabel.setText("Ordine : " + ordineSelezionato.getCodOrdine());
-		statoAttualeLabel.setText("Stato Attuale : "+ ord.getStatoOrdine());
+		titoloLabel.setText("Ordine : " + ordineSelezionato);
+		statoAttualeLabel.setText("Stato Attuale : "+ statoOrd);
 		
 		
 
 	}
 
-	protected void modificaStatoSpedizione(Spedizione sped) {
+	protected void modificaStatoSpedizione(String sped, String StatoSped) {
 
 		// Imposto la spedizione nella combobox
 		spedizioneSelezionata = sped;
+		spedizioneStato = StatoSped;
 		statiBox.setModel(modelloStatiSpedizioni);
 		//Bado alla grafica
-		titoloLabel.setText("Spedizione : " + spedizioneSelezionata.getCodSpedizione());
-		statoAttualeLabel.setText("Stato Attuale : "+ sped.getStatoSpedizione());
+		titoloLabel.setText("Spedizione : " + spedizioneSelezionata);
+		statoAttualeLabel.setText("Stato Attuale : "+ StatoSped);
 
 	}
 	

@@ -1,5 +1,6 @@
 package UniDy.UninaDelivery;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Magazzino {
@@ -9,6 +10,7 @@ public class Magazzino {
 	private String via;
 	private String CAP;
 	private int capienza;
+	private ArrayList<Esemplare> esemplariDeositati = new ArrayList<Esemplare>();
 	
 	
 	public Magazzino(String nome, String numeroCivico, String citta, String via, String cAP, int capienza) {
@@ -96,6 +98,14 @@ public class Magazzino {
 
 	protected void setCapienza(int capienza) {
 		this.capienza = capienza;
+	}
+
+	protected ArrayList<Esemplare> getEsemplariDeositati() {
+		return esemplariDeositati;
+	}
+
+	protected void setEsemplariDeositati(ArrayList<Esemplare> esemplariDeositati) {
+		this.esemplariDeositati = esemplariDeositati;
 	}
 	
 	

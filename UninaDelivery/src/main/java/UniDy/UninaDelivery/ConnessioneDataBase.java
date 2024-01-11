@@ -54,7 +54,7 @@ public class ConnessioneDataBase {
         return connessione;
     }
 	///Creo la connessione con lo schema
-    public Connection getConnectionConSchema(String nomeSchema){
+	protected Connection getConnectionConSchema(String nomeSchema){
         String passwordDataBase = null;
         BufferedReader buffer = null;
         
