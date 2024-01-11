@@ -5,11 +5,11 @@ import java.sql.SQLException;
 public class ConnessionNonRiuscitaException extends SQLException {
 
 
-	private String messaggioErrore;
+	private String messaggioErrore = "Connessione al database non riuscita";
 	private String tipoErrore = "Errore";
 	
 	public ConnessionNonRiuscitaException() {
-		messaggioErrore = "Connessione al database non riuscita";
+
 		
 	}
 
