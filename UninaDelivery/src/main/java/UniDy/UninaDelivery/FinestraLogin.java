@@ -40,6 +40,7 @@ public class FinestraLogin extends JFrame {
 	private boolean isVisiblePassword = false; //Indicatore stato attuale della visibilità della password
 	
 	public FinestraLogin(AppBrain appBrain) {
+		setTitle("UninaDelivery");
 		
 		gestoreApplicazione = appBrain;
 		
