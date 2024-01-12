@@ -53,18 +53,6 @@ public class ComunicaConDatabase {
 		
 	}
 	
-	//Manda la quary e la esegue riportando il risultato e fa i dovuti controlli
-	protected ResultSet comunicaConDatabaseQuery(String comando) throws  RisultatoNonRicavabileException{
-		
-		try { 
-			//Provo a mandare la query
-			mandaQuery(comando);
-		} catch (RisultatoNonRicavabileException e) {
-				throw e;
-		}
-					
-		return risultato;
-	}
 	
 	
 	protected int mandaQDDL_DML(String comando) throws OperazioneUpdateNonRiuscitaException {
@@ -98,14 +86,20 @@ public class ComunicaConDatabase {
 		
 	}
 	
-	//Mando la query al db
-	private void mandaQuery(String comando) throws RisultatoNonRicavabileException {
-		try {
-			risultato = trasportatore.executeQuery(comando);
-		} catch (SQLException e) {
-			throw new RisultatoNonRicavabileException();
+	
+	//Manda la quary e la esegue riportando il risultato e fa i dovuti controlli
+		protected ResultSet comunicaConDatabaseQuery(String comando) throws  RisultatoNonRicavabileException{
+			
+			try { 
+				risultato = trasportatore.executeQuery(comando);
+			} catch (SQLException e) {
+					throw new RisultatoNonRicavabileException();
+			}
+						
+			return risultato;
 		}
-	}
+		
+
 	
 	//Prendo i Campi
 	private void gestioneMetaDati() throws MetaDatiNonTrovatiException  {
