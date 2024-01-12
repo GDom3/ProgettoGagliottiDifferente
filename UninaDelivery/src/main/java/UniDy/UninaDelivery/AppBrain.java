@@ -1,5 +1,7 @@
 package UniDy.UninaDelivery;
 
+import java.awt.Color;
+import java.awt.Paint;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +10,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 
 public class AppBrain {
@@ -506,12 +515,15 @@ public class AppBrain {
 	
 	
 	protected String ordineConMaggiorProdotti (int anno) throws RisultatoNonRicavabileException {
-		return ordineDAO.ordineConMaggiorProdotti(anno).getCodOrdine();
-
+		 Ordine ord = ordineDAO.ordineConMaggiorProdotti(anno);
+		 
+		 return ord.getCodOrdine() + " con " + ord.getNumMerci();
 	}
 	
 	protected String ordineConMinorProdotti (int anno) throws RisultatoNonRicavabileException {
-		return ordineDAO.ordineConMinorProdotti(anno).getCodOrdine();
+		Ordine ord = ordineDAO.ordineConMinorProdotti(anno);
+		 
+		return ord.getCodOrdine() + " con " + ord.getNumMerci();
 
 	}
 
@@ -654,7 +666,43 @@ public class AppBrain {
 		
 		
 	}
-
+	
+	protected ChartPanel creazioneGrafico(int anno) throws RisultatoNonRicavabileException{
+		
+		//Vettore in cui per ogni mese c'è il valore di ordini venduti
+		int valori[] = numeroMedioOrdini(anno);
+		//Semplicemente i mesi dell'anno
+		String mesi[] = {"Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"};
+		
+		//alloco un'istanza della classe che ci permettera di riempire il grafico
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		
+		//Mi ricavo i valori risultanti
+		for(int i = 0; i < 12 ; i++)
+			dataset.setValue(valori[i], "", mesi[i]);
+		
+		
+		//Creo il grafico
+		JFreeChart grafico =  ChartFactory.createBarChart3D("Report Statistico","Mesi", "Numero Ordini", dataset, PlotOrientation.VERTICAL,false,false,false);
+		grafico.setTitle("Numero Medio Ordini");
+		Paint colore = new Color(179, 168, 166);
+		grafico.setBackgroundPaint(colore);
+				
+		//Gestisco lo stile del diagramma
+		CategoryPlot catpot = grafico.getCategoryPlot();
+		catpot.setOutlinePaint(Color.white);
+		catpot.setRangeGridlinePaint(Color.white);
+		catpot.setDomainGridlinePaint(Color.white);
+		catpot.setOutlinePaint(Color.white);
+				
+		//Creo il panello contenente il grafico e lo aggiungo al panello della finestra
+		ChartPanel pannelloGrafico = new ChartPanel(grafico);
+		
+		
+		return pannelloGrafico;
+		
+		
+	}
 
 	
 

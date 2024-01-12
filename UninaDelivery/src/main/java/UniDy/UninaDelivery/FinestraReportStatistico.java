@@ -27,9 +27,6 @@ import java.awt.Paint;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PiePlot3D;
@@ -56,6 +53,7 @@ public class FinestraReportStatistico extends JFrame {
 	private JButton menuB ;
 	private JSpinner annoFild;
 	private JPanel panel;
+	private JPanel risultatiScrittiPanel;
 	//Oggetti utili
 	private String ordineMaggiore;
 	private String ordineMinore;
@@ -186,7 +184,7 @@ public class FinestraReportStatistico extends JFrame {
 		lblAnno.setBounds(10, 147, 155, 25);
 		generaPanel.add(lblAnno);
 		
-		JPanel risultatiScrittiPanel = new JPanel();
+		risultatiScrittiPanel = new JPanel();
 		risultatiScrittiPanel.setBackground(new Color(179, 168, 166));
 		risultatiScrittiPanel.setBounds(81, 442, 508, 87);
 		contentPane.add(risultatiScrittiPanel);
@@ -227,6 +225,7 @@ public class FinestraReportStatistico extends JFrame {
 					chiediRisposteReport();
 					generaGrafico();
 					
+					//Scrivo i valori risultanti
 					magOrd.setText(ordineMaggiore);
 					minOrd.setText(ordineMinore);
 					
@@ -250,7 +249,8 @@ public class FinestraReportStatistico extends JFrame {
 		generaB.setBounds(10, 313, 155, 37);
 		generaPanel.add(generaB);
 		
-		
+		panel.setVisible(false);
+		risultatiScrittiPanel.setVisible(false);
 		
 	}	
 	
@@ -260,9 +260,13 @@ public class FinestraReportStatistico extends JFrame {
 	
 	private void chiediRisposteReport() throws NonPossibileRicavareStatisticheException  {
 		try {
+			//Mi prendo l'ordine con maggior numero di prodotti
 			ordineMaggiore = gestoreApplicazione.ordineConMaggiorProdotti((int)annoFild.getValue());
+			//e poi ,i prendo l'ordine con minor numero di prodotti
 			ordineMinore = gestoreApplicazione.ordineConMinorProdotti((int)annoFild.getValue());
 		} catch (RisultatoNonRicavabileException e) {
+			panel.setVisible(false);
+			risultatiScrittiPanel.setVisible(false);
 			throw new NonPossibileRicavareStatisticheException();
 		}
 		
@@ -270,28 +274,11 @@ public class FinestraReportStatistico extends JFrame {
 	}
 
 	private void generaGrafico() throws RisultatoNonRicavabileException {
-		
-		int valori[] = gestoreApplicazione.numeroMedioOrdini((int)annoFild.getValue());
-		String mesi[] = {"Gen","Feb","Mar","Apr","Mag","Giu","Lug","Ago","Set","Ott","Nov","Dic"};
-		
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		
-		for(int i = 0; i < 12 ; i++)
-			dataset.setValue(valori[i], "", mesi[i]);
-		
-		JFreeChart grafico =  ChartFactory.createBarChart3D("Report Statistico","Mesi", "Numero Ordini", dataset, PlotOrientation.VERTICAL,false,false,false);
-		
-		grafico.setTitle("Numero Medio Ordini");
-		
-		Paint colore = new Color(179, 168, 166);
-		grafico.setBackgroundPaint(colore);
-		CategoryPlot catpot = grafico.getCategoryPlot();
-		
-		catpot.setOutlinePaint(Color.white);
-		catpot.setRangeGridlinePaint(Color.white);
-		catpot.setDomainGridlinePaint(Color.white);
-		catpot.setOutlinePaint(Color.white);
-		ChartPanel pannelloGrafico = new ChartPanel(grafico);
+		//Faccio il grafico
+		ChartPanel pannelloGrafico = gestoreApplicazione.creazioneGrafico((int)annoFild.getValue());
+		//rendo visibile i risultati
+		panel.setVisible(true);
+		risultatiScrittiPanel.setVisible(true);
 		panel.removeAll();
 		panel.add(pannelloGrafico,BorderLayout.CENTER);
 		panel.validate();

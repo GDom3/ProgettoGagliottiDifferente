@@ -181,6 +181,7 @@ public class OrdineDAOPlainSQL implements OrdineDAO {
 		try {
 			comunicazioneSQL.prossimaRiga();
 			ord = new Ordine(risultato.getString(1), risultato.getString(2));
+			ord.setNumMerci(risultato.getInt(3));
 		} catch (SQLException e) {
 			throw new RisultatoNonRicavabileException();
 		}
@@ -203,6 +204,7 @@ public class OrdineDAOPlainSQL implements OrdineDAO {
 		try {
 			comunicazioneSQL.prossimaRiga();
 			ord = new Ordine(risultato.getString(1), risultato.getString(2));
+			ord.setNumMerci(risultato.getInt(3));
 		} catch (SQLException e) {
 			throw new RisultatoNonRicavabileException();
 		}
