@@ -8,7 +8,8 @@ public class ConnessioneDataBase {
 	private static ConnessioneDataBase istanzaClasse = null;
 	private Connection connessione = null;
 	private String driver = "org.postgresql.Driver";
-	private String indirizzo = "jdbc:postgresql://localhost:5432/UninaDelivery";
+	//private String indirizzo = "jdbc:postgresql://ep-white-glitter-a2kvs47j.eu-central-1.aws.neon.tech/UninaDelivery?user=differenteluigi2003&password=OMkehr4aRf5I&sslmode=require";
+	private String indirizzo;
 	private String tipoDB = "postgres";
 	private String messaggioErrore;
 	
@@ -29,6 +30,9 @@ public class ConnessioneDataBase {
         String passwordDataBase = null;
         BufferedReader buffer = null;
        
+
+   
+        
         try{   
             if(connessione==null || connessione.isClosed()){ //Quando la connessione non c'è o ormai è stata chiusa   
             	
@@ -36,6 +40,12 @@ public class ConnessioneDataBase {
                 buffer = new BufferedReader(new FileReader(new File("src/main/java/File/Password.txt")));
                 passwordDataBase = buffer.readLine();
                 buffer.close();
+                
+                //Prendiamo l'indirizzo dal file
+                buffer = new BufferedReader(new FileReader(new File("src/main/java/File/indirizzoServerDB.txt")));
+                indirizzo = buffer.readLine();
+                buffer.close();
+                
                 
                 Class.forName(driver); //Carica il driver adottato
                 
@@ -53,6 +63,7 @@ public class ConnessioneDataBase {
 
         return connessione;
     }
+    
 	///Creo la connessione con lo schema
 	protected Connection getConnectionConSchema(String nomeSchema){
         String passwordDataBase = null;
@@ -67,6 +78,11 @@ public class ConnessioneDataBase {
                 buffer = new BufferedReader(new FileReader(new File("src/main/java/File/Password.txt")));
                 passwordDataBase = buffer.readLine();
                    
+              //Prendiamo l'indirizzo dal file
+                buffer = new BufferedReader(new FileReader(new File("src/main/java/File/indirizzoServerDB.txt")));
+                indirizzo = buffer.readLine();
+                buffer.close();
+                
                 Class.forName(driver); //Carica il driver adottato
                 
                 String indirizzoConSchema = indirizzo + "?currentSchema=" + nomeSchema; //Aggiungo all'url anche lo schema

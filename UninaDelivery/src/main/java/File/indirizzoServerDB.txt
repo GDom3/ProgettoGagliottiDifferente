@@ -1,0 +1,1 @@
+jdbc:postgresql://ep-white-glitter-a2kvs47j.eu-central-1.aws.neon.tech/UninaDelivery?user=differenteluigi2003&password=OMkehr4aRf5I&sslmode=require
