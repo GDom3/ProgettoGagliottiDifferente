@@ -127,7 +127,7 @@ public class AppBrain {
 	protected void accesso(String username, String password) throws UsernameNonEsistenteException, PasswordErrataException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException{
 		
 		//Nome che apparirà nel menu
-		String nomeCompletoOperatore = "Utente";
+		String nomeCompletoOperatore;
 		
 		//Creo il nuovo operatore
 		nuovoOperatore.impostaCredenziali(username,password);

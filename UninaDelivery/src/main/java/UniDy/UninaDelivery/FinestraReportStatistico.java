@@ -259,11 +259,14 @@ public class FinestraReportStatistico extends JFrame {
 	}
 	
 	private void chiediRisposteReport() throws NonPossibileRicavareStatisticheException  {
+		
+		int anno = (int) annoFild.getValue();
+		
 		try {
 			//Mi prendo l'ordine con maggior numero di prodotti
-			ordineMaggiore = gestoreApplicazione.ordineConMaggiorProdotti((int)annoFild.getValue());
+			ordineMaggiore = gestoreApplicazione.ordineConMaggiorProdotti(anno);
 			//e poi ,i prendo l'ordine con minor numero di prodotti
-			ordineMinore = gestoreApplicazione.ordineConMinorProdotti((int)annoFild.getValue());
+			ordineMinore = gestoreApplicazione.ordineConMinorProdotti(anno);
 		} catch (RisultatoNonRicavabileException e) {
 			panel.setVisible(false);
 			risultatiScrittiPanel.setVisible(false);
