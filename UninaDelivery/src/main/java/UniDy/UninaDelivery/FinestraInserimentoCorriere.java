@@ -470,7 +470,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 					controlloInput(codiceFiscaleTxf.getText() , nomeTxf.getText() , cognomeTxf.getText() , patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText());
 				
 					gestoreApplicazione.assumiCorriere(codiceFiscaleTxf.getText(), nomeTxf.getText() , cognomeTxf.getText() , dataNascita, patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText(),(int) contrattoFild.getValue(),(int) anniContributiFild.getValue(),capoBox.getSelectedIndex() - 1);
-					
+					gestoreApplicazione.mandaMailAssunzione(codiceFiscaleTxf.getText(), nomeTxf.getText() , cognomeTxf.getText() , dataNascita, patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText(),(int) contrattoFild.getValue(),(int) anniContributiFild.getValue(),capoBox.getSelectedIndex() - 1);
 					messaggioPopUp("Il Corriere inserito è stato assunto correttamente", "Assunzione Corriere");
 					avviati();
 					

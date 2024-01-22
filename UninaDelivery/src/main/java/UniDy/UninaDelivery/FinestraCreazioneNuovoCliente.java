@@ -382,7 +382,9 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 				
 					//Creo il nuovo cliente
 					gestoreApplicazione.registraCliente(CodiceFiscaleTextField.getText(),nomeTextField.getText(),cognomeTextFild.getText(),dataDiNascita,txtEmail.getText(),txtNumeroCellulare.getText(),RadioScelta);
+					gestoreApplicazione.mandaMailIscrizione(CodiceFiscaleTextField.getText(),nomeTextField.getText(),cognomeTextFild.getText(),dataDiNascita,txtEmail.getText(),txtNumeroCellulare.getText(),RadioScelta);
 					messaggioPopUp("Registrazione nuovo cliente avvenuta con successo", "Registrazione Completata");
+					
 					
 				} catch (CampoNomeVuotoException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());

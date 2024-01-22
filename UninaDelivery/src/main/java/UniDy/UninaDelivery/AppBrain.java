@@ -69,7 +69,8 @@ public class AppBrain {
 	//nuova Merce
 		private ArrayList<Fornitore> fornitori;
 		
-	
+	//mail
+		private UninaDeliveryMailSender mailSender;
 	
 	public static void main(String[] args) {
 		
@@ -108,7 +109,7 @@ public class AppBrain {
 		//Inizializzaziione DTO
 		operatorePrincipale = new Operatore(null,null);
 		nuovoOperatore = new Operatore(null,null);
-				
+		mailSender = new UninaDeliveryMailSender();		
 		//Inizializzaziione DAO
 		operatoreDAO = new OperatoreDAOPlainSQL(comunicazioneSQL);
 		spedizioneDAO = new SpedizioneDAOPlainSQL(comunicazioneSQL);
@@ -705,7 +706,20 @@ public class AppBrain {
 	}
 
 	
+	protected void mandaMailIscrizione(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,String numCell, String radioScelta) {
+		Cliente iscritto = new Cliente (cf,nome,cognome,dataDiNascita,email,numCell,radioScelta); 
+		mailSender.mandaMailaCliente(iscritto);
+	}
 
+	protected void mandaMailAssunzione(String codiceFiscale, String nome, String cognome, LocalDate dataDiNascita, String patenti,String mail, String cellulare, int contratto, int contributi, int coordinatore) {
+		Corriere corriereAssunto;
+		if(coordinatore == -1)
+			corriereAssunto = new Corriere(codiceFiscale,nome,cognome,dataDiNascita,patenti,mail,cellulare,contratto,contributi,null,true);
+		else
+			corriereAssunto = new Corriere(codiceFiscale,nome,cognome,dataDiNascita,patenti,mail,cellulare,contratto,contributi,supervisori.get(coordinatore).getCodiceFiscale(),true);
+		mailSender.mandaMailAssunzioneCorriere(corriereAssunto);
+	}
+	
 	
 
 

@@ -9,6 +9,7 @@ public class Corriere extends Persona {
 	private String patente;
 	private int contratto;
 	private int anniContributi;
+	//private Corriere coordinatore;
 	private String codiceFiscaleCordinatore;
 	private ArrayList<Spedizione> spedizioni;
 
