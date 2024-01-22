@@ -1,5 +1,6 @@
 package UniDy.UninaDelivery;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -320,6 +321,43 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		
 	
 	}
+
+	@Override
+	public ArrayList<Ordine> dammiTuttiOrdini(Spedizione spedizioneAggiornata) throws RisultatoNonRicavabileException {
+
+		ArrayList<Ordine> ordini = new ArrayList<Ordine>();
+		Ordine tempOrdine = null;
+		String comando = "SELECT datae,dataconsegna,email,nome,cognome FROM ORDINE NATURAL JOIN Cliente NATURAL JOIN VIAGGIO WHERE Corrente = TRUE AND codSpedizione = '"+ spedizioneAggiornata.getCodSpedizione() +"';";
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		
+		try {
+			
+			while(comunicazioneSQL.prossimaRiga()) {
+				tempOrdine = new Ordine(null, null);
+				Date data = risultato.getDate(1);
+				tempOrdine.setDataE(data.toLocalDate());
+				data = risultato.getDate(2);
+				tempOrdine.setDataConsegna(data.toLocalDate());
+				tempOrdine.setAcquirente(new Cliente(null, risultato.getString(4),risultato.getString(5), null, risultato.getString(3), null, null));		
+	
+			}
+			
+			ordini.add(tempOrdine);
+		} catch (SQLException e) {
+			throw new RisultatoNonRicavabileException();
+		}
+		
+		
+		
+		
+		
+		return ordini;
+	}
+
+	
+	
+	
 	
 	
 }

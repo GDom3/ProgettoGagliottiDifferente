@@ -312,9 +312,9 @@ public class AppBrain {
 			String responso = ordineDAO.aggiornaStatoOrdine(ordineAggiornato);
 		
 			if(responso.equals("OK")){
+				informaEmailOrdineStatoModificato(ordineSelezionato,StatoOrdine);
 				String msg = "Stato ordine modificato Correttamente.\nDettaglio : L'ordine "+ordineSelezionato+" ha come nuovo stato "+StatoOrdine;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
-				informaEmailOrdineStatoModificato(ordineSelezionato,StatoOrdine);
 				datiOrdiniWindow.setVisible(true);
 				cambiaStatoWindow.setVisible(false);
 			}else{
@@ -326,7 +326,7 @@ public class AppBrain {
 	}
 	
 	
-	public void confermaNuovoStatoSpedizione(String spedizioneSelezionata, String spedizioneStato, Object elementAt) throws RisultatoNonRicavabileException {
+	public void confermaNuovoStatoSpedizione(String spedizioneSelezionata, String spedizioneStato, Object elementAt) throws RisultatoNonRicavabileException, EmailException {
 		String StatoSpedizione = elementAt.toString();
 		if(spedizioneStato.equals(StatoSpedizione)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
@@ -338,6 +338,12 @@ public class AppBrain {
 			String responso = spedizioneDAO.aggiornaStatoSpedizione(spedizioneAggiornata);
 		
 			if(responso.equals("OK")){
+				ArrayList<Ordine> ordini = spedizioneDAO.dammiTuttiOrdini(spedizioneAggiornata);
+				
+				for(Ordine ordine : ordini)
+					mailSender.informaStatoOrdineCambiato(ordine);
+					
+
 				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata+" ha come nuovo stato "+StatoSpedizione;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
 				datiOrdiniWindow.setVisible(true);
@@ -731,7 +737,7 @@ public class AppBrain {
 		mailSender.informaStatoOrdineCambiato(ordineModificato);
 		
 	}
-
+	
 
 	
 	

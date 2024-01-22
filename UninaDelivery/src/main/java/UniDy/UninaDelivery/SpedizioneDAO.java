@@ -36,4 +36,6 @@ public interface SpedizioneDAO {
 
 	void inserisciOrdineInSpedizione(Spedizione spedizione, Ordine ordine) throws OperazioneUpdateNonRiuscitaException;
 
+	ArrayList<Ordine> dammiTuttiOrdini(Spedizione spedizioneAggiornata) throws RisultatoNonRicavabileException;
+
 }
