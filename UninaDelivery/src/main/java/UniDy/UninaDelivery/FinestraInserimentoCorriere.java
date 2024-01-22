@@ -24,6 +24,9 @@ import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
+
+import org.apache.commons.mail.EmailException;
+
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
@@ -490,6 +493,11 @@ public class FinestraInserimentoCorriere extends JFrame {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
 				} catch (OperazioneUpdateNonRiuscitaException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (EmailException e1) {
+					if(e1.getMessage().contains("domain"))
+						messaggioPopUp("Dominio non adatto","Attenzione");
+					else
+						messaggioPopUp(e1.getMessage(),"Errore");
 				}
 			}
 		});

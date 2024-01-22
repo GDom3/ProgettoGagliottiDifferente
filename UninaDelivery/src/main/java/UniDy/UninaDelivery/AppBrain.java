@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
+import org.apache.commons.mail.EmailException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -518,13 +519,13 @@ public class AppBrain {
 	protected String ordineConMaggiorProdotti (int anno) throws RisultatoNonRicavabileException {
 		 Ordine ord = ordineDAO.ordineConMaggiorProdotti(anno);
 		 
-		 return ord.getCodOrdine() + " con " + ord.getNumMerci();
+		 return "n"+ord.getCodOrdine() + " con " + ord.getNumMerci();
 	}
 	
 	protected String ordineConMinorProdotti (int anno) throws RisultatoNonRicavabileException {
 		Ordine ord = ordineDAO.ordineConMinorProdotti(anno);
 		 
-		return ord.getCodOrdine() + " con " + ord.getNumMerci();
+		return "n"+ord.getCodOrdine() + " con " + ord.getNumMerci();
 
 	}
 
@@ -711,7 +712,7 @@ public class AppBrain {
 		mailSender.mandaMailaCliente(iscritto);
 	}
 
-	protected void mandaMailAssunzione(String codiceFiscale, String nome, String cognome, LocalDate dataDiNascita, String patenti,String mail, String cellulare, int contratto, int contributi, int coordinatore) {
+	protected void mandaMailAssunzione(String codiceFiscale, String nome, String cognome, LocalDate dataDiNascita, String patenti,String mail, String cellulare, int contratto, int contributi, int coordinatore) throws EmailException {
 		Corriere corriereAssunto;
 		if(coordinatore == -1)
 			corriereAssunto = new Corriere(codiceFiscale,nome,cognome,dataDiNascita,patenti,mail,cellulare,contratto,contributi,null,true);

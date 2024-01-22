@@ -9,8 +9,8 @@ public class Corriere extends Persona {
 	private String patente;
 	private int contratto;
 	private int anniContributi;
-	//private Corriere coordinatore;
-	private String codiceFiscaleCordinatore;
+	private Corriere coordinatore;
+	//private String codiceFiscaleCordinatore;
 	private ArrayList<Spedizione> spedizioni;
 
 	protected Corriere(String CodFisc, String Nome,String Cognome, LocalDate dataNascita, String patenti, String email, String numCell, int contratto, int anni, String codCordinatore, boolean b) {
@@ -23,10 +23,15 @@ public class Corriere extends Persona {
 		setNumeroCellulare(numCell);
 		this.contratto = contratto;
 		anniContributi = anni;
-		codiceFiscaleCordinatore =codCordinatore;
+		coordinatore = new Corriere(codCordinatore);
+		//codiceFiscaleCordinatore =codCordinatore;
 		disponibilità = b;
 	
 		
+	}
+	
+	protected Corriere(String CodFisc){
+		setCodiceFiscale(CodFisc);
 	}
 
 
@@ -53,7 +58,7 @@ public class Corriere extends Persona {
 	protected void setAnniContributi(int anniContributi) {
 		this.anniContributi = anniContributi;
 	}
-
+/*
 	protected String getCodiceFiscaleCordinatore() {
 		return codiceFiscaleCordinatore;
 	}
@@ -61,7 +66,7 @@ public class Corriere extends Persona {
 	protected void setCodiceFiscaleCordinatore(String codiceFiscaleCordinatore) {
 		this.codiceFiscaleCordinatore = codiceFiscaleCordinatore;
 	}
-
+*/
 	protected ArrayList<Spedizione> getSpedizioni() {
 		return spedizioni;
 	}
@@ -76,6 +81,14 @@ public class Corriere extends Persona {
 
 	protected void setPatente(String patente) {
 		this.patente = patente;
+	}
+
+	protected Corriere getCoordinatore() {
+		return coordinatore;
+	}
+
+	protected void setCoordinatore(Corriere coordinatore) {
+		this.coordinatore = coordinatore;
 	}
 	
 	

@@ -2,6 +2,7 @@ package UniDy.UninaDelivery;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
 import java.io.BufferedReader;
@@ -77,66 +78,54 @@ public class UninaDeliveryMailSender {
     
     
     
-    protected void mandaMailAssunzioneCorriere(Corriere corriere) {
-        leggiCredenziali();
+	protected void mandaMailAssunzioneCorriere(Corriere corriere) throws EmailException {
+		leggiCredenziali();
 
-        try {
-            // Verifica che l'indirizzo email del mittente non sia nullo o vuoto
-            if (mail == null || mail.isEmpty()) {
-                throw new RuntimeException("Indirizzo email del mittente non valido");
-            }
+		// Creazione di un oggetto Email (si utilizza SimpleEmail per un'email semplice)
+		Email email = new SimpleEmail();
 
-            // Creazione di un oggetto Email (si utilizza SimpleEmail per un'email semplice)
-            Email email = new SimpleEmail();
+		// Configurazione dei dettagli del server SMTP di Outlook
+		email.setHostName("smtp-mail.outlook.com");
+		email.setSmtpPort(587);
 
-            // Configurazione dei dettagli del server SMTP di Outlook
-            email.setHostName("smtp-mail.outlook.com");
-            email.setSmtpPort(587);
+		// Autenticazione con un nome utente e una password
+		email.setAuthenticator(new DefaultAuthenticator(mail, password));
 
-            // Autenticazione con un nome utente e una password
-            email.setAuthenticator(new DefaultAuthenticator(mail, password));
+		// Abilita l'uso di TLS per la connessione sicura
+		email.setStartTLSEnabled(true);
 
-            // Abilita l'uso di TLS per la connessione sicura
-            email.setStartTLSEnabled(true);
+		// Indirizzo email del mittente
+		email.setFrom(mail);
 
-            // Indirizzo email del mittente
-            email.setFrom(mail);
+		// Indirizzo email del destinatario
+		email.addTo(corriere.getEmail());
 
-            // Indirizzo email del destinatario
-            email.addTo(corriere.getEmail());
+		// Oggetto dell'email
+		email.setSubject("Assunzione presso UninaDelivery");
 
-            // Oggetto dell'email
-            email.setSubject("Assunzione presso UninaDelivery");
-            
-            // Corpo del messaggio dell'email
-            String messaggio = "Gentile " + corriere.getNome() + " " + corriere.getCognome() + ",\n\n" +
-                    "Siamo felici di informarti che sei stato assunto presso UninaDelivery come corriere.\n" +
-                    "Dettagli dell'assunzione:\n" +
-                    "- Patenti possedute: " + corriere.getPatente()+"\n" +
-                    "- Salario: " + corriere.getContratto() + "€\n\n" +
-                    "- Recapito contatto : " + corriere.getNumeroCellulare() + "\n\n" +
-                    "- mail: " + corriere.getEmail() + "\n\n";
-            
-            //if(corriere.getCodiceFiscaleCordinatore() != null)
-            	//messaggio = messaggio + "\n\nPuoi chiedere iformazioni al tuo coordinatore: "+ corriere.getCodiceFiscaleCordinatore();            	
-            
-       
-            messaggio = messaggio + "\n\nBenvenuto nel nostro team!\n\n" +
-                                   "Cordiali saluti,\nLo staff UninaDelivery";
-            
-            email.setMsg(messaggio);
+		// Corpo del messaggio dell'email
+		String messaggio = "Gentile " + corriere.getNome() + " " + corriere.getCognome() + ",\n\n"
+				+ "Siamo felici di informarti che sei stato assunto presso UninaDelivery come corriere.\n"
+				+ "Dettagli dell'assunzione:\n" + "- Patenti possedute: " + corriere.getPatente() + "\n" + "- Salario: "
+				+ corriere.getContratto() + "€\n\n" + "- Recapito contatto : " + corriere.getNumeroCellulare() + "\n\n"
+				+ "- mail: " + corriere.getEmail() + "\n\n";
 
-            // Invia l'email
-            email.send();
+		// if(corriere.getCodiceFiscaleCordinatore() != null)
+		// messaggio = messaggio + "\n\nPuoi chiedere iformazioni al tuo coordinatore:
+		// "+ corriere.getCodiceFiscaleCordinatore();
 
-            // Stampa un messaggio di conferma nella console (puoi scommentare questa linea se desideri)
-            // System.out.println("Email inviata con successo a: " + destinatario);
-        } catch (Exception e) {
-            // Se si verifica un'eccezione, la rilancia come RuntimeException (può essere gestita a livello superiore)
-            throw new RuntimeException(e);
-        }
-    }
+		messaggio = messaggio + "\n\nBenvenuto nel nostro team!\n\n" + "Cordiali saluti,\nLo staff UninaDelivery";
 
+		email.setMsg(messaggio);
+
+		// Invia l'email
+		email.send();
+
+		// Stampa un messaggio di conferma nella console (puoi scommentare questa linea
+		// se desideri)
+		// System.out.println("Email inviata con successo a: " + destinatario);
+
+	}
     
     
 }

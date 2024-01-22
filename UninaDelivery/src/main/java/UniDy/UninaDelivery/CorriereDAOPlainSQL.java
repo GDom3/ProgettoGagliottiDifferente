@@ -77,9 +77,8 @@ public class CorriereDAOPlainSQL implements CorriereDAO {
 		String comando = "INSERT INTO Corriere SELECT MAX(codCorriere)+1,'"+ corriere.getCodiceFiscale()+"','"+corriere.getNome()+"','"
 				+ corriere.getCognome()+"','"+corriere.getEmail()+"','"+corriere.getNumeroCellulare()+"','"+corriere.getDataNascita()+"',"
 						+ corriere.getContratto()+","+corriere.getAnniContributi()+",true,'"+corriere.getPatente()+"',"+"("
-								+ "SELECT CodCorriere FROM Corriere WHERE CodiceFiscale = '"+corriere.getCodiceFiscaleCordinatore()+"'),1 FROM Corriere;";
+								+ "SELECT CodCorriere FROM Corriere WHERE CodiceFiscale = '"+corriere.getCoordinatore().getCodiceFiscale()+"'),1 FROM Corriere;";
 	
-		
 		comunicazioneSQL.mandaQDDL_DML(comando);
 		
 		
