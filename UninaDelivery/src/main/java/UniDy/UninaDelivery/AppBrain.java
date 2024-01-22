@@ -339,11 +339,10 @@ public class AppBrain {
 		
 			if(responso.equals("OK")){
 				ArrayList<Ordine> ordini = spedizioneDAO.dammiTuttiOrdini(spedizioneAggiornata);
-				
+				System.out.println(ordini.size());
 				for(Ordine ordine : ordini)
 					mailSender.informaStatoOrdineCambiato(ordine);
 					
-
 				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata+" ha come nuovo stato "+StatoSpedizione;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
 				datiOrdiniWindow.setVisible(true);

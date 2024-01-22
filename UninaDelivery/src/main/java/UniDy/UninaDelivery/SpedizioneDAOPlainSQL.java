@@ -327,7 +327,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 
 		ArrayList<Ordine> ordini = new ArrayList<Ordine>();
 		Ordine tempOrdine = null;
-		String comando = "SELECT datae,dataconsegna,email,nome,cognome FROM ORDINE NATURAL JOIN Cliente NATURAL JOIN VIAGGIO WHERE Corrente = TRUE AND codSpedizione = '"+ spedizioneAggiornata.getCodSpedizione() +"';";
+		String comando = "SELECT datae,dataconsegna,email,nome,cognome,statoOrdine FROM ORDINE NATURAL JOIN Cliente NATURAL JOIN VIAGGIO WHERE Corrente = TRUE AND codSpedizione = '"+ spedizioneAggiornata.getCodSpedizione() +"';";
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
 		
@@ -340,10 +340,11 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 				data = risultato.getDate(2);
 				tempOrdine.setDataConsegna(data.toLocalDate());
 				tempOrdine.setAcquirente(new Cliente(null, risultato.getString(4),risultato.getString(5), null, risultato.getString(3), null, null));		
-	
+				tempOrdine.setStatoOrdine(risultato.getString(6));
+				ordini.add(tempOrdine);
 			}
 			
-			ordini.add(tempOrdine);
+			
 		} catch (SQLException e) {
 			throw new RisultatoNonRicavabileException();
 		}

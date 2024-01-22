@@ -143,18 +143,13 @@ public class UninaDeliveryMailSender {
 		email.setSubject("Cambio Stato Ordine UninaDelivery");
 
 		// Corpo del messaggio dell'email
-		String messaggio = "SENTILE "+ ordineModificato.getAcquirente().getNome()+ " " + ordineModificato.getAcquirente().getCognome()+" Le informiamo che il suo ordine ha subito una variazione di stato \n\n "
+		String messaggio = "GENTILE "+ ordineModificato.getAcquirente().getNome()+ " " + ordineModificato.getAcquirente().getCognome()+".\nLe informiamo che il suo ordine ha subito una variazione di stato \n\n "
 				+ "-STATO ATTUALE :  "+ordineModificato.getStatoOrdine()
 				+ "\n -DATA ACQUISTO : "+ordineModificato.getDataE()+""
 				+ "\n -DATA ARRIVO : "+ordineModificato.getDataConsegna();
 		
-		
-
-		// if(corriere.getCodiceFiscaleCordinatore() != null)
-		// messaggio = messaggio + "\n\nPuoi chiedere iformazioni al tuo coordinatore:
-		// "+ corriere.getCodiceFiscaleCordinatore();
-
-		messaggio = messaggio + "\n\nBenvenuto nel nostro team!\n\n" + "Cordiali saluti,\nLo staff UninaDelivery";
+	
+		messaggio = messaggio + "\n\nCordiali saluti,\nLo staff UninaDelivery";
 
 		email.setMsg(messaggio);
 
