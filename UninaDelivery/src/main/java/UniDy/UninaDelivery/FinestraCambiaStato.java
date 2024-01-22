@@ -97,7 +97,7 @@ public class FinestraCambiaStato extends JFrame {
 						gestoreApplicazione.confermaNuovoStatoSpedizione(spedizioneSelezionata,spedizioneStato,modelloStatiSpedizioni.getElementAt(statiBox.getSelectedIndex()));
 					else {
 						gestoreApplicazione.confermaNuovoStatoOrdine(ordineSelezionato,ordineStato,modelloStatiOrdini.getElementAt(statiBox.getSelectedIndex()));
-						gestoreApplicazione.informaEmailOrdineStatoModificato(ordineSelezionato,ordineStato,modelloStatiOrdini.getElementAt(statiBox.getSelectedIndex()));
+						
 					}
 				} catch (RisultatoNonRicavabileException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());

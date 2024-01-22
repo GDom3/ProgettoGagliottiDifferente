@@ -301,7 +301,7 @@ public class AppBrain {
 
 
 	
-	protected void confermaNuovoStatoOrdine(String ordineSelezionato, Object statoOriginale, Object stato) throws RisultatoNonRicavabileException {
+	protected void confermaNuovoStatoOrdine(String ordineSelezionato, Object statoOriginale, Object stato) throws RisultatoNonRicavabileException, EmailException {
 		String StatoOrdine = stato.toString();
 		if(statoOriginale.equals(StatoOrdine)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
@@ -314,6 +314,7 @@ public class AppBrain {
 			if(responso.equals("OK")){
 				String msg = "Stato ordine modificato Correttamente.\nDettaglio : L'ordine "+ordineSelezionato+" ha come nuovo stato "+StatoOrdine;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
+				informaEmailOrdineStatoModificato(ordineSelezionato,StatoOrdine);
 				datiOrdiniWindow.setVisible(true);
 				cambiaStatoWindow.setVisible(false);
 			}else{
@@ -722,8 +723,8 @@ public class AppBrain {
 	}
 
 
-	public void informaEmailOrdineStatoModificato(String ordineSelezionato, String ordineStato, Object elementAt) throws RisultatoNonRicavabileException, EmailException {
-		Ordine ordineModificato = new Ordine(ordineSelezionato, elementAt.toString());
+	public void informaEmailOrdineStatoModificato(String ordineSelezionato, String ordineStato) throws RisultatoNonRicavabileException, EmailException {
+		Ordine ordineModificato = new Ordine(ordineSelezionato, ordineStato);
 		
 		ordineModificato = ordineDAO.dammiIformazioni(ordineModificato);
 		

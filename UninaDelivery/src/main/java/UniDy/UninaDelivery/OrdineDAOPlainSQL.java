@@ -219,22 +219,18 @@ public class OrdineDAOPlainSQL implements OrdineDAO {
 	@Override
 	public Ordine dammiIformazioni(Ordine ordineModificato) throws RisultatoNonRicavabileException {
 		
-		String comando = "SELECT datae,dataconsegna,email,nome,cognome FROM ORDINE NATURAL JOIN Cliente WHERE codordine = '"+ordineModificato.getCodOrdine() +";";
+		String comando = "SELECT datae,dataconsegna,email,nome,cognome FROM ORDINE NATURAL JOIN Cliente WHERE codordine = '"+ordineModificato.getCodOrdine() +"';";
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
 		
 		
 		try {
 			comunicazioneSQL.prossimaRiga();
-		
-			LocalDate dataEffettiva = DateToLocalDate(risultato.getDate(1));
-			ordineModificato.setDataE(dataEffettiva);
-			dataEffettiva = DateToLocalDate(risultato.getDate(2));
-			ordineModificato.setDataConsegna(dataEffettiva);
-			ordineModificato.getAcquirente().setEmail(risultato.getString(3));
-			ordineModificato.getAcquirente().setNome(risultato.getString(4));
-			ordineModificato.getAcquirente().setCognome(risultato.getString(5));
-			
+			Date data = risultato.getDate(1);
+			ordineModificato.setDataE(data.toLocalDate());
+			data = risultato.getDate(2);
+			ordineModificato.setDataConsegna(data.toLocalDate());
+			ordineModificato.setAcquirente(new Cliente(null, risultato.getString(4),risultato.getString(5), null, risultato.getString(3), null, null));		
 		
 		} catch (SQLException e) {
 			throw new RisultatoNonRicavabileException();
@@ -243,10 +239,7 @@ public class OrdineDAOPlainSQL implements OrdineDAO {
 		return ordineModificato;
 	}
 
-	
-	private LocalDate DateToLocalDate(Date data) {
-		return LocalDate.ofInstant(data.toInstant(), ZoneId.systemDefault());
-	}
+
 	
 	
 

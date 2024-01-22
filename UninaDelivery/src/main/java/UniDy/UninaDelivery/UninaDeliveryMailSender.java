@@ -144,9 +144,9 @@ public class UninaDeliveryMailSender {
 
 		// Corpo del messaggio dell'email
 		String messaggio = "SENTILE "+ ordineModificato.getAcquirente().getNome()+ " " + ordineModificato.getAcquirente().getCognome()+" Le informiamo che il suo ordine ha subito una variazione di stato \n\n "
-				+ "			+-STATO ATTUALE :  "+ordineModificato.getStatoOrdine()
-							+ "\n\n -DATA ACQUISTO : "+ordineModificato.getDataE()+""
-							+ "\n\n -DATA ARRIVO : "+ordineModificato.getDataConsegna();
+				+ "-STATO ATTUALE :  "+ordineModificato.getStatoOrdine()
+				+ "\n -DATA ACQUISTO : "+ordineModificato.getDataE()+""
+				+ "\n -DATA ARRIVO : "+ordineModificato.getDataConsegna();
 		
 		
 
@@ -167,11 +167,7 @@ public class UninaDeliveryMailSender {
 
 		
 		
-		
-		
-		
-		
-		
+
 	}
     
     
