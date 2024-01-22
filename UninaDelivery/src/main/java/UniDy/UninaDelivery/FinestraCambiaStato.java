@@ -8,6 +8,9 @@ import java.awt.Toolkit;
 import javax.swing.JButton;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+
+import org.apache.commons.mail.EmailException;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
@@ -92,11 +95,17 @@ public class FinestraCambiaStato extends JFrame {
 					
 					if(parole[0].equals("Spedizione"))
 						gestoreApplicazione.confermaNuovoStatoSpedizione(spedizioneSelezionata,spedizioneStato,modelloStatiSpedizioni.getElementAt(statiBox.getSelectedIndex()));
-					else
+					else {
 						gestoreApplicazione.confermaNuovoStatoOrdine(ordineSelezionato,ordineStato,modelloStatiOrdini.getElementAt(statiBox.getSelectedIndex()));
-					
+						gestoreApplicazione.informaEmailOrdineStatoModificato(ordineSelezionato,ordineStato,modelloStatiOrdini.getElementAt(statiBox.getSelectedIndex()));
+					}
 				} catch (RisultatoNonRicavabileException e1) {
 					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+				} catch (EmailException e1) {
+					if(e1.getMessage().contains("domain"))
+						messaggioPopUp("Dominio non adatto","Attenzione");
+					else
+						messaggioPopUp(e1.getMessage(),"Errore");
 				}
 				
 			}

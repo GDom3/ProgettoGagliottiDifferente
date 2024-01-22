@@ -367,6 +367,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
           	
                 	try {
 						gestoreApplicazione.modificaStatoOrdine(tabellaOrdini.getValueAt(rigaSelezionata, colonnaSelezionata));
+						
 					} catch (CreazioneStatementFallitaException e1) {
 						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
 					} catch (ConnessionNonRiuscitaException e1) {

@@ -707,7 +707,7 @@ public class AppBrain {
 	}
 
 	
-	protected void mandaMailIscrizione(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,String numCell, String radioScelta) {
+	protected void mandaMailIscrizione(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,String numCell, String radioScelta) throws EmailException {
 		Cliente iscritto = new Cliente (cf,nome,cognome,dataDiNascita,email,numCell,radioScelta); 
 		mailSender.mandaMailaCliente(iscritto);
 	}
@@ -720,6 +720,18 @@ public class AppBrain {
 			corriereAssunto = new Corriere(codiceFiscale,nome,cognome,dataDiNascita,patenti,mail,cellulare,contratto,contributi,supervisori.get(coordinatore).getCodiceFiscale(),true);
 		mailSender.mandaMailAssunzioneCorriere(corriereAssunto);
 	}
+
+
+	public void informaEmailOrdineStatoModificato(String ordineSelezionato, String ordineStato, Object elementAt) throws RisultatoNonRicavabileException, EmailException {
+		Ordine ordineModificato = new Ordine(ordineSelezionato, elementAt.toString());
+		
+		ordineModificato = ordineDAO.dammiIformazioni(ordineModificato);
+		
+		mailSender.informaStatoOrdineCambiato(ordineModificato);
+		
+	}
+
+
 	
 	
 

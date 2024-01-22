@@ -1,5 +1,6 @@
 package UniDy.UninaDelivery;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface OrdineDAO {
@@ -21,5 +22,7 @@ public interface OrdineDAO {
 	Ordine ordineConMaggiorProdotti(int anno) throws RisultatoNonRicavabileException;
 
 	Ordine ordineConMinorProdotti(int anno) throws RisultatoNonRicavabileException;
+
+	Ordine dammiIformazioni(Ordine ordineModificato) throws RisultatoNonRicavabileException;
 
 }

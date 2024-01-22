@@ -1,7 +1,10 @@
 package UniDy.UninaDelivery;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class OrdineDAOPlainSQL implements OrdineDAO {
@@ -212,8 +215,38 @@ public class OrdineDAOPlainSQL implements OrdineDAO {
 		
 		return ord;
 	}
+	
+	@Override
+	public Ordine dammiIformazioni(Ordine ordineModificato) throws RisultatoNonRicavabileException {
+		
+		String comando = "SELECT datae,dataconsegna,email,nome,cognome FROM ORDINE NATURAL JOIN Cliente WHERE codordine = '"+ordineModificato.getCodOrdine() +";";
+		
+		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
+		
+		
+		try {
+			comunicazioneSQL.prossimaRiga();
+		
+			LocalDate dataEffettiva = DateToLocalDate(risultato.getDate(1));
+			ordineModificato.setDataE(dataEffettiva);
+			dataEffettiva = DateToLocalDate(risultato.getDate(2));
+			ordineModificato.setDataConsegna(dataEffettiva);
+			ordineModificato.getAcquirente().setEmail(risultato.getString(3));
+			ordineModificato.getAcquirente().setNome(risultato.getString(4));
+			ordineModificato.getAcquirente().setCognome(risultato.getString(5));
+			
+		
+		} catch (SQLException e) {
+			throw new RisultatoNonRicavabileException();
+		}
+		
+		return ordineModificato;
+	}
 
-
+	
+	private LocalDate DateToLocalDate(Date data) {
+		return LocalDate.ofInstant(data.toInstant(), ZoneId.systemDefault());
+	}
 	
 	
 
