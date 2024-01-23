@@ -339,7 +339,6 @@ public class AppBrain {
 		
 			if(responso.equals("OK")){
 				ArrayList<Ordine> ordini = spedizioneDAO.dammiTuttiOrdini(spedizioneAggiornata);
-				System.out.println(ordini.size());
 				for(Ordine ordine : ordini)
 					mailSender.informaStatoOrdineCambiato(ordine);
 					

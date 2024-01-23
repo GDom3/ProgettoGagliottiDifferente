@@ -111,8 +111,6 @@ public class UninaDeliveryMailSender {
 		// Invia l'email
 		email.send();
 
-		// Stampa un messaggio di conferma nella console (puoi scommentare questa linea
-		// se desideri)
 		// System.out.println("Email inviata con successo a: " + destinatario);
 
 	}
@@ -143,7 +141,7 @@ public class UninaDeliveryMailSender {
 		email.setSubject("Cambio Stato Ordine UninaDelivery");
 
 		// Corpo del messaggio dell'email
-		String messaggio = "GENTILE "+ ordineModificato.getAcquirente().getNome()+ " " + ordineModificato.getAcquirente().getCognome()+".\nLe informiamo che il suo ordine ha subito una variazione di stato \n\n "
+		String messaggio = "Gentile "+ ordineModificato.getAcquirente().getNome()+ " " + ordineModificato.getAcquirente().getCognome()+".\nLe informiamo che il suo ordine ha subito una variazione di stato \n\n "
 				+ "-STATO ATTUALE :  "+ordineModificato.getStatoOrdine()
 				+ "\n -DATA ACQUISTO : "+ordineModificato.getDataE()+""
 				+ "\n -DATA ARRIVO : "+ordineModificato.getDataConsegna();
@@ -156,8 +154,7 @@ public class UninaDeliveryMailSender {
 		// Invia l'email
 		email.send();
 
-		// Stampa un messaggio di conferma nella console (puoi scommentare questa linea
-		// se desideri)
+
 		// System.out.println("Email inviata con successo a: " + destinatario);
 
 		
