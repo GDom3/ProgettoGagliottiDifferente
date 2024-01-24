@@ -47,6 +47,7 @@ public class AppBrain {
 	private MerceDAO merceDAO;
 	private FornitoreDAO fornitoreDAO;
 	private MagazzinoDAO magazzinoDAO;
+	
 	//Oggetti Utili
 	private ArrayList<Spedizione> spedizioni;	
 	//Nuova Sped 	
@@ -68,8 +69,7 @@ public class AppBrain {
 		private ArrayList<Magazzino> magazzini;
 		private ArrayList<Merce> merci;
 	//nuova Merce
-		private ArrayList<Fornitore> fornitori;
-		
+		private ArrayList<Fornitore> fornitori;	
 	//mail
 		private UninaDeliveryMailSender mailSender;
 	
@@ -111,6 +111,7 @@ public class AppBrain {
 		operatorePrincipale = new Operatore(null,null);
 		nuovoOperatore = new Operatore(null,null);
 		mailSender = new UninaDeliveryMailSender();		
+		
 		//Inizializzaziione DAO
 		operatoreDAO = new OperatoreDAOPlainSQL(comunicazioneSQL);
 		spedizioneDAO = new SpedizioneDAOPlainSQL(comunicazioneSQL);
@@ -178,13 +179,14 @@ public class AppBrain {
 		
 	}
 
-
+	//Metodo che chiude la connessione prima che l'applicazione sia chiusa
 	protected int exit() {
 		BufferedWriter buffer;
 		
 		try {
 			comunicazioneSQL.chiudiComunicazioneDatabase();
 		} catch (ChiusturaComunicazioneFallitaException e) {
+			//Scrivo su un log l'errore
             try {
 				buffer = new BufferedWriter (new FileWriter(new File("src/main/java/File/LogErroriChiusuraConnessione.txt")));
 				buffer.append(LocalDate.now().toString() + " Errore Chiusura");
@@ -202,7 +204,7 @@ public class AppBrain {
 	
 	
 	protected void filtra() throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException  {
-		
+		//Prende tutte le spedizioni attive
 		spedizioni = spedizioneDAO.ricavaSpedizioni("");
 		stampaInTablella();
 				
@@ -210,7 +212,7 @@ public class AppBrain {
 	}
 	
 	
-	
+	//Metodo che filtra avendo tutti i tipi di dati con i quali filtrare
 	protected void filtraConTutto(String cliente, LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException{
 		if(datiOrdiniWindow.IsDataEsecuzioneSelezionato())
 			spedizioni = spedizioneDAO.ricavaSpedizioniPerUtenteEDateE(cliente, dataInizio, dataFine);
@@ -221,7 +223,7 @@ public class AppBrain {
 		stampaInTablella();
 	}
  
-	
+	//metodo che filtra le spedizioni solo con le date
 	protected void filtraSoloData(LocalDate dataInizio, LocalDate dataFine) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException  {
 		if(datiOrdiniWindow.IsDataEsecuzioneSelezionato())
 			spedizioni = spedizioneDAO.ricavaSpedizioniPerDateE(dataInizio, dataFine);
@@ -232,7 +234,7 @@ public class AppBrain {
 			
 	}
 
-	
+	//metodo che filtra le spedizioni solo con il cliente
 	protected void filtraSoloCliente(String cliente) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {	
 		spedizioni = spedizioneDAO.ricavaSpedizioniPerCliente(cliente);
 		
@@ -241,30 +243,30 @@ public class AppBrain {
 		
 	}
 
-
+	//Riempie la tabella 
 	private void stampaInTablella() {
 		datiOrdiniWindow.svuotaTabella();
-		
+		//Per ogni ordine in tutte le spedizione aggiungo una tupla alla tabella con tutte le specifivhe 
 		for (Spedizione sped : spedizioni) 
 			for(Ordine ord : sped.getOrdini()) 
 				datiOrdiniWindow.aggiungiTupla(ord.getAcquirente().getCodiceFiscale(),ord.getCodOrdine(),ord.getNumMerci(),ord.getCostoTotale(), sped.getCodSpedizione());
 		
 	}
 
-
+	//avviao il sistema per cambiare stato ad un ordine
 	protected void modificaStatoOrdine(Object valueAt) throws CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException {
 		
 		String codOrdine = valueAt.toString(); 
-		
+		//ricavo l'ordine considerato
 		Ordine ord = ordineDAO.trovaOrdine(codOrdine);
 
-		
+		//avvio finestra
 		cambiaStatoWindow.modificaStatoOrdine(ord.getCodOrdine(),ord.getStatoOrdine());
 		cambiaStatoWindow.setVisible(true);
 		datiOrdiniWindow.setVisible(false);
 	}
 
-
+	//gestione finestre
 	protected void annullaOperazioneCambioStato() {
 		datiOrdiniWindow.setVisible(true);
 		cambiaStatoWindow.setVisible(false);
@@ -272,28 +274,25 @@ public class AppBrain {
 		
 	}
 	
+	//gestione finestre
 	protected int annullaCambioStato() {
 		
 		if(!loginWindow.isVisible())
 			datiOrdiniWindow.setVisible(true);
 	
-		
-		
-		
+
 		return JFrame.DISPOSE_ON_CLOSE;
 	}
 	
-
+	//avviao il sistema per cambiare stato ad una spedizione
 	protected void modificaStatoSpedizione(Object valueAt) throws RisultatoNonRicavabileException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException {
 		
 		String codSpedizione = valueAt.toString(); 
 		
-		Spedizione sped;
+		//Ricavo spedizione considerata
+		Spedizione sped = spedizioneDAO.trovaSpedizione(codSpedizione);
 		
-		sped = spedizioneDAO.trovaSpedizione(codSpedizione);
-
-
-		
+		//aavvio finestra
 		cambiaStatoWindow.modificaStatoSpedizione(sped.getCodSpedizione(),sped.getStatoSpedizione());
 		cambiaStatoWindow.setVisible(true);
 		datiOrdiniWindow.setVisible(false);
@@ -303,21 +302,25 @@ public class AppBrain {
 	
 	protected void confermaNuovoStatoOrdine(String ordineSelezionato, Object statoOriginale, Object stato) throws RisultatoNonRicavabileException, EmailException {
 		String StatoOrdine = stato.toString();
+		
+		//Caso in cui metto lo stesso stato
 		if(statoOriginale.equals(StatoOrdine)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
 			
 		else {
-		
+			//Aggiorno l'ordine
 			Ordine ordineAggiornato = new Ordine(ordineSelezionato, StatoOrdine);
 			String responso = ordineDAO.aggiornaStatoOrdine(ordineAggiornato);
-		
+			
+			//Caso in cui è andato tutto correttamente
 			if(responso.equals("OK")){
-				informaEmailOrdineStatoModificato(ordineSelezionato,StatoOrdine);
 				String msg = "Stato ordine modificato Correttamente.\nDettaglio : L'ordine "+ordineSelezionato+" ha come nuovo stato "+StatoOrdine;
 				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
+				informaEmailOrdineStatoModificato(ordineSelezionato,StatoOrdine);
 				datiOrdiniWindow.setVisible(true);
 				cambiaStatoWindow.setVisible(false);
 			}else{
+				//Caso di fallimento
 				String msg = "Operazione non possibile.\nDettaglio : Lo stato "+ StatoOrdine +" non è coerente con lo stato "+ responso + " della spedizione" ;
 				cambiaStatoWindow.messaggioPopUp(msg, "Operazione Non Riuscita");
 			}
@@ -326,27 +329,32 @@ public class AppBrain {
 	}
 	
 	
-	public void confermaNuovoStatoSpedizione(String spedizioneSelezionata, String spedizioneStato, Object elementAt) throws RisultatoNonRicavabileException, EmailException {
+	protected void confermaNuovoStatoSpedizione(String spedizioneSelezionata, String spedizioneStato, Object elementAt) throws RisultatoNonRicavabileException, EmailException {
 		String StatoSpedizione = elementAt.toString();
+		//Caso in cui metto lo stesso stato
 		if(spedizioneStato.equals(StatoSpedizione)) 
 			datiOrdiniWindow.messaggioPopUp("Non puoi selezionare questo stato, in quanto è quello corrente","Attenzione");
 			
 		else {
-			
+			//Aggiorno la spedizione
 			Spedizione spedizioneAggiornata = new Spedizione(spedizioneSelezionata,null);
 			spedizioneAggiornata.setStatoSpedizione(StatoSpedizione);
 			String responso = spedizioneDAO.aggiornaStatoSpedizione(spedizioneAggiornata);
-		
-			if(responso.equals("OK")){
+			
+			//Caso in cui è andato tutto correttamente
+			if(responso.equals("OK")){	
+				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata+" ha come nuovo stato "+StatoSpedizione;
+				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
+				
+				//Mando email ad ogni cliente che ha un ordine in questa spedizione
 				ArrayList<Ordine> ordini = spedizioneDAO.dammiTuttiOrdini(spedizioneAggiornata);
 				for(Ordine ordine : ordini)
 					mailSender.informaStatoOrdineCambiato(ordine);
-					
-				String msg = "Stato Spedizione modificato Correttamente.\nDettaglio : spedizione "+spedizioneSelezionata+" ha come nuovo stato "+StatoSpedizione;
-				datiOrdiniWindow.messaggioPopUp(msg,"Operazione Riuscita");
+				
 				datiOrdiniWindow.setVisible(true);
 				cambiaStatoWindow.setVisible(false);
 			}else{
+				//Caso di fallimento
 				String msg = "Operazione non possibile.\nDettaglio : Lo stato "+ StatoSpedizione +" non è coerente con lo stato "+ responso + " della spedizione" ;
 				cambiaStatoWindow.messaggioPopUp(msg, "Operazione Non Riuscita");
 			}
@@ -355,7 +363,7 @@ public class AppBrain {
 	}
 
 
-
+	//Gestione Finestre
 	protected void mostraFinestraNuovaSpedizione() {
 		creazioneSpedizioneWindow.setVisible(true);
 		creazioneSpedizioneWindow.avviati();
@@ -364,37 +372,71 @@ public class AppBrain {
 		
 	}
 
-
+	//Metodi di estrazione dal database :
+	
 	protected void estraiOrdiniSenzaSpedOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
 		ordiniSenzaSpedizioneOFalliti =  ordineDAO.estraiOrdiniSenzaSpedOFalliti();
 	}
-
-
 	protected void estraiCorrieriSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException {
 		corrieriDisponibili =  corriereDAO.estraiCorrieriSenzaSped();
 	}
-
-
 	protected void estraiMezziSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
 		mezziDisponibili =  mezziTrasportoDAO.estraiMezziSenzaSped();
 	}
-
-
+	protected void dammiTuttiClienti() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
+		clientela =  clienteDAO.dammiTuttiClienti();
+	}
+	protected void estraiEsemplariNonVenduti() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
+		esemplariNonVenduti = esemplareDAO.dammiEsemplariNonvenduti();
+	}
+	protected void dammiOrdiniNonPartitiOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
+		ordiniNonPartiti =  ordineDAO.dammiOrdiniNonPartitiOFalliti();
+	}
+	protected void estraiTuttiCorrieri() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
+		supervisori = corriereDAO.estraiTuttiCorrieri();
+	}
+	protected void dammiTuttiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
+		fornitori =  fornitoreDAO.dammiTuttiFornitori();
+	}
+	protected void dammiTutteMerci() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
+		merci = merceDAO.estraiMerce();
+	}
+	protected void dammiTutteMagazzini() throws RisultatoNonRicavabileException, NonCiSonoMagazziniDisponibiliException {
+		magazzini =  magazzinoDAO.dammiTutteMagazzini();
+	}
+	protected void trovaSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartiteException, RisultatoNonRicavabileException {
+		spedizioniNonPartite =  spedizioneDAO.dammiSpedizioniNonPartite();
+	}
 	
-
-
+	//Estrazione da attributi già ricavati:
+	
+	protected String dammiCodiceOrdineDeiDisponibili(int i) {
+		return ordiniSenzaSpedizioneOFalliti.get(i).getCodOrdine();
+	}
+	protected String dammiCodiceSpedizioneDaiNonPartiti(int i) {
+		return spedizioniNonPartite.get(i).getCodSpedizione();
+	}
+	protected String dammiCodiceBarreDaEsemplariNonVenduti(int selectedIndex) {
+		return esemplariNonVenduti.get(selectedIndex).getCodiceBarre();
+	}
+	protected String dammiCodiceOrdineDaNonPartiti(int selectedIndex) {
+		return ordiniNonPartiti.get(selectedIndex).getCodOrdine();
+	}
+	
+	
+	//Mette un ordine in una spedizione esistente non ancora partita
 	protected void inserisciOrdineInSpedizione(int spedizione, int ordine) throws OperazioneUpdateNonRiuscitaException {
 			spedizioneDAO.inserisciOrdineInSpedizione(spedizioniNonPartite.get(spedizione),ordiniSenzaSpedizioneOFalliti.get(ordine));
 		
 	}
 
-
+	//Gestione Finestre
 	protected void mostraFinestraReport() {
 		datiStatisticiWindow.setVisible(true);
 		menuWindow.setVisible(false);
 	}
 
-
+	//Gestione Finestre
 	protected void mostramiSchermataCreaOrdine() {
 		creaOrdineWindow.setVisible(true);
 		creazioneSpedizioneWindow.setVisible(false);
@@ -403,44 +445,29 @@ public class AppBrain {
 		
 	}
 
-
+	//Gestione Finestre
 	protected void ritornaNuovaSpedizione(JFrame finestra) {
 		creazioneSpedizioneWindow.setVisible(true);
 		creazioneSpedizioneWindow.avviati();
 		finestra.setVisible(false);
 		
 	}
-
-
-	protected void dammiTuttiClienti() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
-		clientela =  clienteDAO.dammiTuttiClienti();
-	}
-
-
-	protected void estraiEsemplariNonVenduti() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
-		esemplariNonVenduti = esemplareDAO.dammiEsemplariNonvenduti();
-	}
-
-
-	protected void dammiOrdiniNonPartitiOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
-		ordiniNonPartiti =  ordineDAO.dammiOrdiniNonPartitiOFalliti();
-	}
-
-
+	
+	//Inserisce un esemplare in un ordine esistente non spedito ancora
 	protected void inserisciEsemplareInOrdine(int ordineIndex, int esemplareIndex) throws NonCiSonoOrdiniAttesiException {
 		esemplareDAO.inserisciEsemplareInOrdine(ordiniNonPartiti.get(ordineIndex),esemplariNonVenduti.get(esemplareIndex));
 		
 	}
 
 
-
+	//Gestione Finestre
 	protected void mostraFinestraCreazioneCliente() {
 		creaClienteWindow.setVisible(true);
 		creaOrdineWindow.setVisible(false);
 		
 	}
 
-
+	//Gestione Finestre
 	protected void ritornaNuovoOrdine(JFrame finestra) {
 		creaOrdineWindow.avviati();
 		creaOrdineWindow.setVisible(true);
@@ -448,85 +475,69 @@ public class AppBrain {
 		finestra.setVisible(false);
 		
 	}
-
+	
+	//inserisce nel database un Corriere
 	protected void assumiCorriere(String CF, String nome, String cognome, LocalDate dataNascita, String patenti, String email, String numero, int contratto, int anni, int index) throws OperazioneUpdateNonRiuscitaException {
 		
 		Corriere corriere;
 		
-		if(index < 0)
+		
+		if(index < 0) //Caso in cui è un superviore
 			corriere = new Corriere(CF,nome,cognome,dataNascita,patenti,email,numero,contratto,anni,"null",true);
-		else
+		else // Caso in cui è supervisionato da qualcuno
 			corriere = new Corriere(CF,nome,cognome,dataNascita,patenti,email,numero,contratto,anni,supervisori.get(index).getCodiceFiscale(),true);
 		
 		corriereDAO.assumiCorriere(corriere);
 		
 	}
 
-
-	protected void estraiTuttiCorrieri() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
-		supervisori = corriereDAO.estraiTuttiCorrieri();
-	}
-	
+	//Gestione Finestre
 	protected void mostramiSchermataInserimentoCorriere() {
 		inserisciCorriereWindow.avviati();
 		inserisciCorriereWindow.setVisible(true);
 		creazioneSpedizioneWindow.setVisible(false);
 	}
 
+	//Gestione Finestre
 	protected void mostramiSchermataInserimentoMezzo() {
 		inserisciMezzoWindow.setVisible(true);
 		creazioneSpedizioneWindow.setVisible(false);
 	}
 
-
+	//Gestione Finestre
 	protected void mostraFinestraCreazioneMerce() {
 		creaMerceWindow.setVisible(true);
 		creaMerceWindow.avviati();
 		creaEsemplareWindow.setVisible(false);
 	}
 	
+	//Gestione Finestre
 	protected void mostraFinestraCreazioneEsemplare() {
 		creaEsemplareWindow.setVisible(true);
 		creaEsemplareWindow.avviati();
 		creaOrdineWindow.setVisible(false);
 	}
 
-
-	
-	
-	protected void dammiTuttiFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
-		fornitori =  fornitoreDAO.dammiTuttiFornitori();
-		
-	}
-	
-	protected void dammiTutteMerci() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
-		merci = merceDAO.estraiMerce();
-	}
-
-
+	//Gestione Finestre
 	protected void ritornaEsemplare(FinestraCreazioneNuovoMerce finestraCreazioneNuovoMerce)  {
 		creaEsemplareWindow.setVisible(true);
 		creaEsemplareWindow.avviati();
 		creaMerceWindow.setVisible(false);
 	}
 
-
-	protected void dammiTutteMagazzini() throws RisultatoNonRicavabileException, NonCiSonoMagazziniDisponibiliException {
-		magazzini =  magazzinoDAO.dammiTutteMagazzini();
-	}
-
-
+	//metodi che per ogni mese di un determinato anno , riporta il numero di ordini
 	protected int[] numeroMedioOrdini(int anno) throws RisultatoNonRicavabileException {
 		return ordineDAO.numeroMedioOrdini(anno);
 	}
 	
-	
+	//Riporta l'ordine con il maggior numero di prodotti in un determinato anno
 	protected String ordineConMaggiorProdotti (int anno) throws RisultatoNonRicavabileException {
 		 Ordine ord = ordineDAO.ordineConMaggiorProdotti(anno);
 		 
 		 return "n"+ord.getCodOrdine() + " con " + ord.getNumMerci();
 	}
 	
+	//Riporta l'ordine con il minor numero di prodotti in un determinato anno
 	protected String ordineConMinorProdotti (int anno) throws RisultatoNonRicavabileException {
 		Ordine ord = ordineDAO.ordineConMinorProdotti(anno);
 		 
@@ -534,91 +545,48 @@ public class AppBrain {
 
 	}
 
-
+	//Metodi per riempire le comboBox, cioè per fornire gli array:
+	
 	protected Object[] dammiFormatoComboBoxOrdiniSenzaSpedOFalliti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
 		estraiOrdiniSenzaSpedOFalliti();
 		return ordiniSenzaSpedizioneOFalliti.toArray();
 	}
-
-
 	protected Object[] dammiFormatoComboBoxCorrieriDisponibili() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException {
 		estraiCorrieriSenzaSped();
 		return corrieriDisponibili.toArray();
 	}
-
 	protected Object[] dammiFormatoComboBoxMezziDisponibili() throws RisultatoNonRicavabileException, NonCiSonoMezziTrasportoDisponibiliException {
 		estraiMezziSenzaSped();
 		return mezziDisponibili.toArray();
 	}
-	
 	protected Object[] dammiFormatoComboBoxSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartiteException, RisultatoNonRicavabileException{
-		//Ricavo le spedizioni disponibili
 		trovaSpedizioniNonPartite();
-		
 		return spedizioniNonPartite.toArray();
 	}
-	
 	protected Object[] dammiFormatoComboBoxEsemplariNonVenduti() throws RisultatoNonRicavabileException, NonCiSonoEsemplariNonVendutiException {
 		estraiEsemplariNonVenduti();
 		return esemplariNonVenduti.toArray();
 	}
-	
 	protected Object[] dammiFormatoComboBoxClientela() throws RisultatoNonRicavabileException, NonCiSonoClientiException {
 		dammiTuttiClienti();
 		return clientela.toArray();
 	}
-	
 	protected Object[] dammiFormatoComboBoxOrdiniNonPartiti() throws RisultatoNonRicavabileException, NonCiSonoOrdiniAttesiException {
 		dammiOrdiniNonPartitiOFalliti();
 		return ordiniNonPartiti.toArray();
 	}
-	
 	protected Object[] dammiFormatoComboBoxMagazzini() throws RisultatoNonRicavabileException, NonCiSonoMagazziniDisponibiliException {
 		dammiTutteMagazzini();
 		return magazzini.toArray();
 	}
-	
 	protected Object[] dammiFormatoComboBoxMerce() throws RisultatoNonRicavabileException, NonCiSonoMerciDisponibiliException {
 		dammiTutteMerci();
 		return merci.toArray();
 	}
-	
 	protected Object[] dammiFormatoComboBoxFornitori() throws RisultatoNonRicavabileException, NonCiSonoFornitoriException {
 		dammiTuttiFornitori();
 		return fornitori.toArray();
 	}
-
-	protected void creaSpedizioneNuova(int ordineIndex, int mezzoIndex, int corrieriIndex, int km) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException, NonPossibileCreareSpedizioneException {
-		nuovaSpedizione = new Spedizione(ordiniSenzaSpedizioneOFalliti.get(ordineIndex),mezziDisponibili.get(mezzoIndex),corrieriDisponibili.get(corrieriIndex));
-
-		nuovaSpedizione.setKM(km);
-		spedizioneDAO.creaNuovaSpedizione(nuovaSpedizione);
-	}
-	
-	protected String dammiCodiceOrdineDeiDisponibili(int i) {
-		
-		return ordiniSenzaSpedizioneOFalliti.get(i).getCodOrdine();
-		
-	}
-	
-	protected String dammiCodiceSpedizioneDaiNonPartiti(int i) {
-		
-		return spedizioniNonPartite.get(i).getCodSpedizione();
-		
-	}
-	
-	protected void trovaSpedizioniNonPartite() throws NonCiSonoSpedizioniNonPartiteException, RisultatoNonRicavabileException {
-			spedizioniNonPartite =  spedizioneDAO.dammiSpedizioniNonPartite();
-	}
-
-
-	protected void registraMezzo(String Targa, String Marca, String Modello, int capienza, String patente, float costo) throws OperazioneUpdateNonRiuscitaException {
-		
-		MezzoTrasporto mezzo = new MezzoTrasporto(Targa, Marca, Modello, capienza, patente, costo);
-		mezziTrasportoDAO.registraMezzo(mezzo);
-	}
-
-
 	protected Object[] dammiFormatoComboBoxSupervisori() throws RisultatoNonRicavabileException, NonCiSonoCorrieriException {
 		estraiTuttiCorrieri();
 		ArrayList<String> formato = new ArrayList<String>();
@@ -629,46 +597,55 @@ public class AppBrain {
 		
 		return formato.toArray();
 	}
+
+	//Inserisco nel database una nuova spedizione
+	protected void creaSpedizioneNuova(int ordineIndex, int mezzoIndex, int corrieriIndex, int km) throws OperazioneUpdateNonRiuscitaException, RisultatoNonRicavabileException, NonPossibileCreareSpedizioneException {
+		//Creo spedizione
+		nuovaSpedizione = new Spedizione(ordiniSenzaSpedizioneOFalliti.get(ordineIndex),mezziDisponibili.get(mezzoIndex),corrieriDisponibili.get(corrieriIndex));
+		nuovaSpedizione.setKM(km);
+		//Inserisco  nel database
+		spedizioneDAO.creaNuovaSpedizione(nuovaSpedizione);
+	}
 	
-	protected void creaOrdine(int indexClienti, int indexEsemplari, float costo, LocalDate dataE, LocalDate dataConsegna,
-			String città, String via, String numCiv, String cap) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
-		
+
+	//Creo un nuovo mezzo
+	protected void registraMezzo(String Targa, String Marca, String Modello, int capienza, String patente, float costo) throws OperazioneUpdateNonRiuscitaException {
+		//Creo mezzo
+		MezzoTrasporto mezzo = new MezzoTrasporto(Targa, Marca, Modello, capienza, patente, costo);
+		//Inserisco  nel database
+		mezziTrasportoDAO.registraMezzo(mezzo);
+	}
+
+	//Creo nuovo ordine
+	protected void creaOrdine(int indexClienti, int indexEsemplari, float costo, LocalDate dataE, LocalDate dataConsegna,String città, String via, String numCiv, String cap) throws RisultatoNonRicavabileException, NonPossibileCreareOrdineException {
+		//Creo ordine
 		Ordine nuovoOrd = new Ordine(clientela.get(indexClienti),esemplariNonVenduti.get(indexEsemplari),costo,dataE,dataConsegna,città,via,numCiv,cap);
-		
+		//Inserisco  nel database
 		ordineDAO.creaOrdine(nuovoOrd);
 	}
 
-
-	protected String dammiCodiceBarreDaEsemplariNonVenduti(int selectedIndex) {
-		return esemplariNonVenduti.get(selectedIndex).getCodiceBarre();
-	}
-	
-	protected String dammiCodiceOrdineDaNonPartiti(int selectedIndex) {
-		return ordiniNonPartiti.get(selectedIndex).getCodOrdine();
-	}
-	
-
-	protected void registraCliente(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,
-			String numCell, String radioScelta) throws NonPossibileCreareClienteException {
-		
+	//Creo nuovo cliente
+	protected void registraCliente(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,String numCell, String radioScelta) throws NonPossibileCreareClienteException {
+		//Creo cliente
 		Cliente clienteTemp = new Cliente(cf,nome,cognome,dataDiNascita,email,numCell,radioScelta);
-		
-		
+		//Inserisco  nel database
 		clienteDAO.registraCliente(clienteTemp);
 		
 	}
 	
-	protected void creaEsemplare(String cod, String colore, float costo, LocalDate garanzia, String descrizione,
-			int indexMerce, int indexMagazzini) throws OperazioneUpdateNonRiuscitaException {
-		
+	//Creo nuovo esemplare
+	protected void creaEsemplare(String cod, String colore, float costo, LocalDate garanzia, String descrizione,int indexMerce, int indexMagazzini) throws OperazioneUpdateNonRiuscitaException {
+		//Creo esemplare
 		Esemplare esemplareTemp = new Esemplare(cod, colore, costo, garanzia, descrizione, merci.get(indexMerce), magazzini.get(indexMagazzini));
-		
+		//Inserisco  nel database
 		esemplareDAO.creaEsemplare(esemplareTemp);
 	}
 	
+	//Creo nuova merce
 	protected void creaNuovaMerce(String nome, float peso, String marca, int anno, int indexFornitore) throws NonPossibileCreareMerceException {
-		
+		//Creo merce
 		Merce merceTemp = new Merce(nome,peso,marca,anno,fornitori.get(indexFornitore));
+		//Inserisco nel database
 		merceDAO.creaNuovaMerce(merceTemp);
 		
 		
@@ -711,12 +688,12 @@ public class AppBrain {
 		
 	}
 
+	//Metodi gestione email:
 	
 	protected void mandaMailIscrizione(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,String numCell, String radioScelta) throws EmailException {
 		Cliente iscritto = new Cliente (cf,nome,cognome,dataDiNascita,email,numCell,radioScelta); 
 		mailSender.mandaMailaCliente(iscritto);
 	}
-
 	protected void mandaMailAssunzione(String codiceFiscale, String nome, String cognome, LocalDate dataDiNascita, String patenti,String mail, String cellulare, int contratto, int contributi, int coordinatore) throws EmailException {
 		Corriere corriereAssunto;
 		if(coordinatore == -1)
@@ -725,8 +702,6 @@ public class AppBrain {
 			corriereAssunto = new Corriere(codiceFiscale,nome,cognome,dataDiNascita,patenti,mail,cellulare,contratto,contributi,supervisori.get(coordinatore).getCodiceFiscale(),true);
 		mailSender.mandaMailAssunzioneCorriere(corriereAssunto);
 	}
-
-
 	public void informaEmailOrdineStatoModificato(String ordineSelezionato, String ordineStato) throws RisultatoNonRicavabileException, EmailException {
 		Ordine ordineModificato = new Ordine(ordineSelezionato, ordineStato);
 		

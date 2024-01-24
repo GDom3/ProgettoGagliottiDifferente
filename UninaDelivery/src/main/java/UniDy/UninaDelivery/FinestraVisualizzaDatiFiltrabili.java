@@ -564,7 +564,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 
 
 	protected void richiestaVisualizzareTutti() {
-		int output = JOptionPane.showConfirmDialog(this, "Vuoi vedere tutti gli ordini?", "Ritorna al menu",0 ,JOptionPane.YES_NO_OPTION);
+		int output = JOptionPane.showConfirmDialog(this, "Vuoi vedere tutti gli ordini attivi?", "Ritorna al menu",0 ,JOptionPane.YES_NO_OPTION);
 		if(output == 0)
 			try {
 				gestoreApplicazione.filtra();
