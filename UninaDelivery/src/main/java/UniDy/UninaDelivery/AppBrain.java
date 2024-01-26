@@ -110,8 +110,7 @@ public class AppBrain {
 		//Inizializzaziione DTO
 		operatorePrincipale = new Operatore(null,null);
 		nuovoOperatore = new Operatore(null,null);
-		mailSender = new UninaDeliveryMailSender();		
-		
+			
 		//Inizializzaziione DAO
 		operatoreDAO = new OperatoreDAOPlainSQL(comunicazioneSQL);
 		spedizioneDAO = new SpedizioneDAOPlainSQL(comunicazioneSQL);
@@ -123,6 +122,9 @@ public class AppBrain {
 		merceDAO = new MerceDAOPlainSQL(comunicazioneSQL);
 		fornitoreDAO = new FornitoreDAOPlainSQL(comunicazioneSQL);
 		magazzinoDAO = new MagazzinoDAOPlainSQL(comunicazioneSQL);
+		
+		//Servizio email
+		mailSender = new UninaDeliveryMailSender();	
 		
 	}
 	
@@ -300,7 +302,7 @@ public class AppBrain {
 
 
 	
-	protected void confermaNuovoStatoOrdine(String ordineSelezionato, Object statoOriginale, Object stato) throws RisultatoNonRicavabileException, EmailException {
+	protected void confermaNuovoStatoOrdine(String ordineSelezionato, Object statoOriginale, Object stato) throws RisultatoNonRicavabileException, EmailException, IOException {
 		String StatoOrdine = stato.toString();
 		
 		//Caso in cui metto lo stesso stato
@@ -329,7 +331,7 @@ public class AppBrain {
 	}
 	
 	
-	protected void confermaNuovoStatoSpedizione(String spedizioneSelezionata, String spedizioneStato, Object elementAt) throws RisultatoNonRicavabileException, EmailException {
+	protected void confermaNuovoStatoSpedizione(String spedizioneSelezionata, String spedizioneStato, Object elementAt) throws RisultatoNonRicavabileException, EmailException, IOException {
 		String StatoSpedizione = elementAt.toString();
 		//Caso in cui metto lo stesso stato
 		if(spedizioneStato.equals(StatoSpedizione)) 
@@ -690,11 +692,11 @@ public class AppBrain {
 
 	//Metodi gestione email:
 	
-	protected void mandaMailIscrizione(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,String numCell, String radioScelta) throws EmailException {
+	protected void mandaMailIscrizione(String cf, String nome, String cognome, LocalDate dataDiNascita, String email,String numCell, String radioScelta) throws EmailException, IOException {
 		Cliente iscritto = new Cliente (cf,nome,cognome,dataDiNascita,email,numCell,radioScelta); 
 		mailSender.mandaMailaCliente(iscritto);
 	}
-	protected void mandaMailAssunzione(String codiceFiscale, String nome, String cognome, LocalDate dataDiNascita, String patenti,String mail, String cellulare, int contratto, int contributi, int coordinatore) throws EmailException {
+	protected void mandaMailAssunzione(String codiceFiscale, String nome, String cognome, LocalDate dataDiNascita, String patenti,String mail, String cellulare, int contratto, int contributi, int coordinatore) throws EmailException, IOException {
 		Corriere corriereAssunto;
 		if(coordinatore == -1)
 			corriereAssunto = new Corriere(codiceFiscale,nome,cognome,dataDiNascita,patenti,mail,cellulare,contratto,contributi,null,true);
@@ -702,7 +704,7 @@ public class AppBrain {
 			corriereAssunto = new Corriere(codiceFiscale,nome,cognome,dataDiNascita,patenti,mail,cellulare,contratto,contributi,supervisori.get(coordinatore).getCodiceFiscale(),true);
 		mailSender.mandaMailAssunzioneCorriere(corriereAssunto);
 	}
-	public void informaEmailOrdineStatoModificato(String ordineSelezionato, String ordineStato) throws RisultatoNonRicavabileException, EmailException {
+	public void informaEmailOrdineStatoModificato(String ordineSelezionato, String ordineStato) throws RisultatoNonRicavabileException, EmailException, IOException {
 		Ordine ordineModificato = new Ordine(ordineSelezionato, ordineStato);
 		
 		ordineModificato = ordineDAO.dammiIformazioni(ordineModificato);

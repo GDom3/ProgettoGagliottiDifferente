@@ -10,7 +10,6 @@ public class Corriere extends Persona {
 	private int contratto;
 	private int anniContributi;
 	private Corriere coordinatore;
-	//private String codiceFiscaleCordinatore;
 	private ArrayList<Spedizione> spedizioni;
 
 	protected Corriere(String CodFisc, String Nome,String Cognome, LocalDate dataNascita, String patenti, String email, String numCell, int contratto, int anni, String codCordinatore, boolean b) {
@@ -24,9 +23,7 @@ public class Corriere extends Persona {
 		this.contratto = contratto;
 		anniContributi = anni;
 		coordinatore = new Corriere(codCordinatore);
-		//codiceFiscaleCordinatore =codCordinatore;
 		disponibilità = b;
-	
 		
 	}
 	
@@ -58,15 +55,7 @@ public class Corriere extends Persona {
 	protected void setAnniContributi(int anniContributi) {
 		this.anniContributi = anniContributi;
 	}
-/*
-	protected String getCodiceFiscaleCordinatore() {
-		return codiceFiscaleCordinatore;
-	}
-
-	protected void setCodiceFiscaleCordinatore(String codiceFiscaleCordinatore) {
-		this.codiceFiscaleCordinatore = codiceFiscaleCordinatore;
-	}
-*/
+	
 	protected ArrayList<Spedizione> getSpedizioni() {
 		return spedizioni;
 	}

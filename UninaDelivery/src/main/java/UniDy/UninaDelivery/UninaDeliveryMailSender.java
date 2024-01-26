@@ -14,16 +14,14 @@ public class UninaDeliveryMailSender {
     private String mail;
     private String password;
 
-    protected void leggiCredenziali() {
-        try (BufferedReader buffer = new BufferedReader(new FileReader(new File("src/main/java/File/mail.txt")))) {
+    protected void leggiCredenziali() throws IOException {
+        BufferedReader buffer = new BufferedReader(new FileReader(new File("src/main/java/File/mail.txt")));
             mail = buffer.readLine();
             password = buffer.readLine();
-        } catch (IOException e) {
-            e.printStackTrace(); 
-        }
+       
     }
 
-    protected void mandaMailaCliente(Cliente cliente) throws EmailException {
+    protected void mandaMailaCliente(Cliente cliente) throws EmailException, IOException {
         leggiCredenziali();
 
             // Creazione di un oggetto Email (si utilizza SimpleEmail per un'email semplice)
@@ -62,13 +60,11 @@ public class UninaDeliveryMailSender {
 
             // Invia l'email
             email.send();
-
          
     }
+   
     
-    
-    
-	protected void mandaMailAssunzioneCorriere(Corriere corriere) throws EmailException {
+	protected void mandaMailAssunzioneCorriere(Corriere corriere) throws EmailException, IOException {
 		leggiCredenziali();
 
 		// Creazione di un oggetto Email (si utilizza SimpleEmail per un'email semplice)
@@ -110,12 +106,9 @@ public class UninaDeliveryMailSender {
 
 		// Invia l'email
 		email.send();
-
-		// System.out.println("Email inviata con successo a: " + destinatario);
-
 	}
 
-	protected void informaStatoOrdineCambiato(Ordine ordineModificato) throws EmailException {
+	protected void informaStatoOrdineCambiato(Ordine ordineModificato) throws EmailException, IOException {
 		leggiCredenziali();
 
 		// Creazione di un oggetto Email (si utilizza SimpleEmail per un'email semplice)
@@ -153,12 +146,6 @@ public class UninaDeliveryMailSender {
 
 		// Invia l'email
 		email.send();
-
-
-		// System.out.println("Email inviata con successo a: " + destinatario);
-
-		
-		
 
 	}
     
