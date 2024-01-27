@@ -69,7 +69,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		setTitle("UninaDelivery");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraNuovaSpedizione.class.getResource("/Img/Icon.png")));
 		gestoreApplicazione = appBrain;
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(119, 101, 101));
@@ -179,6 +179,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteAmministrativaPanel.add(immagineContrattoLabel);
 		
 		JSpinner contrattoFild = new JSpinner();
+		contrattoFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		contrattoFild.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		contrattoFild.setToolTipText("Inserisci stipendio contratto");
 		contrattoFild.setModel(new SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
@@ -297,6 +298,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		immaginePatenteLabel.setBackground(new Color(179, 168, 166));
 		
 		JSpinner anniContributiFild = new JSpinner();
+		anniContributiFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		anniContributiFild.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		anniContributiFild.setModel(new SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 		anniContributiFild.setToolTipText("Inserisci stipendio contratto");
@@ -417,6 +419,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteSpecificheVeicoloPanel.add(lblDataDiNascita);
 		
 		dataNascitaDataChoser = new JDateChooser();
+		dataNascitaDataChoser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		dataNascitaDataChoser.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
 		dataNascitaDataChoser.getCalendarButton().setBackground(Color.WHITE);
 		dataNascitaDataChoser.setToolTipText("Inserisci data di nascita");
@@ -466,7 +469,8 @@ public class FinestraInserimentoCorriere extends JFrame {
 		immagineCodiceFiscaleLabel_1.setBounds(46, 325, 49, 41);
 		parteSpecificheVeicoloPanel.add(immagineCodiceFiscaleLabel_1);
 		
-		JButton nuovoCorriereBtn = new JButton("Registra nuovo corriere");
+		JButton nuovoCorriereBtn = new JButton("Registra Nuovo Corriere");
+		nuovoCorriereBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		nuovoCorriereBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -502,6 +506,16 @@ public class FinestraInserimentoCorriere extends JFrame {
 				} catch (IOException e1) {
 					messaggioPopUp("Credenziali email non accessibili, è possibile comunque continuare senza il servizio email","Attenzione");
 				}
+			}
+		});
+		nuovoCorriereBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				nuovoCorriereBtn.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				nuovoCorriereBtn.setBackground(new Color(254, 126, 115));
 			}
 		});
 		nuovoCorriereBtn.setToolTipText("premi per creare un nuovo corriere");

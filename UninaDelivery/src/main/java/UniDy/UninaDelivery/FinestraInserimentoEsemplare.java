@@ -59,7 +59,7 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		setTitle("UninaDelivery");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCreazioneNuovoOrdine.class.getResource("/Img/Icon.png")));
 		gestoreApplicazione = appBrain;
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -86,13 +86,6 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		logoSXImgL.setBounds(0, 0, 71, 65);
 		intestazionePanel.add(logoSXImgL);
 		
-		JLabel lblCreazioneNuovoEsemplare = new JLabel("Creazione nuovo esemplare");
-		lblCreazioneNuovoEsemplare.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCreazioneNuovoEsemplare.setForeground(Color.WHITE);
-		lblCreazioneNuovoEsemplare.setFont(new Font("Century", Font.BOLD, 30));
-		lblCreazioneNuovoEsemplare.setBounds(81, 0, 693, 37);
-		contentPane.add(lblCreazioneNuovoEsemplare);
-		
 		 indietroBottone = new JButton("Indietro");
 		 indietroBottone.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		 indietroBottone.addKeyListener(new KeyAdapter() {
@@ -101,34 +94,41 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		 		
 		 	}
 		 });
-		indietroBottone.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				ingradisciGradualmenteBottoneIndietro();
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				rimpicciolisciGradualmenteBottoneIndietro();
-			}
-		});
-		indietroBottone.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				confermaRitornareIndietro();
-			}
-		});
+		 indietroBottone.addMouseListener(new MouseAdapter() {
+		 	@Override
+		 	public void mouseEntered(MouseEvent e) {
+		 		ingradisciGradualmenteBottoneIndietro();
+		 	}
+		 	@Override
+		 	public void mouseExited(MouseEvent e) {
+		 		rimpicciolisciGradualmenteBottoneIndietro();
+		 	}
+		 });
+		 indietroBottone.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		confermaRitornareIndietro();
+		 	}
+		 });
+		 
+		 
+		 indietroBottone.setToolTipText("premi per ritornare alla finestra precedente");
+		 indietroBottone.setHorizontalTextPosition(SwingConstants.CENTER);
+		 indietroBottone.setForeground(Color.WHITE);
+		 indietroBottone.setFont(new Font("Century", Font.PLAIN, 18));
+		 indietroBottone.setFocusPainted(false);
+		 indietroBottone.setContentAreaFilled(false);
+		 indietroBottone.setBorderPainted(false);
+		 indietroBottone.setBorder(null);
+		 indietroBottone.setBackground(new Color(119, 101, 101));
+		 indietroBottone.setBounds(697, 12, 77, 22);
+		 contentPane.add(indietroBottone);
 		
-		
-		indietroBottone.setToolTipText("premi per ritornare alla finestra precedente");
-		indietroBottone.setHorizontalTextPosition(SwingConstants.CENTER);
-		indietroBottone.setForeground(Color.WHITE);
-		indietroBottone.setFont(new Font("Century", Font.PLAIN, 18));
-		indietroBottone.setFocusPainted(false);
-		indietroBottone.setContentAreaFilled(false);
-		indietroBottone.setBorderPainted(false);
-		indietroBottone.setBorder(null);
-		indietroBottone.setBackground(new Color(119, 101, 101));
-		indietroBottone.setBounds(697, 12, 77, 22);
-		contentPane.add(indietroBottone);
+		JLabel lblCreazioneNuovoEsemplare = new JLabel("Creazione nuovo esemplare");
+		lblCreazioneNuovoEsemplare.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCreazioneNuovoEsemplare.setForeground(Color.WHITE);
+		lblCreazioneNuovoEsemplare.setFont(new Font("Century", Font.BOLD, 30));
+		lblCreazioneNuovoEsemplare.setBounds(81, 0, 693, 37);
+		contentPane.add(lblCreazioneNuovoEsemplare);
 		
 		JPanel parteSpecificheVeicoloPanel = new JPanel();
 		parteSpecificheVeicoloPanel.setLayout(null);
@@ -215,6 +215,7 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		parteSpecificheVeicoloPanel.add(coloreTxf);
 		
 		JSpinner costoFild = new JSpinner();
+		costoFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		costoFild.setModel(new SpinnerNumberModel(Float.valueOf(1), Float.valueOf(1), null, Float.valueOf(1)));
 		costoFild.setToolTipText("Inserisci stipendio contratto");
 		costoFild.setForeground(Color.WHITE);
@@ -286,6 +287,7 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		parteAmministrativaPanel.add(immagineDataFineGaranziaLabel);
 		
 		dataFineGaranziaDataChoser = new JDateChooser();
+		dataFineGaranziaDataChoser.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		dataFineGaranziaDataChoser.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
 		dataFineGaranziaDataChoser.getCalendarButton().setBackground(Color.WHITE);
 		dataFineGaranziaDataChoser.setToolTipText("Inserisci data di nascita");
@@ -342,15 +344,20 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		immagineMerceLabel_1.setBounds(46, 329, 49, 41);
 		parteAmministrativaPanel.add(immagineMerceLabel_1);
 		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane_2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane_2.setBounds(96, 329, 198, 41);
+		parteAmministrativaPanel.add(scrollPane_2);
+		
 		magazzinoBox = new JComboBox();
+		scrollPane_2.setViewportView(magazzinoBox);
 		magazzinoBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		magazzinoBox.setToolTipText("Qui puoi selezionare il magazzino");
 		magazzinoBox.setForeground(Color.WHITE);
 		magazzinoBox.setFont(new Font("Century", Font.PLAIN, 20));
 		magazzinoBox.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		magazzinoBox.setBackground(new Color(179, 168, 166));
-		magazzinoBox.setBounds(96, 329, 198, 41);
-		parteAmministrativaPanel.add(magazzinoBox);
 		
 		JLabel lblSelezionaMagazzinoIn = new JLabel("Seleziona magazzino in cui sita");
 		lblSelezionaMagazzinoIn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -387,6 +394,7 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		parteAmministrativaPanel.add(btnAggiungiMerce);
 		
 		JButton btnRegistraNuovaMerce = new JButton("Registra nuovo esemplare");
+		btnRegistraNuovaMerce.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRegistraNuovaMerce.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -407,6 +415,16 @@ public class FinestraInserimentoEsemplare extends JFrame {
 				}
 			}
 
+		});
+		btnRegistraNuovaMerce.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnRegistraNuovaMerce.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnRegistraNuovaMerce.setBackground(new Color(254, 126, 115));
+			}
 		});
 		btnRegistraNuovaMerce.setToolTipText("premi per registrare una nuova merce");
 		btnRegistraNuovaMerce.setForeground(Color.WHITE);

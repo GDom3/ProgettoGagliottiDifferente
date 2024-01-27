@@ -6,11 +6,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-
 import org.apache.commons.mail.EmailException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -76,7 +74,7 @@ public class AppBrain {
 	public static void main(String[] args) {
 		
 		AppBrain gestoreApplicazione = new AppBrain();
-		
+
 	}
 
 	
@@ -126,7 +124,18 @@ public class AppBrain {
 		//Servizio email
 		mailSender = new UninaDeliveryMailSender();	
 		
+		//Cattura quando l'applicazione verrà chiusa
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		    public void run() {
+		    	//Chiude la comunicazione con il database
+		    	exit();
+		    }
+		}));
+		
+	
+		
 	}
+	
 	
 
 	protected void accesso(String username, String password) throws UsernameNonEsistenteException, PasswordErrataException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException, RisultatoNonRicavabileException{
@@ -182,7 +191,7 @@ public class AppBrain {
 	}
 
 	//Metodo che chiude la connessione prima che l'applicazione sia chiusa
-	protected int exit() {
+	protected void exit() {
 		BufferedWriter buffer;
 		
 		try {
@@ -191,17 +200,14 @@ public class AppBrain {
 			//Scrivo su un log l'errore
             try {
 				buffer = new BufferedWriter (new FileWriter(new File("src/main/java/File/LogErroriChiusuraConnessione.txt")));
-				buffer.append(LocalDate.now().toString() + " Errore Chiusura");
+				buffer.append(LocalDate.now().toString() + " Errore Chiusura : " + e.getMessage());
 				buffer.close();
 			} catch (IOException e1) {
 				//Errore di scrittura superfluo
 			}
             
-		}catch (NullPointerException e) {
-			//Appena avviato darà errore sicuro
 		}
-		
-		return JFrame.EXIT_ON_CLOSE;
+
 	}
 	
 	
@@ -275,16 +281,7 @@ public class AppBrain {
 		
 		
 	}
-	
-	//gestione finestre
-	protected int annullaCambioStato() {
-		
-		if(!loginWindow.isVisible())
-			datiOrdiniWindow.setVisible(true);
-	
 
-		return JFrame.DISPOSE_ON_CLOSE;
-	}
 	
 	//avviao il sistema per cambiare stato ad una spedizione
 	protected void modificaStatoSpedizione(Object valueAt) throws RisultatoNonRicavabileException, CreazioneStatementFallitaException, ConnessionNonRiuscitaException {

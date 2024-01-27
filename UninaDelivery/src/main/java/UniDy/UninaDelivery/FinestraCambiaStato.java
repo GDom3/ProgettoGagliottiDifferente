@@ -52,7 +52,7 @@ public class FinestraCambiaStato extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCambiaStato.class.getResource("/Img/Icon.png")));
 		gestoreApplicazione = appBrain;
 
-		setDefaultCloseOperation(appBrain.annullaCambioStato());
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -70,6 +70,17 @@ public class FinestraCambiaStato extends JFrame {
 
 		JButton annullaBottone;
 		annullaBottone = new JButton();
+		annullaBottone.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				annullaBottone.setBackground(new Color(141, 129, 123));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				annullaBottone.setBackground(new Color(179, 168, 166));
+			}
+		});
+		annullaBottone.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		annullaBottone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gestoreApplicazione.annullaOperazioneCambioStato();
@@ -88,6 +99,17 @@ public class FinestraCambiaStato extends JFrame {
 
 		JButton confermaBottone;
 		confermaBottone = new JButton();
+		confermaBottone.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				confermaBottone.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				confermaBottone.setBackground(new Color(254, 126, 115));
+			}
+		});
+		confermaBottone.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		confermaBottone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -119,8 +141,8 @@ public class FinestraCambiaStato extends JFrame {
 		confermaBottone.setForeground(Color.WHITE);
 		confermaBottone.setFont(new Font("Century", Font.BOLD, 20));
 		confermaBottone.setFocusPainted(false);
-		confermaBottone.setBorder(new LineBorder(new Color(52, 43, 42), 2, true));
-		confermaBottone.setBackground(new Color(179, 168, 166));
+		confermaBottone.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
+		confermaBottone.setBackground(new Color(254, 126, 115));
 		confermaBottone.setBounds(108, 184, 108, 41);
 		principalePannello.add(confermaBottone);
 

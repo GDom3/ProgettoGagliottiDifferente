@@ -63,7 +63,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCreazioneNuovoCliente.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
 		gestoreApplicazione = appBrain;
-		setDefaultCloseOperation(gestoreApplicazione.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -225,6 +225,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		anagraficaPanel.add(logoCitta_1);
 		
 		DataNascitaDataChoser = new JDateChooser();
+		DataNascitaDataChoser.getCalendarButton().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		DataNascitaDataChoser.getCalendarButton().setFont(new Font("Century", Font.PLAIN, 18));
 		DataNascitaDataChoser.getCalendarButton().setBackground(Color.WHITE);
 		DataNascitaDataChoser.setToolTipText("inserisci data di esecuzione del ordine");
@@ -330,6 +331,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		gruppoRadioContatto = new ButtonGroup();
 		
 		emailRadio = new JRadioButton("E-Mail");
+		emailRadio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		emailRadio.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
 		emailRadio.setForeground(Color.WHITE);
 		emailRadio.setFont(new Font("Century", Font.PLAIN, 16));
@@ -339,6 +341,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		anagraficaPanel_1.add(emailRadio);
 		
 		telefonoRadio = new JRadioButton("Telefono");
+		telefonoRadio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		telefonoRadio.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
 		telefonoRadio.setForeground(Color.WHITE);
 		telefonoRadio.setFont(new Font("Century", Font.PLAIN, 16));
@@ -348,6 +351,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		anagraficaPanel_1.add(telefonoRadio);
 		
 		smsRadio = new JRadioButton("SMS");
+		smsRadio.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		smsRadio.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
 		smsRadio.setForeground(Color.WHITE);
 		smsRadio.setFont(new Font("Century", Font.PLAIN, 16));
@@ -375,6 +379,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		panel.setLayout(null);
 		
 		JButton nuovoClienteBtn = new JButton("Registra Nuovo Cliente");
+		nuovoClienteBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		nuovoClienteBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -412,6 +417,16 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 				} catch (IOException e1) {
 					messaggioPopUp("Credenziali email non accessibili, è possibile comunque continuare senza il servizio email","Attenzione");
 				}
+			}
+		});
+		nuovoClienteBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				nuovoClienteBtn.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				nuovoClienteBtn.setBackground(new Color(254, 126, 115));
 			}
 		});
 		nuovoClienteBtn.setToolTipText("premi per creare un nuovo cliente");

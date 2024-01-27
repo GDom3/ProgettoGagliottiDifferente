@@ -11,7 +11,7 @@ public class ComunicaConDatabase {
 	private Connection connessione = null;
 	private ConnessioneDataBase connectionDataBase = null;
 	private Statement trasportatore = null;
-	private ResultSet risultato;
+	private ResultSet risultato = null;
 	private int BuonFine;
 	private ResultSetMetaData risultatoMetaDati;
 	
@@ -32,6 +32,7 @@ public class ComunicaConDatabase {
 		try {
 			return risultato.next();
 		} catch (SQLException e) {
+			
 			throw new RisultatoNonRicavabileException();
 		}
 		
@@ -43,13 +44,13 @@ public class ComunicaConDatabase {
 	protected void chiudiComunicazioneDatabase() throws ChiusturaComunicazioneFallitaException{
 		
 		try {
-			risultato.close();
+			if (risultato != null)
+				risultato.close();
 			trasportatore.close();
 			connessione.close();
 		}catch (SQLException e) {
 			throw new ChiusturaComunicazioneFallitaException();
 		}
-	
 		
 	}
 	

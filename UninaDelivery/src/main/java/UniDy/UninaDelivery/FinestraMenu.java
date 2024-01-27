@@ -33,7 +33,7 @@ public class FinestraMenu extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraMenu.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
 		setResizable(false);
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		
 		JPanel contentPane;

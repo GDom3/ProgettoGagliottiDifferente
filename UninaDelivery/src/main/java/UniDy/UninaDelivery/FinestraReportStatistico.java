@@ -63,7 +63,7 @@ public class FinestraReportStatistico extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraReportStatistico.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
 		setResizable(false);
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -168,11 +168,12 @@ public class FinestraReportStatistico extends JFrame {
 		
 		
 		annoFild = new JSpinner();
+		annoFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		annoFild.setModel(new SpinnerNumberModel(Integer.valueOf(2023), Integer.valueOf(0), null, Integer.valueOf(1)));
 		annoFild.setToolTipText("Inserisci stipendio contratto");
 		annoFild.setForeground(Color.WHITE);
 		annoFild.setFont(new Font("Century", Font.PLAIN, 20));
-		annoFild.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
+		annoFild.setBorder(new LineBorder(new Color(119, 101, 101), 2, true));
 		annoFild.setBackground(new Color(179, 168, 166));
 		annoFild.setBounds(10, 183, 155, 41);
 		generaPanel.add(annoFild);
@@ -237,6 +238,16 @@ public class FinestraReportStatistico extends JFrame {
 				}
 				
 		
+			}
+		});
+		generaB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				generaB.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				generaB.setBackground(new Color(254, 126, 115));
 			}
 		});
 		generaB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

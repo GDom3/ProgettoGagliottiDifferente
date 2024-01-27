@@ -40,6 +40,7 @@ import java.awt.event.HierarchyListener;
 import java.awt.event.HierarchyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import java.awt.ComponentOrientation;
 
 public class FinestraNuovaSpedizione extends JFrame {
 
@@ -60,7 +61,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		setResizable(false);
 		setTitle("UninaDelivery");
 		gestoreApplicazione = appBrain;
-		setDefaultCloseOperation(gestoreApplicazione.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -209,6 +210,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 				
 			}
 		});
+		
 		aggiungiOrdineButton.setFocusPainted(false);
 		aggiungiOrdineButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		aggiungiOrdineButton.addMouseListener(new MouseAdapter() {
@@ -294,6 +296,16 @@ public class FinestraNuovaSpedizione extends JFrame {
 			}
 		});
 		nuovaSpedizioneB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		nuovaSpedizioneB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				nuovaSpedizioneB.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				nuovaSpedizioneB.setBackground(new Color(254, 126, 115));
+			}
+		});
 		nuovaSpedizioneB.setToolTipText("premi per creare una nuova sepdizione con i valori inseriti");
 		nuovaSpedizioneB.setForeground(Color.WHITE);
 		nuovaSpedizioneB.setFont(new Font("Century", Font.BOLD, 20));
@@ -334,6 +346,16 @@ public class FinestraNuovaSpedizione extends JFrame {
 					addOrdineASpedizione();
 				else 
 					messaggioPopUp("Non puoi aggiungere ordini, in quanto non ci sono ordini attesi", "Non Puoi aggiungere ordini");
+			}
+		});
+		aggiungiOrdineASpedizione.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				aggiungiOrdineASpedizione.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				aggiungiOrdineASpedizione.setBackground(new Color(254, 126, 115));
 			}
 		});
 		aggiungiOrdineASpedizione.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

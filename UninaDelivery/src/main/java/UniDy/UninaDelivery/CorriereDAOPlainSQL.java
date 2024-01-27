@@ -20,14 +20,14 @@ public class CorriereDAOPlainSQL implements CorriereDAO {
 	public ArrayList<Corriere> estraiCorrieriSenzaSped() throws RisultatoNonRicavabileException, NonCiSonoCorrieriDisponibiliException  {
 		ArrayList<Corriere> corrieri = new ArrayList<Corriere>();
 		Corriere tempCorriere;
-		String comando = "SELECT CodiceFiscale,nome,cognome,Patente,Disponibilità FROM Corriere WHERE Disponibilità = true ORDER BY (CodCorriere);";
+		String comando = "SELECT CodiceFiscale,nome,cognome,Patente,Disponibilità,email FROM Corriere WHERE Disponibilità = true ORDER BY (CodCorriere);";
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
 		
 		
 		try {
 			comunicazioneSQL.prossimaRiga();
-			tempCorriere = new Corriere(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,risultato.getString(4),null,null,0,0,null,risultato.getBoolean(5));
+			tempCorriere = new Corriere(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,risultato.getString(4),risultato.getString(6),null,0,0,null,risultato.getBoolean(5));
 			corrieri.add(tempCorriere);
 			
 		} catch (SQLException e) {
@@ -37,7 +37,7 @@ public class CorriereDAOPlainSQL implements CorriereDAO {
 		if(comunicazioneSQL.prossimaRiga())	
 		do{
 			try {
-				tempCorriere = new Corriere(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,risultato.getString(4),null,null,0,0,null,risultato.getBoolean(5));
+				tempCorriere = new Corriere(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,risultato.getString(4),risultato.getString(6),null,0,0,null,risultato.getBoolean(5));
 				corrieri.add(tempCorriere);
 			} catch (SQLException e) {
 				throw new RisultatoNonRicavabileException();
@@ -54,13 +54,13 @@ public class CorriereDAOPlainSQL implements CorriereDAO {
 	public ArrayList<Corriere> estraiTuttiCorrieri() throws RisultatoNonRicavabileException , NonCiSonoCorrieriException {
 		ArrayList<Corriere> corriere = new ArrayList<Corriere>();
 		Corriere tempCorriere;
-		String comando = "SELECT CodiceFiscale, nome , cognome FROM Corriere ORDER BY(CodCorriere)";
+		String comando = "SELECT CodiceFiscale,nome,cognome,Patente,Disponibilità,email FROM Corriere ORDER BY(CodCorriere)";
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
 		
 		try {
 			while(comunicazioneSQL.prossimaRiga()) {
-				tempCorriere = new Corriere(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,null,null,null,0,0,null,true);
+				tempCorriere = new Corriere(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,risultato.getString(4),risultato.getString(6),null,0,0,null,risultato.getBoolean(5));
 				corriere.add(tempCorriere);
 			}
 		} catch (SQLException e) {

@@ -47,7 +47,7 @@ public class FinestraLogin extends JFrame {
 		setResizable(false);
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraLogin.class.getResource("/Img/Icon.png")));
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -205,6 +205,8 @@ public class FinestraLogin extends JFrame {
 		panelPrincipale.add(logoPrincipaleImgL);
 		
 	}
+	
+	
 
 	private void focusOnPassword(KeyEvent e) {
 		//Mi permette di andare avanti una volta inserito lo username se si preme invio

@@ -54,7 +54,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		gestoreApplicazione = appBrain;
 		setTitle("UninaDelivery");
 		setResizable(false);
-		setDefaultCloseOperation(gestoreApplicazione.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 808, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -166,6 +166,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		anagraficaPanel.add(nomeField);
 		
 		txtPeso = new JSpinner();
+		txtPeso.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		txtPeso.setModel(new SpinnerNumberModel(Float.valueOf(1), Float.valueOf(0), null, Float.valueOf(1)));
 		txtPeso.setToolTipText("inserisci peso");
 		txtPeso.setForeground(Color.WHITE);
@@ -232,6 +233,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		anagraficaPanel.add(immagineCognomeLabel_1);
 		
 		annoProduioneUscita = new JSpinner();
+		annoProduioneUscita.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		annoProduioneUscita.setModel(new SpinnerNumberModel(Integer.valueOf(2000), null, null, Integer.valueOf(1)));
 		annoProduioneUscita.setToolTipText("Inserisci stipendio contratto");
 		annoProduioneUscita.setForeground(Color.WHITE);
@@ -263,6 +265,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		anagraficaPanel.add(lblFornitore);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(452, 173, 198, 39);
@@ -304,6 +307,16 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
 				}
 				
+			}
+		});
+		btnCreaNuovaMerce.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnCreaNuovaMerce.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnCreaNuovaMerce.setBackground(new Color(254, 126, 115));
 			}
 		});
 		btnCreaNuovaMerce.setToolTipText("premi per creare una nuova merce");

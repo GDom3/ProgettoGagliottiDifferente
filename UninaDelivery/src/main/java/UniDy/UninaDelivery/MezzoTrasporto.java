@@ -26,7 +26,7 @@ public class MezzoTrasporto {
 	
 	@Override
 	public String toString() {
-		return targa ;
+		return targa + " (" + marca + ")";
 	}
 
 	@Override

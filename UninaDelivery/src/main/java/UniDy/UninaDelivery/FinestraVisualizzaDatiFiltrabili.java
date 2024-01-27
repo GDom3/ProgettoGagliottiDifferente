@@ -61,7 +61,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraVisualizzaDatiFiltrabili.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
 		setResizable(false);
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -274,6 +274,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 
 		sceltaDataConsegna = new JRadioButton("Data di Consegna");
+		sceltaDataConsegna.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sceltaDataConsegna.setToolTipText("seleziona questo se vuoi filtrare per date di cosegna");
 		sceltaDataConsegna.setFocusPainted(false);
 		sceltaDataConsegna.setForeground(new Color(255, 255, 255));
@@ -283,6 +284,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 		
 		sceltaDataEsecuzione = new JRadioButton("Data Esecuzione");
+		sceltaDataEsecuzione.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		sceltaDataEsecuzione.setToolTipText("seleziona qui se vuoi filtrare per data di esecuzione");
 		sceltaDataEsecuzione.setFocusPainted(false);
 		sceltaDataEsecuzione.setSelected(true);

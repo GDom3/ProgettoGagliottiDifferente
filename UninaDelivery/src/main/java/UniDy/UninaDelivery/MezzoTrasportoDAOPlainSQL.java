@@ -22,14 +22,14 @@ public class MezzoTrasportoDAOPlainSQL implements MezzoTrasportoDAO {
 		ArrayList<MezzoTrasporto> mezzi = new ArrayList<MezzoTrasporto>();
 		MezzoTrasporto tempMezzo;
 		
-		String Comando = "SELECT targa FROM MezzoTrasporto WHERE Disponibilità = TRUE ORDER BY (CodMezzo);";
+		String Comando = "SELECT targa,Marca,modello,PatenteNecessaria FROM MezzoTrasporto WHERE Disponibilità = TRUE ORDER BY (CodMezzo);";
 		
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(Comando);
 		
 		try {
 			comunicazioneSQL.prossimaRiga();
-			tempMezzo = new MezzoTrasporto(risultato.getString(1),null,null,0,null,0);
+			tempMezzo = new MezzoTrasporto(risultato.getString(1),risultato.getString(2),risultato.getString(3),0,risultato.getString(4),0);
 			mezzi.add(tempMezzo);
 			
 		} catch (SQLException e) {
@@ -38,7 +38,7 @@ public class MezzoTrasportoDAOPlainSQL implements MezzoTrasportoDAO {
 		if(comunicazioneSQL.prossimaRiga())	
 		do{
 			try {
-				tempMezzo = new MezzoTrasporto(risultato.getString(1),null,null,0,null,0);
+				tempMezzo = new MezzoTrasporto(risultato.getString(1),risultato.getString(2),risultato.getString(3),0,risultato.getString(4),0);
 				mezzi.add(tempMezzo);
 			} catch (SQLException e) {
 				throw new RisultatoNonRicavabileException();

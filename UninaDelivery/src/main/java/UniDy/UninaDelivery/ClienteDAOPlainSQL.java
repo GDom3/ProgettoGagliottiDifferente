@@ -19,13 +19,13 @@ public class ClienteDAOPlainSQL implements ClienteDAO {
 	public ArrayList<Cliente> dammiTuttiClienti() throws NonCiSonoClientiException, RisultatoNonRicavabileException {
 		ArrayList<Cliente> clientela = new ArrayList<Cliente>();
 		Cliente tempCliente;
-		String comando = "SELECT CodiceFiscale, nome , cognome FROM Cliente ORDER BY(CodCliente)";
+		String comando = "SELECT CodiceFiscale, nome , cognome, email FROM Cliente ORDER BY(CodCliente)";
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
 		
 		try {
 			while(comunicazioneSQL.prossimaRiga()) {
-				tempCliente = new Cliente(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,null,null,null);
+				tempCliente = new Cliente(risultato.getString(1),risultato.getString(2),risultato.getString(3),null,risultato.getString(4),null,null);
 				clientela.add(tempCliente);
 			}
 		} catch (SQLException e) {

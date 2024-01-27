@@ -48,7 +48,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		setTitle("UninaDelivery");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraInserimentoMezzoTrasporto.class.getResource("/Img/Icon.png")));
 		gestoreApplicazione = appBrain;
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(119, 101, 101));
@@ -165,6 +165,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		parteAmministrativaPanel.add(immagineCostoAssicurazioneLabel);
 		
 		costoFild = new JSpinner();
+		costoFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		costoFild.setToolTipText("Inserisci costo assicurazione");
 		costoFild.setModel(new SpinnerNumberModel(Float.valueOf(1), Float.valueOf(1), null, Float.valueOf(1)));
 		costoFild.setForeground(Color.WHITE);
@@ -181,6 +182,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		parteAmministrativaPanel.add(lblCostoAssicurazione);
 		
 		JSpinner capienzaFild = new JSpinner();
+		capienzaFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		capienzaFild.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		capienzaFild.setToolTipText("Inserisci costo assicurazione");
 		capienzaFild.setForeground(Color.WHITE);
@@ -317,7 +319,8 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		marcaTxf.setBounds(112, 169, 200, 41);
 		parteSpecificheVeicoloPanel.add(marcaTxf);
 		
-		JButton nuovoMezzoBtn = new JButton("Registra nuovo mezzo");
+		JButton nuovoMezzoBtn = new JButton("Registra Nuovo Mezzo");
+		nuovoMezzoBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		nuovoMezzoBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -336,6 +339,16 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 				} catch (OperazioneUpdateNonRiuscitaException erroreQuery) {
 					messaggioPopUp(erroreQuery.getMessaggioErrore(),erroreQuery.getTipoErrore());
 				}
+			}
+		});
+		nuovoMezzoBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				nuovoMezzoBtn.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				nuovoMezzoBtn.setBackground(new Color(254, 126, 115));
 			}
 		});
 		nuovoMezzoBtn.setToolTipText("premi per registrare un nuovo mezzo");

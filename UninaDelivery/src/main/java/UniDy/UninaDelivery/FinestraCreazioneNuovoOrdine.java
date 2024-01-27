@@ -64,7 +64,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		setTitle("UninaDelivery");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCreazioneNuovoOrdine.class.getResource("/Img/Icon.png")));
 		gestoreApplicazione = appBrain;
-		setDefaultCloseOperation(appBrain.exit());
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		JPanel contentPane;
 		contentPane = new JPanel();
@@ -468,6 +468,16 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 				
 			}
 		});
+		nuovaOrdineB.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				nuovaOrdineB.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				nuovaOrdineB.setBackground(new Color(254, 126, 115));
+			}
+		});
 		nuovaOrdineB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		nuovaOrdineB.setToolTipText("premi per creare una nuovo ordine");
 		nuovaOrdineB.setForeground(Color.WHITE);
@@ -485,6 +495,16 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 					aggiungiEsemplareAdOrdneEsistente();
 				else
 					messaggioPopUp("Non puoi procedere ad aggiungere un esemplare, in quanto non ci sono articoli non venduti", "Attenzione");
+			}
+		});
+		AggiungiEsemplareBottone.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				AggiungiEsemplareBottone.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				AggiungiEsemplareBottone.setBackground(new Color(254, 126, 115));
 			}
 		});
 		AggiungiEsemplareBottone.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

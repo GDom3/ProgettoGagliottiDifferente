@@ -145,9 +145,7 @@ public class OrdineDAOPlainSQL implements OrdineDAO {
 	public int[] numeroMedioOrdini(int anno) throws RisultatoNonRicavabileException{
 		int vet[] = new int[12];
 		int valore;
-		int valoreVecchio = 0;
 		int mese = 1;
-		int i = 0;
 		String comando = "SELECT Count(CodOrdine),date_part('month', DataE) FROM Ordine WHERE date_part('year', DataE) = '"+anno+"' GROUP BY (date_part('month', DataE)) ORDER BY (date_part('month', DataE)); ";
 		
 		risultato = comunicazioneSQL.comunicaConDatabaseQuery(comando);
