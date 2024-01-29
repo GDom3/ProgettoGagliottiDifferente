@@ -1,6 +1,7 @@
 package UniDy.UninaDelivery;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Paint;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,10 +9,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import org.apache.commons.mail.EmailException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
@@ -710,12 +714,47 @@ public class AppBrain {
 		
 	}
 	
+	protected void scaricaGrafico(ChartPanel pannelloGrafico) throws Exception {
+		JFreeChart chart = pannelloGrafico.getChart();
+		
+		// Crea un oggetto JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Scegli dove salvare la tua immagine");
+        fileChooser.setFont(new Font("Century", Font.PLAIN, 10));
+
+        int result = fileChooser.showSaveDialog(null);
+        
+        
+        
+        
+        if (result == JFileChooser.APPROVE_OPTION) {
+            // Ottieni il file selezionato dall'utente
+            File file = fileChooser.getSelectedFile();
+            
+            if (!file.getName().toLowerCase().endsWith(".jpeg")) {
+                // Se non è presente, aggiungi l'estensione
+                String filePath = file.getAbsolutePath() + ".jpeg";
+                file = new File(filePath);
+            }
+            
+
+           // Chiama il metodo saveChartAsPNG per salvare il grafico come immagine PNG
+           ChartUtilities.saveChartAsJPEG(file, chart, 1920, 1080);
+                
+         
+            	
+            }else {
+            	throw new Exception("Scelta non confermata, immagine non salvata");
+            }
+        }
+	}
+	
 
 	
 	
 
 
-}
+
 	
 
 

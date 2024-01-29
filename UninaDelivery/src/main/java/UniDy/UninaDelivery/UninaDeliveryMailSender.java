@@ -48,7 +48,7 @@ public class UninaDeliveryMailSender {
         
         //messaggio
         String messaggio = "<html><body>" +
-                "<p>Benvenuto/a a UninaDelivery, " + cliente.getNome() + " " + cliente.getCognome() + "!</p>" +
+                "<p>Benvenuto/a " + cliente.getNome() + " " + cliente.getCognome() + " a UninaDelivery! </p>" +
                 "<p>Grazie per esserti iscritto/a a UninaDelivery! Siamo felici di averti con noi.</p>" +
                 "<p>Ecco alcune informazioni sul tuo profilo:</p>" +
                 "<ul>" +
@@ -147,7 +147,7 @@ public class UninaDeliveryMailSender {
                 "<ul>" +
                 "<li>STATO ATTUALE: " + ordineModificato.getStatoOrdine() + "</li>" +
                 "<li>DATA ACQUISTO: " + ordineModificato.getDataE() + "</li>" +
-                "<li>DATA ARRIVO: " + ordineModificato.getDataConsegna() + "</li>" +
+                "<li>DATA CONSEGNA: " + ordineModificato.getDataConsegna() + "</li>" +
                 "</ul>" +
                 "<p>Cordiali saluti,<br/>Lo staff UninaDelivery</p>" +
                 "</body></html>";

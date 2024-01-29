@@ -1,11 +1,9 @@
 package UniDy.UninaDelivery;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -16,31 +14,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale.Category;
-
+import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
-import java.awt.Paint;
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
-
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PiePlot;
-import org.jfree.chart.plot.PiePlot3D;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.DefaultKeyedValues;
-import org.jfree.data.KeyedValues;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
 import org.jfree.chart.*;
-
-import javax.swing.JTextField;
-import com.toedter.calendar.JDateChooser;
-import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
@@ -260,6 +240,46 @@ public class FinestraReportStatistico extends JFrame {
 		generaB.setBounds(10, 313, 155, 37);
 		generaPanel.add(generaB);
 		
+		JButton btnScaricaReport = new JButton("Scarica Report");
+		btnScaricaReport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+
+						ScaricaGrafico();
+						
+						
+					
+				} catch (RisultatoNonRicavabileException e1) {
+					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (IOException e1) {
+					messaggioPopUp("Creazione file non riuscita", "Errore");
+				} catch (Exception e1) {
+					
+					messaggioPopUp(e1.getMessage(), "Errore");
+				}
+				
+			}
+
+		});
+		btnScaricaReport.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnScaricaReport.setBackground(new Color(254, 114, 92));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnScaricaReport.setBackground(new Color(254, 126, 115));
+			}
+		});
+		btnScaricaReport.setToolTipText("premi per scaricare il report");
+		btnScaricaReport.setForeground(Color.WHITE);
+		btnScaricaReport.setFont(new Font("Century", Font.BOLD, 20));
+		btnScaricaReport.setFocusPainted(false);
+		btnScaricaReport.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
+		btnScaricaReport.setBackground(new Color(254, 126, 115));
+		btnScaricaReport.setBounds(10, 361, 155, 37);
+		generaPanel.add(btnScaricaReport);
+		
 		panel.setVisible(false);
 		risultatiScrittiPanel.setVisible(false);
 		
@@ -322,4 +342,17 @@ public class FinestraReportStatistico extends JFrame {
 		menuB.setFont(new Font("Century", Font.PLAIN, 18));
 		
 	}
+	
+	
+	private void ScaricaGrafico() throws Exception {
+		if(panel.isVisible()) {
+			ChartPanel pannelloGrafico = gestoreApplicazione.creazioneGrafico((int)annoFild.getValue());
+			gestoreApplicazione.scaricaGrafico(pannelloGrafico);
+			messaggioPopUp("Immagine report scaricata correttamente","Salva immagine report");
+		}else {
+			throw new Exception("Non puoi scaricare il grafico se prima non lo generi");
+		}
+	}
+	
+
 }
