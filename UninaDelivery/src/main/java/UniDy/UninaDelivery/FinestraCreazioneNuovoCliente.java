@@ -133,14 +133,14 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		
 		JPanel anagraficaPanel = new JPanel();
 		anagraficaPanel.setBackground(new Color(119, 101, 101));
-		anagraficaPanel.setBounds(69, 37, 358, 262);
+		anagraficaPanel.setBounds(69, 37, 358, 276);
 		contentPane.add(anagraficaPanel);
 		anagraficaPanel.setLayout(null);
 		
 		JLabel logoCitta_1_1 = new JLabel("New label");
 		logoCitta_1_1.setIcon(new ImageIcon(FinestraCreazioneNuovoCliente.class.getResource("/Img/BDate.png")));
 		logoCitta_1_1.setBorder(new LineBorder(new Color(179, 168, 166), 1, true));
-		logoCitta_1_1.setBounds(78, 203, 43, 41);
+		logoCitta_1_1.setBounds(58, 226, 43, 41);
 		anagraficaPanel.add(logoCitta_1_1);
 		
 		JLabel anagraficaTitoloLabel = new JLabel("Dati Anagrafici");
@@ -232,7 +232,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		DataNascitaDataChoser.setFont(new Font("Century", Font.PLAIN, 18));
 		DataNascitaDataChoser.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
 		DataNascitaDataChoser.setBackground(new Color(179, 168, 166));
-		DataNascitaDataChoser.setBounds(118, 203, 170, 41);
+		DataNascitaDataChoser.setBounds(100, 226, 206, 41);
 		anagraficaPanel.add(DataNascitaDataChoser);
 		
 		JLabel immagineNomeLabel = new JLabel("");
@@ -253,10 +253,17 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		immagineCognomeLabel.setBounds(58, 99, 49, 41);
 		anagraficaPanel.add(immagineCognomeLabel);
 		
+		JLabel lblDataDiNascita = new JLabel("Data Di Nascita");
+		lblDataDiNascita.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDataDiNascita.setForeground(Color.WHITE);
+		lblDataDiNascita.setFont(new Font("Century", Font.PLAIN, 20));
+		lblDataDiNascita.setBounds(10, 198, 338, 25);
+		anagraficaPanel.add(lblDataDiNascita);
+		
 		JPanel anagraficaPanel_1 = new JPanel();
 		anagraficaPanel_1.setLayout(null);
 		anagraficaPanel_1.setBackground(new Color(119, 101, 101));
-		anagraficaPanel_1.setBounds(426, 37, 358, 262);
+		anagraficaPanel_1.setBounds(426, 37, 358, 276);
 		contentPane.add(anagraficaPanel_1);
 		
 		JLabel lblContatti = new JLabel("Contatti");
@@ -374,7 +381,7 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(119, 101, 101));
-		panel.setBounds(69, 293, 715, 268);
+		panel.setBounds(69, 313, 715, 248);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
