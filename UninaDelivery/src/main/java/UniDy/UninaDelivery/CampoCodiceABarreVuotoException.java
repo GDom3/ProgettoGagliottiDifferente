@@ -1,13 +1,9 @@
 package UniDy.UninaDelivery;
 
-public class CampoCodiceABarreVuotoException extends Exception {
+public class CampoCodiceABarreVuotoException extends UninaDeliveryException {
 	private String messaggioErrore = "Campo CODICE A BARRE vuoto, inserire un valore per poter proseguire";
 	private String tipoErrore = "Attenzione";
 	
-	public CampoCodiceABarreVuotoException() {
-	
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}

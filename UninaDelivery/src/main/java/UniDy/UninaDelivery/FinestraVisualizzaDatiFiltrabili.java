@@ -472,22 +472,14 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 					gestoreApplicazione.filtraSoloData(dataInizio,dataFine);
 			else 
 				gestoreApplicazione.filtraSoloCliente(cliente);
-				
-		} catch (DateCronologicamenteSbagliateException e1) {
-			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
-		} catch (FiltriVuotiException e1) {
-			messaggioPopUp(e1.getMessaggioErrore(), e1.getNomeErrore());
-		} catch (CreazioneStatementFallitaException e) {
-			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
-		} catch (ConnessionNonRiuscitaException e) {
-			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+		
 		} catch (DatiTrovatiDopoIlFiltraggioVuotiException e) {
 			svuotaTabella();
 			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
-		} catch (DateVuoteException e) {
-			messaggioPopUp(e.getMessaggioErrore(), e.getNomeErrore());
+		} catch (UninaDeliveryException Errore) {
+			messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+		} catch (UninaDeliverySQLException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());	
 		}
 		
 		//Azzera

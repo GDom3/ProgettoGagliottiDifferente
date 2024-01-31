@@ -37,6 +37,8 @@ public class FinestraReportStatistico extends JFrame {
 	//Oggetti utili
 	private String ordineMaggiore;
 	private String ordineMinore;
+	private ChartPanel pannelloGrafico;
+	
 
 	public FinestraReportStatistico(AppBrain appBrain) {
 		gestoreApplicazione = appBrain;
@@ -202,7 +204,7 @@ public class FinestraReportStatistico extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					
+			
 					chiediRisposteReport();
 					generaGrafico();
 					
@@ -211,10 +213,10 @@ public class FinestraReportStatistico extends JFrame {
 					minOrd.setText(ordineMinore);
 					
 					
-				} catch (RisultatoNonRicavabileException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (NonPossibileRicavareStatisticheException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+				} catch (UninaDeliverySQLException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
 				}
 				
 		
@@ -244,9 +246,9 @@ public class FinestraReportStatistico extends JFrame {
 		btnScaricaReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-
-						ScaricaGrafico();
 						
+				
+					ScaricaGrafico();
 						
 					
 				} catch (RisultatoNonRicavabileException e1) {
@@ -254,7 +256,6 @@ public class FinestraReportStatistico extends JFrame {
 				} catch (IOException e1) {
 					messaggioPopUp("Creazione file non riuscita", "Errore");
 				} catch (Exception e1) {
-					
 					messaggioPopUp(e1.getMessage(), "Errore");
 				}
 				
@@ -279,6 +280,7 @@ public class FinestraReportStatistico extends JFrame {
 		btnScaricaReport.setBackground(new Color(254, 126, 115));
 		btnScaricaReport.setBounds(10, 361, 155, 37);
 		generaPanel.add(btnScaricaReport);
+	
 		
 		panel.setVisible(false);
 		risultatiScrittiPanel.setVisible(false);
@@ -296,9 +298,11 @@ public class FinestraReportStatistico extends JFrame {
 		try {
 			//Mi prendo l'ordine con maggior numero di prodotti
 			ordineMaggiore = gestoreApplicazione.ordineConMaggiorProdotti(anno);
+		
 			//e poi ,i prendo l'ordine con minor numero di prodotti
 			ordineMinore = gestoreApplicazione.ordineConMinorProdotti(anno);
 		} catch (RisultatoNonRicavabileException e) {
+		
 			panel.setVisible(false);
 			risultatiScrittiPanel.setVisible(false);
 			throw new NonPossibileRicavareStatisticheException();
@@ -309,7 +313,8 @@ public class FinestraReportStatistico extends JFrame {
 
 	private void generaGrafico() throws RisultatoNonRicavabileException {
 		//Faccio il grafico
-		ChartPanel pannelloGrafico = gestoreApplicazione.creazioneGrafico((int)annoFild.getValue());
+		pannelloGrafico = gestoreApplicazione.creazioneGrafico((int)annoFild.getValue());
+
 		//rendo visibile i risultati
 		panel.setVisible(true);
 		risultatiScrittiPanel.setVisible(true);
@@ -346,13 +351,10 @@ public class FinestraReportStatistico extends JFrame {
 	
 	private void ScaricaGrafico() throws Exception {
 		if(panel.isVisible()) {
-			ChartPanel pannelloGrafico = gestoreApplicazione.creazioneGrafico((int)annoFild.getValue());
 			gestoreApplicazione.scaricaGrafico(pannelloGrafico);
 			messaggioPopUp("Immagine report scaricata correttamente","Salva immagine report");
 		}else {
 			throw new Exception("Non puoi scaricare il grafico se prima non lo generi");
 		}
 	}
-	
-
 }

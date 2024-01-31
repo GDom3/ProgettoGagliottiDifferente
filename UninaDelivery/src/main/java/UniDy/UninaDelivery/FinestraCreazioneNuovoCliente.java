@@ -401,24 +401,11 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 					gestoreApplicazione.mandaMailIscrizione(CodiceFiscaleTextField.getText(),nomeTextField.getText(),cognomeTextFild.getText(),dataDiNascita,txtEmail.getText(),txtNumeroCellulare.getText(),RadioScelta);
 					messaggioPopUp("Registrazione nuovo cliente avvenuta con successo", "Registrazione Completata");
 					
-					
-				} catch (CampoNomeVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (CampoCognomeVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (CampoCodiceFiscaleVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (CampoEmailVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (CampoNumeroCellulareVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (DateVuoteException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (NonPossibileCreareClienteException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
 				} catch (EmailException e1) {
 					if(e1.getMessage().contains("domain"))
-						messaggioPopUp("Dominio non adatto","Attenzione");
+						messaggioPopUp("Dominio dell'email non adatto (creazione avvenuta comunque)","Attenzione");
 					else
 						messaggioPopUp(e1.getMessage(),"Errore");
 				} catch (IOException e1) {

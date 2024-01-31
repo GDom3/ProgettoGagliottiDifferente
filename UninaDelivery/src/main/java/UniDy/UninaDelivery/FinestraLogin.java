@@ -148,23 +148,14 @@ public class FinestraLogin extends JFrame {
 				try{
 					//Controllo Input
 					sonoNonVuoti(username,password);
+					
 					//Provo ad accedere
 					gestoreApplicazione.accesso(username,password);
 				
-				} catch (CampoUsernameVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CampoPasswordVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CreazioneStatementFallitaException ErroreSQL) {
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+				} catch (UninaDeliverySQLException ErroreSQL) {
 					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-				} catch (ConnessionNonRiuscitaException ErroreSQL) {
-					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-				} catch (RisultatoNonRicavabileException ErroreSQL) {
-					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
-				} catch (UsernameNonEsistenteException ErroreUtente) {
-					messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
-				} catch (PasswordErrataException ErroreUtente) {
-					messaggioPopUp(ErroreUtente.getMessaggioErrore(),ErroreUtente.getTipoErrore());
 				}
 				
 			}
@@ -199,6 +190,7 @@ public class FinestraLogin extends JFrame {
 		
 		JLabel logoPrincipaleImgL;
 		logoPrincipaleImgL = new JLabel("");
+		logoPrincipaleImgL.setToolTipText("UninaDelivery - Veloci come un falco");
 		logoPrincipaleImgL.setIcon(new ImageIcon(FinestraLogin.class.getResource("/Img/UniDyLogoLogin.jpg")));
 		logoPrincipaleImgL.setHorizontalAlignment(SwingConstants.CENTER);
 		logoPrincipaleImgL.setBounds(284, 11, 211, 234);
@@ -287,6 +279,4 @@ public class FinestraLogin extends JFrame {
 			isVisiblePassword = true;
 		}
 	}
-	
-
 }

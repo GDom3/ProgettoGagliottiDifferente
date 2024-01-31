@@ -122,8 +122,8 @@ public class FinestraCambiaStato extends JFrame {
 						gestoreApplicazione.confermaNuovoStatoOrdine(ordineSelezionato,ordineStato,modelloStatiOrdini.getElementAt(statiBox.getSelectedIndex()));
 						
 					}
-				} catch (RisultatoNonRicavabileException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+				} catch (UninaDeliverySQLException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
 				} catch (EmailException e1) {
 					if(e1.getMessage().contains("domain"))
 						messaggioPopUp("Dominio non adatto","Attenzione");

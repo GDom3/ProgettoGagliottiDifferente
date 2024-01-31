@@ -1,13 +1,9 @@
 package UniDy.UninaDelivery;
 
-public class CampoNumeroCellulareVuotoException extends Exception {
+public class CampoNumeroCellulareVuotoException extends UninaDeliveryException {
 	private String messaggioErrore  = "Campo NUMERO CELLULARE vuoto, inserire un valore per poter proseguire";
 	private String tipoErrore = "Attenzione";
 	
-	public CampoNumeroCellulareVuotoException() {
-	
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}

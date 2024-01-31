@@ -1,15 +1,9 @@
 package UniDy.UninaDelivery;
 
-import java.sql.SQLException;
-
-public class NonCiSonoSpedizioniNonPartiteException extends SQLException {
+public class NonCiSonoSpedizioniNonPartiteException extends UninaDeliverySQLException {
 	private String messaggioErrore= "Impossibile procedere all'aggiunta, in quanto tutte le spedizioni sono partite o concluse";
 	private String tipoErrore = "Attenzione";
 	
-	public NonCiSonoSpedizioniNonPartiteException() {
-		
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}

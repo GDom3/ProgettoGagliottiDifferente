@@ -1,12 +1,8 @@
 package UniDy.UninaDelivery;
 
-public class CampoPatentiVuotoException extends Exception {
+public class CampoPatentiVuotoException extends UninaDeliveryException {
 	private String messaggioErrore = "Campo PATENTI vuoto, inserire un valore per poter proseguire";
 	private String tipoErrore = "Attenzione";
-	
-	public CampoPatentiVuotoException() {
-		
-	}
 
 	protected String getMessaggioErrore() {
 		return messaggioErrore;

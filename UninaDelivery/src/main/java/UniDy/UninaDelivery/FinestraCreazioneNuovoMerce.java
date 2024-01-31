@@ -46,8 +46,6 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 	private JSpinner annoProduioneUscita;
 	//Gestione ComboBox
 	private JComboBox fornitoriBox;
-	//private ArrayList<Fornitore> fornitori;
-	//private ArrayList<String> arrayTemp;
 	
 	public FinestraCreazioneNuovoMerce(AppBrain appBrain) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCreazioneNuovoMerce.class.getResource("/Img/Icon.png")));
@@ -103,10 +101,11 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					confermaRitornareIndietro();
-				} catch (RisultatoNonRicavabileException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
-				} catch (NonCiSonoMerciDisponibiliException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+					
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+				} catch (UninaDeliverySQLException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
 				}
 			}
 		});
@@ -297,14 +296,8 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 					controlloInput();
 					gestoreApplicazione.creaNuovaMerce(nomeField.getText(),(float)txtPeso.getValue(),txtMarca.getText(),(int)annoProduioneUscita.getValue(),fornitoriBox.getSelectedIndex());
 					messaggioPopUp("Merce inserita correttamente nel DataBase", "Inserimento riuscito");
-				} catch (CampoNomeVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
-				} catch (CampoPesoVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
-				} catch (CampoMarcaVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
-				} catch (NonPossibileCreareMerceException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
 				}
 				
 			}
@@ -348,10 +341,10 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		
 		try {
 			fornitoriBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxFornitori()));
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
-		} catch (NonCiSonoFornitoriException e) {
-			messaggioPopUp(e.getMessaggioErrore(), e.getTipoErrore());
+		} catch (UninaDeliveryException Errore) {
+			messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+		} catch (UninaDeliverySQLException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
 		}
 	
 	}	

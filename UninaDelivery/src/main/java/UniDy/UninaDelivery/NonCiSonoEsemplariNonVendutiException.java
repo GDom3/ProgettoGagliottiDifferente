@@ -1,13 +1,8 @@
 package UniDy.UninaDelivery;
 
-public class NonCiSonoEsemplariNonVendutiException extends Exception {
+public class NonCiSonoEsemplariNonVendutiException extends UninaDeliveryException {
 	private String messaggioErrore = "Non ci sono esemplari disponibili, ovvero tutti gli esemplari sono stati venduti";;
 	private String tipoErrore = "Attenzione";
-	
-	public NonCiSonoEsemplariNonVendutiException() {
-		
-		
-	}
 
 	protected String getMessaggioErrore() {
 		return messaggioErrore;

@@ -2,15 +2,10 @@ package UniDy.UninaDelivery;
 
 import java.sql.SQLException;
 
-public class CreazioneStatementFallitaException extends SQLException {
+public class CreazioneStatementFallitaException extends UninaDeliverySQLException {
 	private String messaggioErrore = "Creazione Statement non riuscita";;
 	private String tipoErrore = "Errore";
 	
-	public CreazioneStatementFallitaException() {
-
-		
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}

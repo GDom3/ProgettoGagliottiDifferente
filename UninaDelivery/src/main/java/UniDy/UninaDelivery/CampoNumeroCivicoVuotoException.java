@@ -1,20 +1,14 @@
 package UniDy.UninaDelivery;
 
-public class CampoNumeroCivicoVuotoException extends Exception {
+public class CampoNumeroCivicoVuotoException extends UninaDeliveryException {
 	private String messaggioErrore = "Devi inserire il numero civico";
-	private String nomeErrore = "Numero Civico vuota";
+	private String tipoErrore = "Numero Civico vuota";
 	
-	public CampoNumeroCivicoVuotoException() {
-		
-		
-		
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}
 
-	protected String getNomeErrore() {
-		return nomeErrore;
+	protected String getTipoErrore() {
+		return tipoErrore;
 	}
 }

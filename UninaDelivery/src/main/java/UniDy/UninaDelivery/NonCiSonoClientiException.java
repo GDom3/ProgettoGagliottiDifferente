@@ -1,13 +1,8 @@
 package UniDy.UninaDelivery;
 
-public class NonCiSonoClientiException extends Exception {
+public class NonCiSonoClientiException extends UninaDeliveryException {
 	private String messaggioErrore = "Non ci sono clienti esistenti";;
 	private String tipoErrore = "Attenzione";
-	
-	public NonCiSonoClientiException() {
-		
-		
-	}
 
 	protected String getMessaggioErrore() {
 		return messaggioErrore;

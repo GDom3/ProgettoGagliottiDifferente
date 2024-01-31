@@ -327,17 +327,10 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 					controlloInput();
 					gestoreApplicazione.registraMezzo(targaTxf.getText() , marcaTxf.getText() , modelloTxf.getText() , (int) capienzaFild.getValue() , patenteTxf.getText() , (float) costoFild.getValue());
 					messaggioPopUp("Hai registrato un nuovo mezzo", "Registrazione mezzo di trasporto");
-					
-				}catch (CampoTargaVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				}catch (CampoMarcaVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				}catch (CampoModelloVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				}catch (CampoPatentiVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (OperazioneUpdateNonRiuscitaException erroreQuery) {
-					messaggioPopUp(erroreQuery.getMessaggioErrore(),erroreQuery.getTipoErrore());
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+				} catch (UninaDeliverySQLException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());	
 				}
 			}
 		});

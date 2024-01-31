@@ -1,13 +1,9 @@
 package UniDy.UninaDelivery;
 
-public class NonCiSonoCorrieriException extends Exception {
+public class NonCiSonoCorrieriException extends UninaDeliveryException {
 	private String messaggioErrore = "Non ci sono CORRIERI da selezionare";
 	private String tipoErrore = "Attenzione";
 	
-	public NonCiSonoCorrieriException() {
-		
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}

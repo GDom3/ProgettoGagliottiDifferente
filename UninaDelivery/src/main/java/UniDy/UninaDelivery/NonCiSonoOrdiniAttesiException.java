@@ -1,15 +1,9 @@
 package UniDy.UninaDelivery;
 
-import java.sql.SQLException;
-
-public class NonCiSonoOrdiniAttesiException extends SQLException {
+public class NonCiSonoOrdiniAttesiException extends UninaDeliverySQLException {
 	private String messaggioErrore= "Non ci sono Ordini attesi, ovvero nessun ordine non è stato consegnato o spedito già";
 	private String tipoErrore = "Attenzione";
 	
-	public NonCiSonoOrdiniAttesiException() {
-		
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}

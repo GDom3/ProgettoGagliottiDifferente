@@ -292,7 +292,10 @@ public class FinestraNuovaSpedizione extends JFrame {
 		nuovaSpedizioneB = new JButton("Crea Nuova Spedizione");
 		nuovaSpedizioneB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				creaSpedizioneDaInput();
+				if(ordineBox.getItemCount() > 0 && mezzoBox.getItemCount() > 0 && corriereBox.getItemCount() > 0 )
+					creaSpedizioneDaInput();
+				else
+					messaggioPopUp("Non sono disponibili tutte le informazioni per creare una spedizione", getName());
 			}
 		});
 		nuovaSpedizioneB.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -390,12 +393,9 @@ public class FinestraNuovaSpedizione extends JFrame {
 					messaggioPopUp("L'Ordine è stato aggiunto correttamente alla spedizione","Operazione Riuscita");
 					avviati();
 				}
-		} catch (NonCiSonoSpedizioniNonPartiteException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (OperazioneUpdateNonRiuscitaException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+				
+		} catch (UninaDeliverySQLException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());	
 		}
 				
 		
@@ -409,13 +409,9 @@ public class FinestraNuovaSpedizione extends JFrame {
 			gestoreApplicazione.creaSpedizioneNuova(ordineBox.getSelectedIndex(),mezzoBox.getSelectedIndex(),corriereBox.getSelectedIndex(),(int) regolatoreKM.getValue());
 			messaggioPopUp("E' stata creata la nuova spedizione","Creazione Riuscita");
 			avviati();
-			
-		} catch (OperazioneUpdateNonRiuscitaException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonPossibileCreareSpedizioneException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		
+		} catch (UninaDeliverySQLException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());	
 		} catch (Exception e) {
 			messaggioPopUp("Non puoi procedere con questa funzionalità, in quanto non ci sono dati coerenti e non vuoti disponibili","Errore");
 		}	
@@ -467,9 +463,8 @@ public class FinestraNuovaSpedizione extends JFrame {
 			riempiCorriere();
 			
 			riempiMezzi();
-			
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		
+		
 		} catch (NonCiSonoOrdiniAttesiException e) {
 			ordineBox.setModel(new DefaultComboBoxModel());
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
@@ -479,8 +474,9 @@ public class FinestraNuovaSpedizione extends JFrame {
 		} catch (NonCiSonoMezziTrasportoDisponibiliException e) {
 			mezzoBox.setModel(new DefaultComboBoxModel());
 			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		} catch (UninaDeliverySQLException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());
 		}
-		
 		
 	}
 	

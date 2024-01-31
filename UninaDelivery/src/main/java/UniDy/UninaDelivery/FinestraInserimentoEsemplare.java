@@ -403,15 +403,10 @@ public class FinestraInserimentoEsemplare extends JFrame {
 					
 					gestoreApplicazione.creaEsemplare(codiceABarreTxf.getText(), coloreTxf.getText(),(float)costoFild.getValue(),garanzia,descrizioneText.getText(),merceBox.getSelectedIndex(),magazzinoBox.getSelectedIndex());
 					messaggioPopUp("Esemplare registrato correttamente", "Registrazione esemplare");
-				
-				}catch (CampoCodiceABarreVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CampoColoreVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (DateVuoteException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (OperazioneUpdateNonRiuscitaException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+				} catch (UninaDeliverySQLException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());	
 				}
 			}
 
@@ -520,13 +515,12 @@ public class FinestraInserimentoEsemplare extends JFrame {
 			merceBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxMerce()));
 			magazzinoBox.setModel(new DefaultComboBoxModel(gestoreApplicazione.dammiFormatoComboBoxMagazzini()));
 		
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonCiSonoMerciDisponibiliException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonCiSonoMagazziniDisponibiliException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		}
+		} catch (UninaDeliveryException Errore) {
+			messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+		} catch (UninaDeliverySQLException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());	
+		}		
+
 	}
 	
 

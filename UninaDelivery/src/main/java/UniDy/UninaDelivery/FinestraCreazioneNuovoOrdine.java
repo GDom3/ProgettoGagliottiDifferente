@@ -452,18 +452,8 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 						
 						
 					}
-				} catch (DateCronologicamenteSbagliateException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (DateVuoteException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoCittàVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoViaVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoNumeroCivicoVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (CampoCapVuotoException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
 				}
 				
 			}
@@ -525,10 +515,10 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 			gestoreApplicazione.creaOrdine(clientiBox.getSelectedIndex(),esemplariBox.getSelectedIndex(),(float)costoFild.getValue(),dataE,dataConsegna,cittaTxF.getText(),viaTxF.getText(),numeroCivicoTxF.getText(),CAPTxF.getText());
 			messaggioPopUp("Creazione avvenuta con successo, l'ordine ed ora disponibile", "Inserimento Riuscito");
 			avviati();
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonPossibileCreareOrdineException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		} catch (UninaDeliverySQLException SQLErrore) {
+			messaggioPopUp(SQLErrore.getMessaggioErrore(),SQLErrore.getTipoErrore());
+		} catch (UninaDeliveryException Errore) {
+			messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
 		}
 	}
 
@@ -595,11 +585,8 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 					messaggioPopUp("E' stato Inserito corettamente l'esemplare nell'ordine", "Aggiunta Riuscita");
 					avviati();
 				}
-		
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonCiSonoOrdiniAttesiException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		} catch (UninaDeliverySQLException SQLErrore) {
+			messaggioPopUp(SQLErrore.getMessaggioErrore(),SQLErrore.getTipoErrore());
 		}
 					
 		
@@ -678,13 +665,11 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 			
 			prendiClienti();
 			prendiEsemplari();
-				
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonCiSonoClientiException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonCiSonoEsemplariNonVendutiException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+			
+		} catch (UninaDeliveryException Errore) {
+			messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+		} catch (UninaDeliverySQLException SQLErrore) {
+			messaggioPopUp(SQLErrore.getMessaggioErrore(),SQLErrore.getTipoErrore());		
 		}
 		
 		

@@ -2,17 +2,11 @@ package UniDy.UninaDelivery;
 
 import java.sql.SQLException;
 
-public class ConnessionNonRiuscitaException extends SQLException {
-
+public class ConnessionNonRiuscitaException extends UninaDeliverySQLException {
 
 	private String messaggioErrore = "Connessione al database non riuscita";
 	private String tipoErrore = "Errore";
 	
-	public ConnessionNonRiuscitaException() {
-
-		
-	}
-
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}
@@ -22,6 +16,6 @@ public class ConnessionNonRiuscitaException extends SQLException {
 	}
 	
 	protected void aggiungiDettagli(String messaggioErrore) {
-		this.messaggioErrore.concat("\n Dettagli").concat(messaggioErrore);
+		this.messaggioErrore.concat("\n Dettagli : ").concat(messaggioErrore);
 	}
 }

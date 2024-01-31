@@ -1,18 +1,14 @@
 package UniDy.UninaDelivery;
 
-public class CampoCapVuotoException extends Exception {
+public class CampoCapVuotoException extends UninaDeliveryException {
 	private String messaggioErrore  = "Devi inserire il CAP";;
-	private String nomeErrore = "CAP vuoto";
-	
-	public CampoCapVuotoException() {
-	
-	}
-
+	private String tipoErrore = "CAP vuoto";
+				 
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}
 
-	protected String getNomeErrore() {
-		return nomeErrore;
+	protected String getTipoErrore() {
+		return tipoErrore;
 	}
 }

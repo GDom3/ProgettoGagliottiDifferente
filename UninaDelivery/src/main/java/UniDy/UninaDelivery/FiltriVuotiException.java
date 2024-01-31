@@ -1,21 +1,15 @@
 package UniDy.UninaDelivery;
 
-public class FiltriVuotiException extends Exception {
+public class FiltriVuotiException extends UninaDeliveryException {
 	
 	private String messaggioErrore = "Devi inserire l'utente o le date su cui filtrare ";
-	private String nomeErrore = "Utente e date vuote";
-	
-	public FiltriVuotiException() {
-
-		
-	
-	}
+	private String tipoErrore = "Utente e date vuote";
 
 	protected String getMessaggioErrore() {
 		return messaggioErrore;
 	}
 
-	protected String getNomeErrore() {
-		return nomeErrore;
+	protected String getTipoErrore() {
+		return tipoErrore;
 	}
 }

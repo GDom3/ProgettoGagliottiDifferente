@@ -58,10 +58,6 @@ public class FinestraInserimentoCorriere extends JFrame {
 	private JScrollPane scrollPane;
 	//Gestione ComboBox
 	private  JComboBox capoBox;
-	//Oggetti reali
-	//private ArrayList<Corriere> corrieri;
-	
-	
 	
 	public FinestraInserimentoCorriere(AppBrain appBrain) {
 		setForeground(new Color(255, 255, 255));
@@ -197,7 +193,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		parteAmministrativaPanel.add(lblContratto);
 		
 		patentiTxf = new JTextField();
-		patentiTxf.setToolTipText("Inserisci patenti");
+		patentiTxf.setToolTipText("Inserisci patenti (separate da  ';')");
 		patentiTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
@@ -481,26 +477,13 @@ public class FinestraInserimentoCorriere extends JFrame {
 					gestoreApplicazione.mandaMailAssunzione(codiceFiscaleTxf.getText(), nomeTxf.getText() , cognomeTxf.getText() , dataNascita, patentiTxf.getText() , emailTxf.getText() , numeroCellulareTxf.getText(),(int) contrattoFild.getValue(),(int) anniContributiFild.getValue(),capoBox.getSelectedIndex() - 1);
 					messaggioPopUp("Il Corriere inserito è stato assunto correttamente", "Assunzione Corriere");
 					avviati();
-					
-				}catch (CampoCodiceFiscaleVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CampoNomeVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CampoCognomeVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CampoPatentiVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CampoEmailVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (CampoNumeroCellulareVuotoException vuotoErrore) {
-					messaggioPopUp(vuotoErrore.getMessaggioErrore(),vuotoErrore.getTipoErrore());
-				} catch (DateVuoteException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getNomeErrore());
-				} catch (OperazioneUpdateNonRiuscitaException e1) {
-					messaggioPopUp(e1.getMessaggioErrore(),e1.getTipoErrore());
-				} catch (EmailException e1) {
+				} catch (UninaDeliveryException Errore) {
+					messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+				} catch (UninaDeliverySQLException ErroreSQL) {
+					messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());		
+				}catch (EmailException e1) {
 					if(e1.getMessage().contains("domain"))
-						messaggioPopUp("Dominio non adatto","Attenzione");
+						messaggioPopUp("Dominio dell'email non adatto (creazione avvenuta comunque)","Attenzione");
 					else
 						messaggioPopUp(e1.getMessage(),"Errore");
 				} catch (IOException e1) {
@@ -534,11 +517,11 @@ public class FinestraInserimentoCorriere extends JFrame {
 	
 		try {
 			riempiCorriere();
-	
-		} catch (RisultatoNonRicavabileException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
-		} catch (NonCiSonoCorrieriException e) {
-			messaggioPopUp(e.getMessaggioErrore(),e.getTipoErrore());
+		
+		} catch (UninaDeliveryException Errore) {
+			messaggioPopUp(Errore.getMessaggioErrore(),Errore.getTipoErrore());
+		} catch (UninaDeliverySQLException ErroreSQL) {
+			messaggioPopUp(ErroreSQL.getMessaggioErrore(),ErroreSQL.getTipoErrore());		
 		}
 		
 		

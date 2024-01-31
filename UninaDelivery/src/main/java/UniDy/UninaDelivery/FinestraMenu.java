@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import java.awt.Cursor;
+import javax.swing.JToolBar;
 
 
 public class FinestraMenu extends JFrame {
@@ -52,6 +53,7 @@ public class FinestraMenu extends JFrame {
 		
 		JLabel logoPrincipaleImgSxL;
 		logoPrincipaleImgSxL = new JLabel("");
+		logoPrincipaleImgSxL.setToolTipText("UninaDelivery - Veloci come un falco");
 		logoPrincipaleImgSxL.setHorizontalAlignment(SwingConstants.CENTER);
 		logoPrincipaleImgSxL.setIcon(new ImageIcon(FinestraMenu.class.getResource("/Img/SxMenu.jpg")));
 		logoPrincipaleImgSxL.setBounds(66, 165, 232, 210);
@@ -74,6 +76,7 @@ public class FinestraMenu extends JFrame {
 		
 		JPanel parteDxPanel;
 		parteDxPanel = new JPanel();
+		parteDxPanel.setToolTipText("");
 		parteDxPanel.setBackground(new Color(119, 101, 101));
 		parteDxPanel.setBounds(383, 0, 401, 561);
 		contentPane.add(parteDxPanel);
@@ -101,7 +104,7 @@ public class FinestraMenu extends JFrame {
 		});
 		visualizzaB.setHorizontalAlignment(SwingConstants.CENTER);
 		visualizzaB.setBounds(48, 156, 306, 51);
-		visualizzaB.setToolTipText("Qui andrai alla sezione che permette di visualizzare gli ordini");
+		visualizzaB.setToolTipText("Qui andrai alla sezione che permette di visualizzare, filtrare e modificare gli stati degli ordini");
 		visualizzaB.setText("Visualizza");
 		visualizzaB.setForeground(Color.WHITE);
 		visualizzaB.setFont(new Font("Century", Font.BOLD, 30));
@@ -134,7 +137,7 @@ public class FinestraMenu extends JFrame {
 		nuovaSpedizioneB.setForeground(Color.WHITE);
 		nuovaSpedizioneB.setFont(new Font("Century", Font.BOLD, 30));
 		nuovaSpedizioneB.setBackground(new Color(179, 168, 166));
-		nuovaSpedizioneB.setBounds(48, 255, 306, 51);
+		nuovaSpedizioneB.setBounds(48, 258, 306, 51);
 		parteDxPanel.add(nuovaSpedizioneB);
 		
 		JButton reportB;
@@ -230,5 +233,7 @@ public class FinestraMenu extends JFrame {
 
 	protected void impostaOperatore(String operatoreL) {
 		this.operatoreL.setText(operatoreL);
+		this.operatoreL.setToolTipText("Benvenuto/a "+ operatoreL);
+		
 	}
 }
