@@ -333,6 +333,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 		contentPane.add(KMLabel);
 		
 		regolatoreKM = new JSpinner();
+		regolatoreKM.setToolTipText("Inserire KM previsti per la spedizione");
 		regolatoreKM.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		regolatoreKM.setForeground(new Color(255, 255, 255));
 		regolatoreKM.setBackground(new Color(119, 101, 101));

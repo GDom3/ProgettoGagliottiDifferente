@@ -197,7 +197,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		patentiTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeletePatente();
+				autoDelate(patentiTxf.getText(),"Patenti",patentiTxf);
 				vaiAvanti(patentiTxf,emailTxf,e);
 			}
 			@Override
@@ -228,7 +228,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		emailTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteEmail();
+				autoDelate(emailTxf.getText(),"E-mail",emailTxf);
 				vaiAvanti(emailTxf,numeroCellulareTxf,e);
 			}
 			@Override
@@ -255,11 +255,11 @@ public class FinestraInserimentoCorriere extends JFrame {
 		immagineNumerotelefonoLabel.setBackground(new Color(179, 168, 166));
 		
 		numeroCellulareTxf = new JTextField();
-		numeroCellulareTxf.setToolTipText("Inserisci numero cellulare");
+		numeroCellulareTxf.setToolTipText("Inserisci numero cellulare (solo numeri)");
 		numeroCellulareTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteNumeroTelefono();
+				autoDelate(numeroCellulareTxf.getText(),"Numero cellulare",numeroCellulareTxf);
 			}
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -326,7 +326,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		codiceFiscaleTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteCodiceFiscale();
+				autoDelate(codiceFiscaleTxf.getText(),"Codice fiscale",codiceFiscaleTxf);
 				vaiAvanti(codiceFiscaleTxf,nomeTxf,e);
 				
 			}
@@ -358,7 +358,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		cognomeTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteCognome();
+				autoDelate(cognomeTxf.getText(),"Cognome",cognomeTxf);
 				vaiAvanti(cognomeTxf,patentiTxf,e);
 			}
 			@Override
@@ -389,7 +389,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		nomeTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteNome();
+				autoDelate(nomeTxf.getText(),"Nome",nomeTxf);
 				vaiAvanti(nomeTxf,cognomeTxf,e);
 			}
 			@Override
@@ -451,7 +451,7 @@ public class FinestraInserimentoCorriere extends JFrame {
 		scrollPane.setViewportView(capoBox);
 		capoBox.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		capoBox.setBorder(new LineBorder(new Color(179, 168, 166), 2, true));
-		capoBox.setToolTipText("Qui puoi selezionare il corriere");
+		capoBox.setToolTipText("Qui puoi selezionare il corriere supervisore");
 		capoBox.setForeground(Color.WHITE);
 		capoBox.setFont(new Font("Century", Font.PLAIN, 20));
 		capoBox.setBackground(new Color(179, 168, 166));
@@ -559,43 +559,10 @@ public class FinestraInserimentoCorriere extends JFrame {
 		
 	}
 	
-	protected void autoDeleteCodiceFiscale() {
-		//resetta il TextField
-		if(codiceFiscaleTxf.getText().equals("Codice fiscale"))
-		codiceFiscaleTxf.setText("");
-	}
-	
-	protected void autoDeleteNome() {
-		//resetta il TextField
-		if(nomeTxf.getText().equals("Nome"))
-		nomeTxf.setText("");
-	}
-	
-	protected void autoDeleteCognome() {
-		//resetta il TextField
-		if(cognomeTxf.getText().equals("Cognome"))
-		cognomeTxf.setText("");
-	}
-	
-	protected void autoDeletePatente() {
-		//resetta il TextField
-		if(patentiTxf.getText().equals("Patenti")) 
-			patentiTxf.setText("");
-		
-	}
-	
-	protected void autoDeleteEmail() {
-		//resetta il TextField
-		if(emailTxf.getText().equals("E-mail")) 
-			emailTxf.setText("");
-		
-	}
-	
-	protected void autoDeleteNumeroTelefono() {
-		//resetta il TextField
-		if(numeroCellulareTxf.getText().equals("Numero cellulare")) 
-			numeroCellulareTxf.setText("");
-		
+	private void autoDelate(String testoDentro, String testoOrginale, JTextField txtFild) {
+		//svuotare appena si scrive
+		if(testoDentro.equals(testoOrginale))
+			txtFild.setText("");
 	}
 	
 	private void sonoNonVuoti(String codiceFiscale, String nome , String cognome ,String patenti ,String email , String numeroCellulare  ) throws CampoCodiceFiscaleVuotoException, CampoNomeVuotoException,CampoCognomeVuotoException,CampoPatentiVuotoException,CampoEmailVuotoException,CampoNumeroCellulareVuotoException{
@@ -666,4 +633,5 @@ public class FinestraInserimentoCorriere extends JFrame {
 		numeroCellulareTxf.setText("Numero cellulare");
 		
 	}
+	
 }

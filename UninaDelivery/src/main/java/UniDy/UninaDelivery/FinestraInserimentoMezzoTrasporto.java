@@ -184,7 +184,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		JSpinner capienzaFild = new JSpinner();
 		capienzaFild.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		capienzaFild.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-		capienzaFild.setToolTipText("Inserisci costo assicurazione");
+		capienzaFild.setToolTipText("Inserisci capienza del mezzo");
 		capienzaFild.setForeground(Color.WHITE);
 		capienzaFild.setFont(new Font("Century", Font.PLAIN, 20));
 		capienzaFild.setBackground(new Color(179, 168, 166));
@@ -201,11 +201,11 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		patenteTxf = new JTextField();
 		patenteTxf.setBounds(118, 81, 200, 41);
 		parteAmministrativaPanel.add(patenteTxf);
-		patenteTxf.setToolTipText("Inserisci le patenti necessarie");
+		patenteTxf.setToolTipText("Inserisci le patenti necessarie (separate da  ';')");
 		patenteTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeletePatente();
+				autoDelate(patenteTxf.getText(),"Patenti",patenteTxf);
 			}
 			
 			public void keyReleased(KeyEvent e) {
@@ -241,7 +241,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		targaTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteTarga();
+				autoDelate(targaTxf.getText() , "Targa" ,targaTxf );
 				vaiAvanti(targaTxf,marcaTxf,e);
 			}
 			@Override
@@ -271,7 +271,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		modelloTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteModello();
+				autoDelate(modelloTxf.getText(),"Modello",modelloTxf);
 				vaiAvanti(modelloTxf,patenteTxf,e);
 			}
 			
@@ -302,7 +302,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		marcaTxf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				autoDeleteMarca();
+				autoDelate(marcaTxf.getText(),"Marca",marcaTxf);
 				vaiAvanti(marcaTxf,modelloTxf,e);
 			}
 			@Override
@@ -390,33 +390,6 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		JOptionPane.showMessageDialog(this,testo,titolo,JOptionPane.WARNING_MESSAGE);
 	}
 	
-	protected void autoDeleteTarga() {
-		//resetta il TextField
-		if(targaTxf.getText().equals("Targa")) 
-			targaTxf.setText("");
-		
-	}
-
-	protected void autoDeleteMarca() {
-		//resetta il TextField
-		if(marcaTxf.getText().equals("Marca")) 
-			marcaTxf.setText("");
-		
-	}
-	
-	protected void autoDeleteModello() {
-		//resetta il TextField
-		if(modelloTxf.getText().equals("Modello")) 
-			modelloTxf.setText("");
-		
-	}
-
-	protected void autoDeletePatente() {
-		//resetta il TextField
-		if(patenteTxf.getText().equals("Patenti")) 
-			patenteTxf.setText("");
-		
-	}
 
 
 	private void vaiAvanti(JTextField primoCampo, JTextField secondoCampo, KeyEvent e) {
@@ -430,6 +403,12 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		//Riporto il testo originale se non si è scritto niente
 		if(testoDentro.isEmpty() || testoDentro.isBlank())
 			txtFild.setText(testoOrginale);
+	}
+	
+	private void autoDelate(String testoDentro, String testoOrginale, JTextField txtFild) {
+		//svuotare appena si scrive
+		if(testoDentro.equals(testoOrginale))
+			txtFild.setText("");
 	}
 	
 	private void controlloInput() throws CampoTargaVuotoException, CampoModelloVuotoException, CampoMarcaVuotoException, CampoPatentiVuotoException {
@@ -447,4 +426,5 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 	        throw new CampoPatentiVuotoException();
 		
 	}
+	
 }
