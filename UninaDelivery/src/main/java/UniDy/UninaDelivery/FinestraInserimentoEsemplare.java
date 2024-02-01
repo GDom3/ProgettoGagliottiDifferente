@@ -393,7 +393,7 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		btnAggiungiMerce.setBounds(76, 246, 198, 33);
 		parteAmministrativaPanel.add(btnAggiungiMerce);
 		
-		JButton btnRegistraNuovaMerce = new JButton("Registra nuovo esemplare");
+		JButton btnRegistraNuovaMerce = new JButton("Registra Nuovo Esemplare");
 		btnRegistraNuovaMerce.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnRegistraNuovaMerce.addActionListener(new ActionListener() {
 
