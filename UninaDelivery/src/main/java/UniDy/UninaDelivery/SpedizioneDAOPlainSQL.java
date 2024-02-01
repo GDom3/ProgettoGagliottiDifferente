@@ -10,13 +10,7 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	
 	private ComunicaConDatabase comunicazioneSQL;
 	private ResultSet risultato;
-	private ArrayList<Spedizione> spedizioni;
-	private Ordine tempOrdine;
-	private Cliente tempCliente;
-	private ArrayList<Ordine> ordiniDiUnaSpedizione;
-	private Spedizione tempSpedizione = null;
-	private String CodiceSpedizioneMomentaneo;
-	
+
 	public SpedizioneDAOPlainSQL(ComunicaConDatabase comunicazioneSQL) {
 		this.comunicazioneSQL = comunicazioneSQL;
 	}
@@ -24,7 +18,13 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 	@Override
 	public ArrayList<Spedizione> ricavaSpedizioni(String addonsSQL) throws RisultatoNonRicavabileException, DatiTrovatiDopoIlFiltraggioVuotiException {
 		
-
+		Ordine tempOrdine;
+		ArrayList<Spedizione> spedizioni;
+		Cliente tempCliente;
+		ArrayList<Ordine> ordiniDiUnaSpedizione;
+		Spedizione tempSpedizione = null;
+		String CodiceSpedizioneMomentaneo;
+		
 		String comando = "SELECT Cl.CodiceFiscale, O.CodOrdine, count(E.CodiceBarre) AS NumMerci, sum(E.Costo) AS Totale, V.CodSpedizione "
 				+ "FROM Cliente Cl NATURAL JOIN Ordine O NATURAL JOIN ESEMPLARE E NATURAL JOIN Viaggio V WHERE V.Corrente = true " + addonsSQL 
 				  + " GROUP BY (Cl.CodiceFiscale, O.CodOrdine,V.CodSpedizione) ORDER BY(V.CodSpedizione)";
@@ -38,7 +38,11 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 		
 		//Prendo Il primo risultato
 		try {
-			casoAppartieneAdNuovaSpedizione();	
+			CodiceSpedizioneMomentaneo = risultato.getString(5);
+			tempCliente = new Cliente(risultato.getString(1),null,null,null,null,null,null);
+			tempOrdine = new Ordine(risultato.getString(2),tempCliente,risultato.getFloat(4),risultato.getInt(3));
+			ordiniDiUnaSpedizione = new ArrayList<Ordine>(tempOrdine.getNumMerci());
+			ordiniDiUnaSpedizione.add(tempOrdine);
 		} catch (SQLException e) {
 			//Nel caso non esiste vuol dire che i dati inseriti dall'utente non corrispondono a nessun ordine
 			throw new DatiTrovatiDopoIlFiltraggioVuotiException();
@@ -55,14 +59,25 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 			
 			try {
 				//Se la spedizione coincide con la precedente
-				if(CodiceSpedizioneMomentaneo.equals(risultato.getString(5)))
+				if(CodiceSpedizioneMomentaneo.equals(risultato.getString(5))){
 					//Semplicemente prendo il nuovo cliente e ordine  e li aggiungo rispettivamente
-					casoAppartieneAllaSpedizionePrecedente();		
-				else{
+					tempCliente = new Cliente(risultato.getString(1),null,null,null,null,null,null);
+					tempOrdine = new Ordine(risultato.getString(2),tempCliente,risultato.getFloat(4),risultato.getInt(3));
+					ordiniDiUnaSpedizione.add(tempOrdine);
+					tempCliente.addOrdini(tempOrdine);;		
+				}else{
 					//Altrimenti vuol dire che una spedizione è finita, quindi salvo tutti i dati di essa
-					inseriscoSpedizione();
+					tempSpedizione = new Spedizione(CodiceSpedizioneMomentaneo, ordiniDiUnaSpedizione);
+					for(Ordine ord : ordiniDiUnaSpedizione)
+						ord.addSpedizioni(tempSpedizione);
+					
+					spedizioni.add(tempSpedizione);	
 					// e parto da nuovo con la nuova
-					casoAppartieneAdNuovaSpedizione();	
+					CodiceSpedizioneMomentaneo = risultato.getString(5);
+					tempCliente = new Cliente(risultato.getString(1),null,null,null,null,null,null);
+					tempOrdine = new Ordine(risultato.getString(2),tempCliente,risultato.getFloat(4),risultato.getInt(3));
+					ordiniDiUnaSpedizione = new ArrayList<Ordine>(tempOrdine.getNumMerci());
+					ordiniDiUnaSpedizione.add(tempOrdine);
 			
 				}
 			} catch (SQLException e) {
@@ -71,37 +86,13 @@ public class SpedizioneDAOPlainSQL implements SpedizioneDAO {
 			}
 		}
 		//Salvo l'ultima spedizione
-		inseriscoSpedizione();
-		
-		return spedizioni;
-	}
-	
-	//Spiegata su
-	private void casoAppartieneAdNuovaSpedizione() throws SQLException {
-		CodiceSpedizioneMomentaneo = risultato.getString(5);
-		tempCliente = new Cliente(risultato.getString(1),null,null,null,null,null,null);
-		tempOrdine = new Ordine(risultato.getString(2),tempCliente,risultato.getFloat(4),risultato.getInt(3));
-		ordiniDiUnaSpedizione = new ArrayList<Ordine>(tempOrdine.getNumMerci());
-		ordiniDiUnaSpedizione.add(tempOrdine);
-	
-	}
-	
-	//Spiegata su
-	private void casoAppartieneAllaSpedizionePrecedente() throws SQLException {
-		tempCliente = new Cliente(risultato.getString(1),null,null,null,null,null,null);
-		tempOrdine = new Ordine(risultato.getString(2),tempCliente,risultato.getFloat(4),risultato.getInt(3));
-		ordiniDiUnaSpedizione.add(tempOrdine);
-		tempCliente.addOrdini(tempOrdine);
-		
-	}
-	
-	//Spiegata su
-	private void inseriscoSpedizione(){
 		tempSpedizione = new Spedizione(CodiceSpedizioneMomentaneo, ordiniDiUnaSpedizione);
 		for(Ordine ord : ordiniDiUnaSpedizione)
 			ord.addSpedizioni(tempSpedizione);
 		
 		spedizioni.add(tempSpedizione);	
+		
+		return spedizioni;
 	}
 	
 

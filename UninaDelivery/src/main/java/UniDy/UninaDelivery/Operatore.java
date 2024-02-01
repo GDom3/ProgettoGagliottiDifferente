@@ -6,6 +6,7 @@ public class Operatore extends Persona {
 
 	private String username;
 	private String password;
+	private Azienda azienda;
 		
 	protected Operatore(String usernameIN, String passwordIN){
 		super();
@@ -47,6 +48,14 @@ public class Operatore extends Persona {
 	protected void impostaCredenziali(String username2, String password2) {
 		setUsername(username2);
 		setPassword(password2);
+	}
+
+	protected Azienda getAzienda() {
+		return azienda;
+	}
+
+	protected void setAzienda(Azienda azienda) {
+		this.azienda = azienda;
 	}
 
 }
