@@ -48,7 +48,7 @@ public class UninaDeliveryMailSender {
         
         //messaggio
         String messaggio = "<html><body>" +
-                "<p>Benvenuto/a " + cliente.getNome() + " " + cliente.getCognome() + " a UninaDelivery! </p>" +
+                "<h1>Benvenuto/a " + cliente.getNome() + " " + cliente.getCognome() + " a UninaDelivery! </h1>" +
                 "<p>Grazie per esserti iscritto/a a UninaDelivery! Siamo felici di averti con noi.</p>" +
                 "<p>Ecco alcune informazioni sul tuo profilo:</p>" +
                 "<ul>" +
@@ -94,7 +94,7 @@ public class UninaDeliveryMailSender {
         
         //messaggio
         String messaggio = "<html><body>" +
-                "<p>Gentile " + corriere.getNome() + " " + corriere.getCognome() + ",</p>" +
+                "<h1>Gentile " + corriere.getNome() + " " + corriere.getCognome() + ",</h1>" +
                 "<p>Siamo felici di informarti che sei stato assunto presso UninaDelivery come corriere.</p>" +
                 "<p>Dettagli dell'assunzione:</p>" +
                 "<ul>" +
@@ -142,7 +142,7 @@ public class UninaDeliveryMailSender {
         
         //messaggio
         String messaggio = "<html><body>" +
-                "<p>Gentile " + ordineModificato.getAcquirente().getNome() + " " + ordineModificato.getAcquirente().getCognome() + ",</p>" +
+                "<h1>Gentile " + ordineModificato.getAcquirente().getNome() + " " + ordineModificato.getAcquirente().getCognome() + ",</h1>" +
                 "<p>Le informiamo che il suo ordine ha subito una variazione di stato:</p>" +
                 "<ul>" +
                 "<li>STATO ATTUALE: " + ordineModificato.getStatoOrdine() + "</li>" +
