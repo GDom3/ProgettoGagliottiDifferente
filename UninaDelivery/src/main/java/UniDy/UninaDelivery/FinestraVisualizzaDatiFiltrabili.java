@@ -48,7 +48,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	private Color arancioneChiaro = new Color(254, 126, 115);
 	//Tabella
 	private DefaultTableModel modelloTabella;
-	private JTable tabellaOrdini;	
+	private JTable tabellaSpedizioni;	
 	//oggetti reali
 	private LocalDate dataInizio = null;
 	private LocalDate dataFine = null;
@@ -310,12 +310,12 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		mostraDatiPanel.add(scrollPane);
 		
 		
-		tabellaOrdini = new JTable();
-		tabellaOrdini.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
-		tabellaOrdini.setFont(new Font("Century", Font.PLAIN, 14));
-		tabellaOrdini.setToolTipText("Tabella contenete gli ordini");
-		tabellaOrdini.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tabellaOrdini.setRowSelectionAllowed(false);
+		tabellaSpedizioni = new JTable();
+		tabellaSpedizioni.setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+		tabellaSpedizioni.setFont(new Font("Century", Font.PLAIN, 14));
+		tabellaSpedizioni.setToolTipText("Tabella contenete gli ordini");
+		tabellaSpedizioni.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabellaSpedizioni.setRowSelectionAllowed(false);
 		modelloTabella = new DefaultTableModel(
 				
 				new Object[][] {},
@@ -344,31 +344,34 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		};
 					
 				
-		tabellaOrdini.setModel(modelloTabella);
+		tabellaSpedizioni.setModel(modelloTabella);
 		
-		tabellaOrdini.getColumnModel().getColumn(0).setMinWidth(170);
-		tabellaOrdini.getColumnModel().getColumn(0).setMaxWidth(170);
+		tabellaSpedizioni.getColumnModel().getColumn(0).setMinWidth(170);
+		tabellaSpedizioni.getColumnModel().getColumn(0).setMaxWidth(170);
 	
-		tabellaOrdini.getColumnModel().getColumn(2).setMinWidth(52);
-		tabellaOrdini.getColumnModel().getColumn(2).setMaxWidth(52);
+		tabellaSpedizioni.getColumnModel().getColumn(2).setMinWidth(52);
+		tabellaSpedizioni.getColumnModel().getColumn(2).setMaxWidth(52);
 
-		tabellaOrdini.getColumnModel().getColumn(4).setMinWidth(108);
-		tabellaOrdini.getColumnModel().getColumn(4).setMaxWidth(130);
+		tabellaSpedizioni.getColumnModel().getColumn(4).setMinWidth(108);
+		tabellaSpedizioni.getColumnModel().getColumn(4).setMaxWidth(130);
 		
-		ListSelectionModel modelloSelezione = tabellaOrdini.getSelectionModel();
+		tabellaSpedizioni.getTableHeader().setReorderingAllowed(false);
+	
+		ListSelectionModel modelloSelezione = tabellaSpedizioni.getSelectionModel();
         modelloSelezione.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
-        tabellaOrdini.addMouseListener(new MouseAdapter() {
+        tabellaSpedizioni.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				int rigaSelezionata = tabellaOrdini.getSelectedRow();
-                int colonnaSelezionata = tabellaOrdini.getSelectedColumn();
-
+				int rigaSelezionata = tabellaSpedizioni.getSelectedRow();
+                int colonnaSelezionata = tabellaSpedizioni.getSelectedColumn();
+                
+               
                 if(colonnaSelezionata == 1) {
           	
                 	try {
-						gestoreApplicazione.modificaStatoOrdine(tabellaOrdini.getValueAt(rigaSelezionata, colonnaSelezionata));
+						gestoreApplicazione.modificaStatoOrdine(tabellaSpedizioni.getValueAt(rigaSelezionata, colonnaSelezionata));
 						
 					} catch (CreazioneStatementFallitaException e1) {
 						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
@@ -382,7 +385,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
                 } else if(colonnaSelezionata == 4) {
                 	
                 	try {
-						gestoreApplicazione.modificaStatoSpedizione(tabellaOrdini.getValueAt(rigaSelezionata, colonnaSelezionata));
+						gestoreApplicazione.modificaStatoSpedizione(tabellaSpedizioni.getValueAt(rigaSelezionata, colonnaSelezionata));
 					} catch (CreazioneStatementFallitaException e1) {
 						messaggioPopUp(e1.getMessaggioErrore(), e1.getTipoErrore());
 					} catch (ConnessionNonRiuscitaException e1) {
@@ -397,7 +400,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
      
 		
 		
-		scrollPane.setViewportView(tabellaOrdini);	
+		scrollPane.setViewportView(tabellaSpedizioni);	
 		
 		
 	}
@@ -444,7 +447,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	
 	protected void svuotaTabella() {
 		//prendo il numero di elementi
-		int NumRighe = tabellaOrdini.getRowCount();
+		int NumRighe = tabellaSpedizioni.getRowCount();
 		
 		//Elimino tante righe quante ne ha
 		if(NumRighe > 0)
@@ -454,7 +457,7 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 	}
 	
 	protected boolean IsTabellaVuota() {
-		return tabellaOrdini.getRowCount() == 0;
+		return tabellaSpedizioni.getRowCount() == 0;
 		
 	}
 	
