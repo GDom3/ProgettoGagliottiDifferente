@@ -1,7 +1,5 @@
 package UniDy.UninaDelivery;
 
-import java.sql.SQLException;
-
 public class OperazioneUpdateNonRiuscitaException extends UninaDeliverySQLException {
 	private String messaggioErrore= "L'Operazione DML non è andata a buon fine a causa dei valori inseriti; \nSuggerimenti : "
 			+ "\n  • Si controlli che l'oggetto Nnn esista già;"

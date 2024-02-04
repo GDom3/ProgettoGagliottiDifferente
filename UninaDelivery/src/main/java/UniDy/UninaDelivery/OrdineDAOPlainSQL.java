@@ -3,8 +3,6 @@ package UniDy.UninaDelivery;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 
 public class OrdineDAOPlainSQL implements OrdineDAO {

@@ -1,7 +1,5 @@
 package UniDy.UninaDelivery;
 
-import java.sql.SQLException;
-
 public class NonPossibileCreareSpedizioneException extends UninaDeliverySQLException {
 	private String messaggioErrore= "Non è possibile creare una spedizione con i valori inseriti, incoerenza tra parti."
 			+ "\nPossibilità : "

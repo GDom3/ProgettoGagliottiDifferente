@@ -52,7 +52,7 @@ public class FinestraCambiaStato extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCambiaStato.class.getResource("/Img/Icon.png")));
 		gestoreApplicazione = appBrain;
 
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		JPanel contentPane;
 		contentPane = new JPanel();

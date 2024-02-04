@@ -1,6 +1,5 @@
 package UniDy.UninaDelivery;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface OrdineDAO {
