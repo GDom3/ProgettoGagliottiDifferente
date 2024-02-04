@@ -3,10 +3,6 @@ package UniDy.UninaDelivery;
 import java.util.Objects;
 
 public class Azienda {
-	@Override
-	public String toString() {
-		return "(" + partitaIVA + ") " + nome;
-	}
 
 	private String nome;
 	private String partitaIVA;
@@ -22,6 +18,11 @@ public class Azienda {
 			return false;
 		Azienda other = (Azienda) obj;
 		return Objects.equals(partitaIVA, other.partitaIVA);
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + partitaIVA + ") " + nome;
 	}
 
 	protected String getNome() {
@@ -47,5 +48,5 @@ public class Azienda {
 	protected void setIndirizzo(String indirizzo) {
 		this.indirizzo = indirizzo;
 	}
-	
+		
 }

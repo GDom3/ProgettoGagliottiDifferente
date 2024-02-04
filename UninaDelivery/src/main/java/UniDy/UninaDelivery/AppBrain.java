@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import org.apache.commons.mail.EmailException;
@@ -91,7 +90,6 @@ public class AppBrain {
 		creaOrdineWindow = new FinestraCreazioneNuovoOrdine(this);
 		inserisciCorriereWindow = new FinestraInserimentoCorriere(this);
 		loginWindow = new FinestraLogin(this);
-		loginWindow.setVisible(true);
 		cambiaStatoWindow = new FinestraCambiaStato(this);
 		creaClienteWindow = new FinestraCreazioneNuovoCliente(this);
 		inserisciMezzoWindow = new FinestraInserimentoMezzoTrasporto(this);
@@ -112,6 +110,9 @@ public class AppBrain {
 		//Inizializzaziione DTO
 		operatorePrincipale = new Operatore(null,null);
 		nuovoOperatore = new Operatore(null,null);
+		
+		//Avvia esperienza d'uso
+		loginWindow.setVisible(true);
 			
 		//Inizializzaziione DAO
 		operatoreDAO = new OperatoreDAOPlainSQL(comunicazioneSQL);

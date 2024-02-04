@@ -1,8 +1,7 @@
 package UniDy.UninaDelivery;
 
-import java.awt.EventQueue;
-import java.awt.Font;
 
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,15 +18,12 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
-
 import org.apache.commons.mail.EmailException;
-
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;

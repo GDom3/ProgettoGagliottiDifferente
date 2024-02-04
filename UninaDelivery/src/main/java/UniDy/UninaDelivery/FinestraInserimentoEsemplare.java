@@ -1,8 +1,6 @@
 package UniDy.UninaDelivery;
 
 import java.awt.Color;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -19,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
@@ -31,7 +28,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
-import javax.swing.JRadioButton;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

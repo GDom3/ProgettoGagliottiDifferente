@@ -1,7 +1,5 @@
 package UniDy.UninaDelivery;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -22,12 +20,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
-
 import org.apache.commons.mail.EmailException;
-
 import java.awt.Cursor;
 import javax.swing.border.LineBorder;
 import java.awt.event.KeyAdapter;

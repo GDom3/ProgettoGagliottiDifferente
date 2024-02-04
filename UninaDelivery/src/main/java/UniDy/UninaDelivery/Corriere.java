@@ -2,7 +2,6 @@ package UniDy.UninaDelivery;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Corriere extends Persona {
 	private boolean disponibilità;

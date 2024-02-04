@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 import java.awt.Cursor;
-import javax.swing.JToolBar;
 
 
 public class FinestraMenu extends JFrame {

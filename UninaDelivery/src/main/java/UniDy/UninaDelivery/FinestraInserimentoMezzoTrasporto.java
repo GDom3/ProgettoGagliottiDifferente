@@ -1,8 +1,7 @@
 package UniDy.UninaDelivery;
 
-import java.awt.EventQueue;
-import java.awt.Font;
 
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,8 +20,6 @@ import java.awt.Cursor;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 import javax.swing.JSpinner;
-import javax.swing.JComboBox;
-import com.toedter.calendar.JDateChooser;
 import javax.swing.border.LineBorder;
 import javax.swing.SpinnerNumberModel;
 import java.awt.event.KeyAdapter;
