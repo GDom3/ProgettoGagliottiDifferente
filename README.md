@@ -9,7 +9,7 @@
 <h1 align="center" >Documentazione</h1>
 <p align="center" >Per vedere la documentazione clicca pure <a href="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/Documentazione_ObjectOrientation_OOBD2324_06.pdf" target="_blank">qui</a></p>
 
-<h1 align="center">Mockup (Parziale):</h1>
+<h1>Mockup (Parziale):</h1>
 <h2>Login</h2>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/login.png" alt="Schermata di Login">
 <h2>Menu</h2>
