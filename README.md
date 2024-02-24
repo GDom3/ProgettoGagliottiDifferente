@@ -9,15 +9,15 @@
 <h1>Documentazione 🖨:</h1>
 <p  >Per vedere la documentazione clicca pure <a href="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/Documentazione_ObjectOrientation_OOBD2324_06.pdf" target="_blank">qui📚</a></p>
 
-<h1>Mockup (Parziale)📸:</h1>
-<h2>Login</h2>
+<h2>Mockup (Parziale)📸:</h2>
+<h3>Login</h3>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/login.png" alt="Schermata di Login">
-<h2>Menu</h2>
+<h3>Menu</h3>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/menu.png" alt="Schermata del menu">
-<h2>Report</h2>
+<h3>Report</h3>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/report.png" alt="Schermata Report">
-<h2>Visualizza e Gestisci Ordini</h2>
+<h3>Visualizza e Gestisci Ordini</h3>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/visualizza.png" alt="Schermata Visualizza">
-</center>
+
 
 
