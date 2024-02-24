@@ -8,7 +8,9 @@
 
 <h1>Documentazione</h1>
 <p>Per vedere la documentazione clicca pure <a href="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/Documentazione_ObjectOrientation_OOBD2324_06.pdf" target="_blank">qui
-  <video width="320" height="240" controls> <source src="https://cdn-icons-mp4.flaticon.com/512/8948/8948330.mp4" type="video/mp4"></video></a></p>
+  <video width="320" height="240" >
+  <source src="https://cdn-icons-mp4.flaticon.com/512/8948/8948330.mp4" type="video/mp4">
+</video></a></p>
 
 <h1>Mockup (Parziale):</h1>
 <h2>Login</h2>
