@@ -14,5 +14,7 @@
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/report.png" alt="Schermata Report">
 <h2>Visualizza e Gestisci Ordini</h2>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/visualizza.png" alt="Schermata Visualizza">
+<h1>Documentazione</h1>
+<p>Per vedere la documentazione clicca pure <a href="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/Documentazione_ObjectOrientation_OOBD2324_06.pdf">qui</a></p>
 
 
