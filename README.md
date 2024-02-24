@@ -8,5 +8,11 @@
 <h1>Mockup :</h1>
 <h2>Login</h2>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/login.png" alt="Schermata di Login">
+<h2>Menu</h2>
+<img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/menu.png" alt="Schermata del menu">
 <h2>Report</h2>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/report.png" alt="Schermata Report">
+<h2>Visualizza e Gestisci Ordini</h2>
+<img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/visualizza.png" alt="Schermata Visualizza">
+
+
