@@ -7,7 +7,7 @@
 <h3 align="left">Linguaggio Utilizzato:  <p align="left"> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> </p> </h3>
 
 <h1>Documentazione</h1>
-<p>Per vedere la documentazione clicca pure <a href="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/Documentazione_ObjectOrientation_OOBD2324_06.pdf" target="_blank">qui<img src="https://www.flaticon.com/free-animated-icon/search_8948330?term=document&page=1&position=2&origin=search&related_id=8948330"></img></a></p>
+<p>Per vedere la documentazione clicca pure <a href="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/Documentazione_ObjectOrientation_OOBD2324_06.pdf" target="_blank">qui<source src="https://cdn-icons-mp4.flaticon.com/512/8948/8948330.mp4" type="video/mp4"></a></p>
 
 <h1>Mockup (Parziale):</h1>
 <h2>Login</h2>
