@@ -8,3 +8,5 @@
 <h1>Mockup :</h1>
 <h2>Login</h2>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/login.png" alt="Schermata di Login">
+h2>Report</h2>
+<img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/report.png" alt="Schermata Report">
