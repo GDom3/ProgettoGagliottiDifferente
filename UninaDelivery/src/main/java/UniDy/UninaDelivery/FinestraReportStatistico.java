@@ -8,6 +8,8 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -40,6 +42,11 @@ public class FinestraReportStatistico extends JFrame {
 	
 
 	public FinestraReportStatistico(AppBrain appBrain) {
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 		gestoreApplicazione = appBrain;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraReportStatistico.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
@@ -174,27 +181,27 @@ public class FinestraReportStatistico extends JFrame {
 		
 		JLabel lblOrdineConMinor = new JLabel("Ordine con Minore Numero di Prodotti :");
 		lblOrdineConMinor.setForeground(Color.WHITE);
-		lblOrdineConMinor.setFont(new Font("Century", Font.PLAIN, 20));
+		lblOrdineConMinor.setFont(new Font("Century", Font.PLAIN, 19));
 		lblOrdineConMinor.setBounds(10, 47, 391, 25);
 		risultatiScrittiPanel.add(lblOrdineConMinor);
 		
 		JLabel lblOrdineConMaggior = new JLabel("Ordine con Maggior Numero di Prodotti :");
 		lblOrdineConMaggior.setForeground(Color.WHITE);
-		lblOrdineConMaggior.setFont(new Font("Century", Font.PLAIN, 20));
+		lblOrdineConMaggior.setFont(new Font("Century", Font.PLAIN, 19));
 		lblOrdineConMaggior.setBounds(10, 11, 391, 25);
 		risultatiScrittiPanel.add(lblOrdineConMaggior);
 		
 		JLabel minOrd = new JLabel("");
 		minOrd.setHorizontalAlignment(SwingConstants.CENTER);
 		minOrd.setForeground(Color.WHITE);
-		minOrd.setFont(new Font("Century", Font.PLAIN, 20));
+		minOrd.setFont(new Font("Century", Font.PLAIN, 19));
 		minOrd.setBounds(399, 47, 99, 25);
 		risultatiScrittiPanel.add(minOrd);
 		
 		JLabel magOrd = new JLabel("");
 		magOrd.setHorizontalAlignment(SwingConstants.CENTER);
 		magOrd.setForeground(Color.WHITE);
-		magOrd.setFont(new Font("Century", Font.PLAIN, 20));
+		magOrd.setFont(new Font("Century", Font.PLAIN, 19));
 		magOrd.setBounds(399, 11, 99, 25);
 		risultatiScrittiPanel.add(magOrd);
 		
@@ -283,6 +290,7 @@ public class FinestraReportStatistico extends JFrame {
 		
 		panel.setVisible(false);
 		risultatiScrittiPanel.setVisible(false);
+		
 		
 	}	
 	

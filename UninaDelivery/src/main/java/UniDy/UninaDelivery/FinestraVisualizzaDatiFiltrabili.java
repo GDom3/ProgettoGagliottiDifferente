@@ -14,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JOptionPane;
@@ -402,7 +403,11 @@ public class FinestraVisualizzaDatiFiltrabili extends JFrame {
 		
 		scrollPane.setViewportView(tabellaSpedizioni);	
 		
-		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 

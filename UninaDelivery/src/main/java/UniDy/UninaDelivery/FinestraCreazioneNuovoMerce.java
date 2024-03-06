@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.DefaultComboBoxModel;
@@ -43,6 +44,7 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 	private JComboBox fornitoriBox;
 	
 	public FinestraCreazioneNuovoMerce(AppBrain appBrain) {
+
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraCreazioneNuovoMerce.class.getResource("/Img/Icon.png")));
 		gestoreApplicazione = appBrain;
 		setTitle("UninaDelivery");
@@ -315,6 +317,12 @@ public class FinestraCreazioneNuovoMerce extends JFrame {
 		btnCreaNuovaMerce.setBackground(new Color(254, 126, 115));
 		btnCreaNuovaMerce.setBounds(299, 421, 265, 50);
 		contentPane.add(btnCreaNuovaMerce);
+		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 

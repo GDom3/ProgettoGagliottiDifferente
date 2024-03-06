@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,7 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 	private JSpinner costoFild;
 	
 	public FinestraInserimentoMezzoTrasporto(AppBrain appBrain) {
+
 		setForeground(new Color(255, 255, 255));
 		setResizable(false);
 		setTitle("UninaDelivery");
@@ -350,7 +352,11 @@ public class FinestraInserimentoMezzoTrasporto extends JFrame {
 		nuovoMezzoBtn.setBounds(296, 438, 265, 50);
 		contentPane.add(nuovoMezzoBtn);
 		
-		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void rimpicciolisciGradualmenteBottoneIndietro() {

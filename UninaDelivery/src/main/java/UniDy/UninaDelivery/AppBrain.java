@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
 import org.apache.commons.mail.EmailException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -77,8 +80,8 @@ public class AppBrain {
 	public static void main(String[] args) {
 		
 		AppBrain gestoreApplicazione = new AppBrain();
-
-	}
+}
+	
 
 	
 	public AppBrain() {

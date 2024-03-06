@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import java.awt.Toolkit;
 import java.awt.Font;
@@ -196,6 +197,11 @@ public class FinestraLogin extends JFrame {
 		logoPrincipaleImgL.setBounds(284, 11, 211, 234);
 		panelPrincipale.add(logoPrincipaleImgL);
 		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	

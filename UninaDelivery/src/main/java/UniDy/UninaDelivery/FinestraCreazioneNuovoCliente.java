@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -426,6 +427,12 @@ public class FinestraCreazioneNuovoCliente extends JFrame {
 		nuovoClienteBtn.setBackground(new Color(254, 126, 115));
 		nuovoClienteBtn.setBounds(228, 45, 265, 50);
 		panel.add(nuovoClienteBtn);
+		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	private String sceltaRadio() {

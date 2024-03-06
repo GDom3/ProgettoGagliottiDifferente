@@ -15,6 +15,7 @@ import java.awt.Cursor;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -40,6 +41,7 @@ public class FinestraNuovaSpedizione extends JFrame {
 
 	
 	public FinestraNuovaSpedizione(AppBrain appBrain) {
+
 		setFont(new Font("Century", Font.PLAIN, 12));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraNuovaSpedizione.class.getResource("/Img/Icon.png")));
 		setResizable(false);
@@ -353,10 +355,14 @@ public class FinestraNuovaSpedizione extends JFrame {
 		aggiungiOrdineASpedizione.setFocusPainted(false);
 		aggiungiOrdineASpedizione.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
 		aggiungiOrdineASpedizione.setBackground(new Color(254, 126, 115));
-		aggiungiOrdineASpedizione.setBounds(224, 477, 408, 50);
+		aggiungiOrdineASpedizione.setBounds(224, 477, 420, 50);
 		contentPane.add(aggiungiOrdineASpedizione);
 		
-
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void addOrdineASpedizione() {

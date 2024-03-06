@@ -10,6 +10,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -29,6 +31,7 @@ public class FinestraMenu extends JFrame {
 	private JButton logOutB;
 	
 	public FinestraMenu(AppBrain appBrain) {
+
 		gestoreApplicazione = appBrain;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(FinestraMenu.class.getResource("/Img/Icon.png")));
 		setTitle("UninaDelivery");
@@ -196,6 +199,12 @@ public class FinestraMenu extends JFrame {
 		logOutB.setFont(new Font("Century", Font.PLAIN, 18));
 		logOutB.setBounds(294, 11, 97, 31);
 		parteDxPanel.add(logOutB);
+		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	private void schiarisciBottoneMenu(JButton bottone) {

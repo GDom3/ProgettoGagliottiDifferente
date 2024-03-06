@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import java.awt.Font;
@@ -49,6 +50,7 @@ public class FinestraInserimentoEsemplare extends JFrame {
 	private LocalDate garanzia;
 	
 	public FinestraInserimentoEsemplare(AppBrain appBrain ) {
+
 		setForeground(new Color(255, 255, 255));
 		setBackground(new Color(119, 101, 101));
 		setResizable(false);
@@ -423,8 +425,14 @@ public class FinestraInserimentoEsemplare extends JFrame {
 		btnRegistraNuovaMerce.setFocusPainted(false);
 		btnRegistraNuovaMerce.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
 		btnRegistraNuovaMerce.setBackground(new Color(254, 126, 115));
-		btnRegistraNuovaMerce.setBounds(301, 472, 265, 50);
+		btnRegistraNuovaMerce.setBounds(301, 472, 290, 50);
 		contentPane.add(btnRegistraNuovaMerce);
+		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 

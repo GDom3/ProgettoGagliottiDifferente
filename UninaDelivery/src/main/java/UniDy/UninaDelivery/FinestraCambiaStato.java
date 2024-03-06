@@ -13,6 +13,7 @@ import org.apache.commons.mail.EmailException;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -176,6 +177,12 @@ public class FinestraCambiaStato extends JFrame {
 		statoAttualeLabel.setFont(new Font("Century", Font.PLAIN, 18));
 		statoAttualeLabel.setBounds(10, 79, 414, 25);
 		principalePannello.add(statoAttualeLabel);
+		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	protected void modificaStatoOrdine(String ord, String statoOrd) {

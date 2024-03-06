@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.Font;
@@ -53,6 +54,7 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 	
 	
 	public FinestraCreazioneNuovoOrdine(AppBrain appBrain) {
+
 		setForeground(new Color(255, 255, 255));
 		setBackground(new Color(119, 101, 101));
 		setResizable(false);
@@ -499,8 +501,14 @@ public class FinestraCreazioneNuovoOrdine extends JFrame {
 		AggiungiEsemplareBottone.setFocusPainted(false);
 		AggiungiEsemplareBottone.setBorder(new LineBorder(new Color(158, 91, 76), 2, true));
 		AggiungiEsemplareBottone.setBackground(new Color(254, 126, 115));
-		AggiungiEsemplareBottone.setBounds(224, 503, 408, 50);
+		AggiungiEsemplareBottone.setBounds(224, 503, 420, 50);
 		contentPane.add(AggiungiEsemplareBottone);
+		
+		try {
+		    UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	
