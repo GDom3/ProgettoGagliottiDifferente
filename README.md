@@ -18,6 +18,3 @@
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/report.png" alt="Schermata Report">
 <h3>Visualizza e Gestisci Ordini</h3>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/visualizza.png" alt="Schermata Visualizza">
-
-
-
