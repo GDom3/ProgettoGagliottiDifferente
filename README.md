@@ -1,13 +1,13 @@
 # UninaDelivey
-<h1 align="center">Ciao 👋, Questo è UninaDelivey</h1>
-<h3 align="center">Progetto universitario degli studenti Domenico Gagliotti (N86004536) e Luigi Differente (N86004503)</h3>
+<h1 align="center">Hi 👋, This is UninaDelivey</h1>
+<h3 align="center">University project by students Domenico Gagliotti (N86004536) and Luigi Differente (N86004503)</h3>
 
-- 📫 Come raggiungerci **do.gagliotti@studenti.unina.it** **lu.differente@studenti.unina.it**
+- 📫 Come How to reach us - **do.gagliotti@studenti.unina.it** **lu.differente@studenti.unina.it**
 
-<h3 align="left">Linguaggio Utilizzato:  <p align="left"> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> </p> </h3>
+<h3 align="left">Language Used :  <p align="left"> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> </p> </h3>
 
-<h1>Documentazione 🖨:</h1>
-<p  >Per vedere la documentazione clicca pure <a href="https://www.overleaf.com/read/dfszcvyxtjbr#608a0f" target="_blank">qui📚</a></p>
+<h1>Documentation 🖨:</h1>
+<p  >To see the documentation click <a href="https://www.overleaf.com/read/dfszcvyxtjbr#608a0f" target="_blank">here📚</a></p>
 <!--
 <h2>Mockup(Parziale) 📸:</h2>
 <h3>Login</h3>
