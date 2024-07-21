@@ -7,7 +7,7 @@
 <h3 align="left">Linguaggio Utilizzato:  <p align="left"> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> </p> </h3>
 
 <h1>Documentazione 🖨:</h1>
-<p  >Per vedere la documentazione clicca pure <a href="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/Documentazione_ObjectOrientation_OOBD2324_06.pdf" target="_blank">qui📚</a></p>
+<p  >Per vedere la documentazione clicca pure <a href="https://www.overleaf.com/read/dfszcvyxtjbr#608a0f" target="_blank">qui📚</a></p>
 
 <h2>Mockup(Parziale) 📸:</h2>
 <h3>Login</h3>
