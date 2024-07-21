@@ -8,7 +8,7 @@
 
 <h1>Documentazione 🖨:</h1>
 <p  >Per vedere la documentazione clicca pure <a href="https://www.overleaf.com/read/dfszcvyxtjbr#608a0f" target="_blank">qui📚</a></p>
-
+<!--
 <h2>Mockup(Parziale) 📸:</h2>
 <h3>Login</h3>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/login.png" alt="Schermata di Login">
@@ -18,3 +18,4 @@
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/report.png" alt="Schermata Report">
 <h3>Visualizza e Gestisci Ordini</h3>
 <img src="https://domenicogagliotti.altervista.org/ProgettoOOBD/OO/visualizza.png" alt="Schermata Visualizza">
+-->
