@@ -7,7 +7,7 @@
 <h3 align="left">Language Used :  <p align="left"> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> </p> </h3>
 
 <h1>Documentation 🖨:</h1>
-<p  >To see the documentation click <a href="https://www.overleaf.com/read/dfszcvyxtjbr#608a0f" target="_blank">here📚</a></p>
+<p  >To see the documentation click <a href="https://www.overleaf.com/read/dfszcvyxtjbr#608a0f" target="_blank">overleaf📚</a> or  <a href="https://github.com/GDom3/ProgettoGagliottiDifferente/blob/main/Documentazione_ObjectOrientation_OOBD2324_06.pdf" target="_blank">github🔗</a></p>
 <!--
 <h2>Mockup(Parziale) 📸:</h2>
 <h3>Login</h3>
